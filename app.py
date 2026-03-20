@@ -44,6 +44,15 @@ def build_prompt(room_type: str) -> str:
         '"whats_working": string — 2-3 sentences of genuine specific praise about what already looks good. '
         'Reference actual things you see in the image.\n\n'
 
+        '"whats_not_working": string — 2-3 sentences honestly identifying the biggest weaknesses or missed '
+        'opportunities visible in this specific room. Be direct but constructive. Reference real things you see '
+        '(e.g. harsh overhead lighting, cluttered surfaces, mismatched colors). This creates motivation to improve.\n\n'
+
+        '"style_report": string — a rich 4-5 sentence personal style analysis. Cover: what their aesthetic says '
+        'about their personality, what is holding this room back from a 90+ score, one specific vision for what '
+        'this room could become at its full potential, and a closing motivational line. Make it feel like a '
+        'personal letter from a world-class interior designer. Reference specific things visible in the image.\n\n'
+
         '"tips": array of exactly 5 objects. Each must have:\n'
         '  "title": string, punchy tip title 5-7 words,\n'
         '  "tip": string, 3-4 sentences of specific actionable advice referencing things visible in the image,\n'
@@ -191,6 +200,20 @@ def _coerce_response(data: Dict[str, Any]) -> Dict[str, Any]:
         else "Your space already has a solid foundation to build from. The overall layout shows thoughtful arrangement and there is real potential to elevate it further."
     )
 
+    whats_not_working = data.get("whats_not_working", "")
+    whats_not_working = (
+        whats_not_working.strip()
+        if isinstance(whats_not_working, str) and whats_not_working.strip()
+        else "There are a few areas that are holding this room back from its full potential. Addressing the lighting and adding more intentional decor choices would make a significant difference."
+    )
+
+    style_report = data.get("style_report", "")
+    style_report = (
+        style_report.strip()
+        if isinstance(style_report, str) and style_report.strip()
+        else f"Your {style} space reflects a thoughtful approach to design with genuine personality. To reach its full potential, focus on cohesion — every element should feel intentional and connected. With the right upgrades, this room could become a space that truly inspires you every day."
+    )
+
     score_breakdown = _coerce_score_breakdown(data.get("score_breakdown"), score)
 
     tips_raw = data.get("tips", [])
@@ -220,6 +243,8 @@ def _coerce_response(data: Dict[str, Any]) -> Dict[str, Any]:
         "style": style,
         "style_description": style_desc,
         "whats_working": whats_working,
+        "whats_not_working": whats_not_working,
+        "style_report": style_report,
         "tips": tips[:5],
     }
 

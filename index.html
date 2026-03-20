@@ -418,6 +418,44 @@
     .rg-whats-working-text { font-size: 14px; line-height: 1.6; color: #b9f5bb; }
     .rg-whats-working-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--success); margin-bottom: 0.3rem; }
 
+    /* What's Not Working */
+    .rg-whats-not-working {
+      margin: 1rem 0;
+      background: rgba(251, 192, 45, 0.07);
+      border: 1px solid rgba(251, 192, 45, 0.3);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+      display: flex; gap: 0.75rem; align-items: flex-start;
+    }
+    .rg-whats-not-working-icon { font-size: 1.25rem; flex-shrink: 0; margin-top: 1px; }
+    .rg-whats-not-working-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--warn); margin-bottom: 0.3rem; }
+    .rg-whats-not-working-text { font-size: 14px; line-height: 1.6; color: #fff3b0; }
+
+    /* Style Report — Pro locked */
+    .rg-style-report {
+      margin: 1rem 0 1.5rem;
+      background: linear-gradient(135deg, rgba(240,165,0,0.07), rgba(255,107,53,0.05));
+      border: 1px solid rgba(240,165,0,0.3);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      position: relative; overflow: hidden;
+    }
+    .rg-style-report-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gold); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
+    .rg-style-report-text { font-size: 14px; line-height: 1.7; color: var(--muted); filter: blur(4px); user-select: none; pointer-events: none; }
+    .rg-style-report-overlay {
+      position: absolute; inset: 0;
+      background: rgba(10,10,10,0.55);
+      backdrop-filter: blur(1px);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.4rem; border-radius: var(--radius);
+    }
+    .rg-style-report-overlay-title { font-size: 15px; font-weight: 800; color: var(--text); }
+    .rg-style-report-overlay-sub { font-size: 12px; color: var(--muted); margin-bottom: 0.25rem; }
+    .rg-style-report-overlay-btn {
+      background: var(--grad); color: #0a0a0a; font-weight: 800;
+      padding: 0.6rem 1.4rem; border-radius: var(--pill); border: none; cursor: pointer; font-size: 13px;
+    }
+
     /* Style description */
     .rg-style-desc {
       font-size: 14px; color: var(--muted); text-align: center;
@@ -931,6 +969,26 @@
               <p class="rg-whats-working-text" id="rgWhatsWorkingText"></p>
             </div>
           </div>
+
+          <div class="rg-whats-not-working" id="rgWhatsNotWorking" style="display:none;">
+            <span class="rg-whats-not-working-icon">⚠️</span>
+            <div>
+              <div class="rg-whats-not-working-label">What Needs Work</div>
+              <p class="rg-whats-not-working-text" id="rgWhatsNotWorkingText"></p>
+            </div>
+          </div>
+
+          <div class="rg-style-report" id="rgStyleReport" style="display:none;">
+            <div class="rg-style-report-label">🔮 Full Style Report</div>
+            <p class="rg-style-report-text" id="rgStyleReportText"></p>
+            <div class="rg-style-report-overlay">
+              <span style="font-size:1.5rem;">🔒</span>
+              <span class="rg-style-report-overlay-title">Your Personal Style Report</span>
+              <span class="rg-style-report-overlay-sub">What your room says about you — and its full potential</span>
+              <button type="button" class="rg-style-report-overlay-btn rg-pro-trigger">Unlock with Pro →</button>
+            </div>
+          </div>
+
           <div class="rg-tip-list" id="rgTipList"></div>
 
           <div class="rg-share-card">
@@ -1655,6 +1713,26 @@
             whatsWorkingEl.style.display = "none";
           }
 
+          // What's not working
+          const whatsNotWorkingEl = $("rgWhatsNotWorking");
+          const whatsNotWorkingText = $("rgWhatsNotWorkingText");
+          if (data.whats_not_working && whatsNotWorkingEl && whatsNotWorkingText) {
+            whatsNotWorkingText.textContent = data.whats_not_working;
+            whatsNotWorkingEl.style.display = "";
+          } else if (whatsNotWorkingEl) {
+            whatsNotWorkingEl.style.display = "none";
+          }
+
+          // Style report (Pro locked)
+          const styleReportEl = $("rgStyleReport");
+          const styleReportText = $("rgStyleReportText");
+          if (data.style_report && styleReportEl && styleReportText) {
+            styleReportText.textContent = data.style_report;
+            styleReportEl.style.display = "";
+          } else if (styleReportEl) {
+            styleReportEl.style.display = "none";
+          }
+
           if (shareSummary) shareSummary.textContent = "Score " + lastScore + "/100 · " + lastStyle;
           results.classList.add("visible");
           animateScore(lastScore);
@@ -1685,6 +1763,10 @@
         if (bd) bd.style.display = "none";
         const ww = $("rgWhatsWorking");
         if (ww) ww.style.display = "none";
+        const wnw = $("rgWhatsNotWorking");
+        if (wnw) wnw.style.display = "none";
+        const sr = $("rgStyleReport");
+        if (sr) sr.style.display = "none";
         const sd = $("rgStyleDesc");
         if (sd) sd.textContent = "";
         scrollToAnalyze();
@@ -1851,6 +1933,9 @@
       $("rgUpgradePro")?.addEventListener("click", openPro);
       $("rgProModalClose")?.addEventListener("click", closePro);
       $("rgProModalBackdrop")?.addEventListener("click", closePro);
+      document.querySelectorAll(".rg-pro-trigger").forEach((btn) => {
+        btn.addEventListener("click", openPro);
+      });
       $("rgProForm")?.addEventListener("submit", (ev) => {
         ev.preventDefault();
         const thanks = $("rgProThanks");
