@@ -135,10 +135,10 @@
       overflow: hidden;
     }
     .rg-hero-bg { position: absolute; inset: 0; pointer-events: none; }
-    .rg-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35; animation: floatOrb 18s ease-in-out infinite; }
-    .rg-orb1 { width: 420px; height: 420px; background: radial-gradient(circle, #f0a50055, transparent 70%); top: -10%; left: -5%; }
-    .rg-orb2 { width: 380px; height: 380px; background: radial-gradient(circle, #ff6b3555, transparent 70%); top: 30%; right: -8%; animation-delay: -6s; }
-    .rg-orb3 { width: 320px; height: 320px; background: radial-gradient(circle, #d8431555, transparent 70%); bottom: 5%; left: 25%; animation-delay: -12s; }
+    .rg-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.52; animation: floatOrb 18s ease-in-out infinite; }
+    .rg-orb1 { width: 420px; height: 420px; background: radial-gradient(circle, #f0a50088, transparent 70%); top: -10%; left: -5%; }
+    .rg-orb2 { width: 380px; height: 380px; background: radial-gradient(circle, #ff6b3588, transparent 70%); top: 30%; right: -8%; animation-delay: -6s; }
+    .rg-orb3 { width: 320px; height: 320px; background: radial-gradient(circle, #d8431588, transparent 70%); bottom: 5%; left: 25%; animation-delay: -12s; }
     @keyframes floatOrb { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(20px, -25px) scale(1.05); } }
     .rg-grain {
       position: absolute; inset: 0; opacity: 0.07; pointer-events: none;
@@ -161,7 +161,60 @@
       margin-bottom: 1rem;
     }
     .rg-hero-sub { font-size: clamp(16px, 2vw, 20px); color: var(--muted); max-width: 720px; margin: 0 auto 2rem; }
-    .rg-hero-ctas { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-bottom: 2rem; }
+    .rg-hero-ctas { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-bottom: 1rem; }
+    .rg-live-counter { font-size: 13px; color: var(--muted); margin-bottom: 1.75rem; }
+    .rg-live-counter span { font-weight: 700; color: var(--gold); }
+    .rg-hero-mockup {
+      position: relative;
+      margin: 0 auto 2rem;
+      max-width: 320px;
+      animation: mockFloat 4s ease-in-out infinite;
+    }
+    @keyframes mockFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .rg-mockup-glow {
+      position: absolute; inset: -20px -30px -10px -30px;
+      background: radial-gradient(ellipse at center, rgba(240,165,0,0.22), transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+    .rg-mockup-card {
+      position: relative; z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 8px 40px rgba(240,165,0,0.12), var(--shadow);
+    }
+    .rg-mockup-score {
+      position: relative;
+      isolation: isolate;
+      width: 100px; height: 100px; margin: 0 auto;
+      border-radius: 50%;
+      background: conic-gradient(var(--gold) 73%, #2a2a2a 0);
+      display: grid; place-items: center;
+      padding: 7px;
+    }
+    .rg-mockup-score::after {
+      content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--surface);
+    }
+    .rg-mockup-score .rg-mockup-num {
+      position: relative; z-index: 1;
+      font-size: 20px; font-weight: 800;
+      background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .rg-mockup-score .rg-mockup-den { font-size: 0.55em; opacity: 0.85; }
+    .rg-mockup-pill {
+      text-align: center; margin-top: 0.75rem;
+      display: inline-block; width: 100%;
+      padding: 0.4rem 0.75rem; border-radius: var(--pill);
+      background: rgba(240, 165, 0, 0.12); border: 1px solid rgba(240, 165, 0, 0.35);
+      color: var(--gold); font-weight: 700; font-size: 13px;
+    }
+    .rg-mockup-tips { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .rg-mockup-tip {
+      background: #1a1a1a; border: 1px solid var(--border); border-radius: 10px;
+      padding: 0.5rem 0.65rem; font-size: 12px; color: var(--muted); text-align: left;
+    }
+    @media (max-width: 479px) { .rg-hero-mockup { display: none; } }
     .rg-btn-primary {
       background: var(--grad);
       color: #0a0a0a;
@@ -303,6 +356,10 @@
       min-height: 56px;
     }
     .rg-analyze-btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+    .rg-analyze-btn.loading {
+      animation: btnPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes btnPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(240,165,0,0.25); } 50% { box-shadow: 0 0 24px 4px rgba(240,165,0,0.15); } }
     .rg-analyze-btn .rg-load-inner { display: none; align-items: center; gap: 0.75rem; }
     .rg-analyze-btn.loading .rg-btn-text { display: none; }
     .rg-analyze-btn.loading .rg-load-inner { display: flex; }
@@ -393,7 +450,20 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       position: relative;
     }
-    .rg-ex-card.rg-hidden { display: none; }
+    .rg-ex-card.rg-hidden { display: none !important; }
+    .rg-ex-card {
+      transition: opacity 0.35s ease, transform 0.35s ease, box-shadow 0.2s ease;
+    }
+    .rg-ex-card.rg-ex-hiding {
+      opacity: 0; transform: scale(0.96); pointer-events: none;
+    }
+    .rg-ex-icon {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      font-size: 2.5rem; opacity: 0.35; pointer-events: none;
+    }
+    .rg-prod-emoji {
+      height: 140px; display: grid; place-items: center; font-size: 3rem;
+    }
     .rg-ex-img { height: 160px; position: relative; }
     .rg-ex-overlay {
       position: absolute; inset: 0; background: rgba(0,0,0,0.55);
@@ -470,9 +540,13 @@
     /* FAQ */
     .rg-faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 0.75rem; overflow: hidden; background: var(--surface); }
     .rg-faq-q { width: 100%; text-align: left; padding: 1.1rem 1.25rem; background: transparent; color: var(--text); font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; border: none; }
-    .rg-faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
-    .rg-faq-item.open .rg-faq-a { max-height: 320px; }
-    .rg-faq-a-inner { padding: 0 1.25rem 1.1rem; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .rg-faq-a {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.4s ease;
+    }
+    .rg-faq-item.open .rg-faq-a { grid-template-rows: 1fr; }
+    .rg-faq-a-inner { overflow: hidden; min-height: 0; padding: 0 1.25rem 1.1rem; color: var(--muted); font-size: 14px; line-height: 1.6; }
 
     /* Final CTA */
     .rg-final-cta {
@@ -508,6 +582,64 @@
     /* Cursor glow on interactive */
     .rg-interactive { cursor: pointer; }
     .rg-interactive:hover { box-shadow: 0 0 0 1px rgba(240,165,0,0.25), 0 0 24px rgba(240,165,0,0.08); }
+
+    /* Pro modal */
+    .rg-modal {
+      position: fixed; inset: 0; z-index: 5000;
+      display: grid; place-items: center;
+      padding: 1.5rem;
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity 0.3s ease, visibility 0.3s;
+    }
+    .rg-modal.open { opacity: 1; visibility: visible; pointer-events: auto; }
+    .rg-modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); }
+    .rg-modal-card {
+      position: relative; z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      max-width: 420px; width: 100%;
+      box-shadow: var(--shadow-hover);
+    }
+    .rg-modal-close {
+      position: absolute; top: 12px; right: 12px;
+      background: transparent; border: none; color: var(--muted); font-size: 1.5rem; cursor: pointer; line-height: 1;
+    }
+    .rg-modal-card h3 { font-size: 1.35rem; margin-bottom: 0.5rem; }
+    .rg-modal-card p { color: var(--muted); font-size: 14px; margin-bottom: 1rem; }
+    .rg-modal-card input {
+      width: 100%; padding: 0.85rem 1rem; border-radius: var(--radius);
+      border: 1px solid var(--border); background: #0a0a0a; color: var(--text);
+      font-size: 15px; margin-bottom: 1rem;
+    }
+    .rg-modal-msg { display: none; color: var(--success); font-weight: 700; font-size: 14px; margin-top: 0.75rem; }
+
+    /* Toast */
+    .rg-toast {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--surface); border: 1px solid var(--gold); color: var(--gold);
+      padding: 0.65rem 1.25rem; border-radius: var(--pill); font-weight: 700; font-size: 14px;
+      z-index: 6000; opacity: 0; transition: transform 0.35s ease, opacity 0.35s ease;
+      pointer-events: none;
+    }
+    .rg-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    .rg-testi-av {
+      width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+      display: grid; place-items: center; font-weight: 800; font-size: 14px; color: #fff;
+    }
+
+    @media (max-width: 520px) {
+      .rg-btn-primary, .rg-btn-outline, .rg-nav-cta, .rg-analyze-btn, .rg-btn-white, .rg-btn-ghost, .rg-pricing-row .rg-btn-outline, .rg-pricing-row .rg-nav-cta {
+        width: 100%; justify-content: center;
+      }
+      .rg-hero-ctas { flex-direction: column; width: 100%; max-width: 360px; margin-left: auto; margin-right: auto; }
+    }
+
+    #home, #how, #analyze, #examples, #shop, #stats, #reviews, #pricing, #faq, #final-cta, #privacy, #terms {
+      scroll-margin-top: 88px;
+    }
   </style>
 </head>
 <body>
@@ -517,11 +649,11 @@
       <div class="rg-nav-inner">
         <a href="#home" class="rg-logo">🔥 RoomGlow</a>
         <nav class="rg-nav-links">
-          <a class="rg-navlink" href="#home">Home</a>
-          <a class="rg-navlink" href="#how">How It Works</a>
-          <a class="rg-navlink" href="#examples">Examples</a>
-          <a class="rg-navlink" href="#pricing">Pricing</a>
-          <a class="rg-navlink" href="#reviews">Reviews</a>
+          <a class="rg-navlink rg-anchor" href="#home">Home</a>
+          <a class="rg-navlink rg-anchor" href="#how">How It Works</a>
+          <a class="rg-navlink rg-anchor" href="#examples">Examples</a>
+          <a class="rg-navlink rg-anchor" href="#pricing">Pricing</a>
+          <a class="rg-navlink rg-anchor" href="#reviews">Reviews</a>
         </nav>
         <button type="button" class="rg-nav-cta" id="rgNavCta">Start Free →</button>
         <button type="button" class="rg-hamburger" id="rgMenuOpen" aria-label="Menu">☰</button>
@@ -530,12 +662,12 @@
 
     <div class="rg-menu-overlay" id="rgMenuOverlay">
       <button type="button" class="rg-menu-close" id="rgMenuClose">&times;</button>
-      <a href="#home">Home</a>
-      <a href="#how">How It Works</a>
-      <a href="#examples">Examples</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#reviews">Reviews</a>
-      <button type="button" class="rg-nav-cta" style="margin-top:1rem;">Start Free →</button>
+      <a href="#home" class="rg-anchor">Home</a>
+      <a href="#how" class="rg-anchor">How It Works</a>
+      <a href="#examples" class="rg-anchor">Examples</a>
+      <a href="#pricing" class="rg-anchor">Pricing</a>
+      <a href="#reviews" class="rg-anchor">Reviews</a>
+      <button type="button" class="rg-nav-cta" id="rgMenuCta" style="margin-top:1rem;">Start Free →</button>
     </div>
 
     <!-- HERO -->
@@ -548,11 +680,25 @@
       </div>
       <div class="rg-hero-inner">
         <div class="rg-badge">✨ AI-Powered Room Analysis — Trusted by 10,000+ users</div>
-        <h1>Your Room Has Potential. Let's Unlock It. 🏠</h1>
-        <p class="rg-hero-sub">Upload any photo, get your Aesthetic Score, personalized tips, and shoppable product recommendations — all powered by AI</p>
+        <h1>What Score Does Your Room Deserve? 🏠</h1>
+        <p class="rg-hero-sub">Discover your Room's Aesthetic Score in 30 seconds — then get AI-powered tips and shoppable products to transform your space</p>
         <div class="rg-hero-ctas">
-          <button type="button" class="rg-btn-primary" id="rgHeroAnalyze">Analyze My Room Free 📸</button>
+          <button type="button" class="rg-btn-primary" id="rgHeroAnalyze">Get My Room Score Free →</button>
           <button type="button" class="rg-btn-outline" id="rgHeroExamples">See Real Examples 🔥</button>
+        </div>
+        <p class="rg-live-counter" id="rgLiveCounterLine">🔥 <span id="rgLiveNum">100</span> rooms analyzed today</p>
+        <div class="rg-hero-mockup" aria-hidden="true">
+          <div class="rg-mockup-glow"></div>
+          <div class="rg-mockup-card">
+            <div class="rg-mockup-score">
+              <span class="rg-mockup-num">73<span class="rg-mockup-den">/100</span></span>
+            </div>
+            <div class="rg-mockup-pill">✨ Warm Minimalist</div>
+            <div class="rg-mockup-tips">
+              <div class="rg-mockup-tip">💡 Add warm accent lighting for instant coziness</div>
+              <div class="rg-mockup-tip">🪴 Layer textures — a plant softens hard edges</div>
+            </div>
+          </div>
         </div>
         <div class="rg-social-proof">
           <div class="rg-avatars">
@@ -575,6 +721,8 @@
         <div class="rg-trust-item">⭐ 4.9/5 Average Rating</div>
         <span class="rg-trust-div"></span>
         <div class="rg-trust-item">🏠 10,000+ Rooms Analyzed</div>
+        <span class="rg-trust-div"></span>
+        <div class="rg-trust-item">🏆 Featured on Product Hunt</div>
       </div>
     </div>
 
@@ -649,7 +797,7 @@
         </div>
 
         <button type="button" class="rg-analyze-btn rg-interactive" id="rgAnalyzeBtn" disabled>
-          <span class="rg-btn-text">✨ Analyze My Room</span>
+          <span class="rg-btn-text">Analyze My Room ✨</span>
           <span class="rg-load-inner">
             <span class="rg-spinner"></span>
             <span class="rg-pulse-text">Analyzing your space...</span>
@@ -693,9 +841,10 @@
           <button type="button" class="rg-filter-pill" data-filter="Desk Setup">Desk 💻</button>
           <button type="button" class="rg-filter-pill" data-filter="Closet">Closet 👗</button>
         </div>
-        <div class="rg-ex-grid" id="rgExGrid">
-          <article class="rg-ex-card" data-room="Bedroom">
-            <div class="rg-ex-img" style="background:linear-gradient(135deg,#1e3a5f,#4a6fa5);position:relative;">
+        <div class="rg-ex-grid" id="rgExGrid" style="position:relative;">
+          <article class="rg-ex-card rg-reveal" data-reveal data-room="Bedroom">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#667eea,#764ba2);position:relative;">
+              <span class="rg-ex-icon" aria-hidden="true">🛏️</span>
               <span class="rg-badge-score">82/100</span>
               <div class="rg-ex-overlay">See Tips</div>
             </div>
@@ -704,8 +853,9 @@
               <span style="font-size:12px;color:var(--muted);">Bedroom</span>
             </div>
           </article>
-          <article class="rg-ex-card" data-room="Living Room">
-            <div class="rg-ex-img" style="background:linear-gradient(135deg,#8b4513,#ff8c42);position:relative;">
+          <article class="rg-ex-card rg-reveal" data-reveal data-room="Living Room">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#f093fb,#f5576c);position:relative;">
+              <span class="rg-ex-icon" aria-hidden="true">🛋️</span>
               <span class="rg-badge-score">71/100</span>
               <div class="rg-ex-overlay">See Tips</div>
             </div>
@@ -714,8 +864,9 @@
               <span style="font-size:12px;color:var(--muted);">Living Room</span>
             </div>
           </article>
-          <article class="rg-ex-card" data-room="Desk Setup">
-            <div class="rg-ex-img" style="background:linear-gradient(135deg,#2d1b4e,#6b4c9a);position:relative;">
+          <article class="rg-ex-card rg-reveal" data-reveal data-room="Desk Setup">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#4facfe,#00f2fe);position:relative;">
+              <span class="rg-ex-icon" aria-hidden="true">💻</span>
               <span class="rg-badge-score">91/100</span>
               <div class="rg-ex-overlay">See Tips</div>
             </div>
@@ -724,8 +875,9 @@
               <span style="font-size:12px;color:var(--muted);">Desk Setup</span>
             </div>
           </article>
-          <article class="rg-ex-card" data-room="Closet">
-            <div class="rg-ex-img" style="background:linear-gradient(135deg,#1b4332,#52b788);position:relative;">
+          <article class="rg-ex-card rg-reveal" data-reveal data-room="Closet">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#43e97b,#38f9d7);position:relative;">
+              <span class="rg-ex-icon" aria-hidden="true">👗</span>
               <span class="rg-badge-score">65/100</span>
               <div class="rg-ex-overlay">See Tips</div>
             </div>
@@ -734,8 +886,9 @@
               <span style="font-size:12px;color:var(--muted);">Closet</span>
             </div>
           </article>
-          <article class="rg-ex-card" data-room="Bedroom">
-            <div class="rg-ex-img" style="background:linear-gradient(135deg,#5c1a3d,#e8a0bf);position:relative;">
+          <article class="rg-ex-card rg-reveal" data-reveal data-room="Bedroom">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#fa709a,#fee140);position:relative;">
+              <span class="rg-ex-icon" aria-hidden="true">🛏️</span>
               <span class="rg-badge-score">88/100</span>
               <div class="rg-ex-overlay">See Tips</div>
             </div>
@@ -744,8 +897,9 @@
               <span style="font-size:12px;color:var(--muted);">Bedroom</span>
             </div>
           </article>
-          <article class="rg-ex-card" data-room="Living Room">
-            <div class="rg-ex-img" style="background:linear-gradient(135deg,#424242,#9e9e9e);position:relative;">
+          <article class="rg-ex-card rg-reveal" data-reveal data-room="Living Room">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb);position:relative;">
+              <span class="rg-ex-icon" aria-hidden="true">🛋️</span>
               <span class="rg-badge-score">77/100</span>
               <div class="rg-ex-overlay">See Tips</div>
             </div>
@@ -765,52 +919,52 @@
         <h2 class="rg-sec-title">Products Our AI Recommends 🛍️</h2>
         <p class="rg-sec-sub">Hand picked items that transform real rooms — click to shop on Amazon</p>
         <div class="rg-prod-grid">
-          <article class="rg-prod-card rg-interactive">
-            <div class="rg-prod-img" style="background:linear-gradient(135deg,#f0a50033,#ff6b3533);"></div>
+          <article class="rg-prod-card rg-interactive rg-reveal" data-reveal>
+            <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#f7971e,#ffd200);">💡</div>
             <div class="rg-prod-body">
-              <h4>Warm LED Floor Lamp</h4>
+              <h4>Floor Lamp</h4>
               <p>Perfect for cozy bedroom lighting</p>
-              <a class="rg-btn-primary" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=warm+led+floor+lamp" target="_blank" rel="noopener">Shop on Amazon →</a>
+              <a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=warm+led+floor+lamp&amp;tag=technova050-20" target="_blank" rel="noopener">Shop This →</a>
             </div>
           </article>
-          <article class="rg-prod-card rg-interactive">
-            <div class="rg-prod-img" style="background:linear-gradient(135deg,#4caf5033,#2e7d32);"></div>
+          <article class="rg-prod-card rg-interactive rg-reveal" data-reveal>
+            <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#56ab2f,#a8e063);">🌿</div>
             <div class="rg-prod-body">
-              <h4>Minimalist Desk Plant</h4>
+              <h4>Desk Plant</h4>
               <p>Adds life and freshness to any desk</p>
-              <a class="rg-btn-primary" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=minimalist+desk+plant" target="_blank" rel="noopener">Shop Now →</a>
+              <a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=minimalist+desk+plant&amp;tag=technova050-20" target="_blank" rel="noopener">Shop This →</a>
             </div>
           </article>
-          <article class="rg-prod-card rg-interactive">
-            <div class="rg-prod-img" style="background:linear-gradient(135deg,#e91e6333,#ff9800);"></div>
+          <article class="rg-prod-card rg-interactive rg-reveal" data-reveal>
+            <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#ee9ca7,#ffdde1);">🛋️</div>
             <div class="rg-prod-body">
-              <h4>Aesthetic Throw Blanket</h4>
+              <h4>Throw Blanket</h4>
               <p>Instant texture and warmth to sofas</p>
-              <a class="rg-btn-primary" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=aesthetic+throw+blanket" target="_blank" rel="noopener">Shop Now →</a>
+              <a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=aesthetic+throw+blanket&amp;tag=technova050-20" target="_blank" rel="noopener">Shop This →</a>
             </div>
           </article>
-          <article class="rg-prod-card rg-interactive">
-            <div class="rg-prod-img" style="background:linear-gradient(135deg,#607d8b33,#37474f);"></div>
+          <article class="rg-prod-card rg-interactive rg-reveal" data-reveal>
+            <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#c94b4b,#4b134f);">📚</div>
             <div class="rg-prod-body">
-              <h4>Floating Wall Shelves</h4>
+              <h4>Wall Shelves</h4>
               <p>Clean storage that looks beautiful</p>
-              <a class="rg-btn-primary" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=floating+wall+shelves" target="_blank" rel="noopener">Shop Now →</a>
+              <a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=floating+wall+shelves&amp;tag=technova050-20" target="_blank" rel="noopener">Shop This →</a>
             </div>
           </article>
-          <article class="rg-prod-card rg-interactive">
-            <div class="rg-prod-img" style="background:linear-gradient(135deg,#ffd54f33,#ff6f00);"></div>
+          <article class="rg-prod-card rg-interactive rg-reveal" data-reveal>
+            <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#f6d365,#fda085);">🕯️</div>
             <div class="rg-prod-body">
-              <h4>Scented Candle Set</h4>
+              <h4>Candle Set</h4>
               <p>Sets the mood in any room instantly</p>
-              <a class="rg-btn-primary" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=scented+candle+set" target="_blank" rel="noopener">Shop Now →</a>
+              <a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=scented+candle+set&amp;tag=technova050-20" target="_blank" rel="noopener">Shop This →</a>
             </div>
           </article>
-          <article class="rg-prod-card rg-interactive">
-            <div class="rg-prod-img" style="background:linear-gradient(135deg,#8d6e6333,#5d4037);"></div>
+          <article class="rg-prod-card rg-interactive rg-reveal" data-reveal>
+            <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#89f7fe,#66a6ff);">🧺</div>
             <div class="rg-prod-body">
-              <h4>Woven Storage Basket</h4>
+              <h4>Storage Basket</h4>
               <p>Organizes clutter stylishly</p>
-              <a class="rg-btn-primary" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=woven+storage+basket" target="_blank" rel="noopener">Shop Now →</a>
+              <a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=woven+storage+basket&amp;tag=technova050-20" target="_blank" rel="noopener">Shop This →</a>
             </div>
           </article>
         </div>
@@ -863,7 +1017,7 @@
         <h2 class="rg-sec-title">Start Free, Upgrade When Ready 💎</h2>
         <p class="rg-sec-sub">No credit card required to start</p>
         <div class="rg-pricing-row">
-          <div class="rg-pricing-card rg-interactive">
+          <div class="rg-pricing-card rg-interactive rg-reveal" data-reveal>
             <div style="font-weight:800;color:var(--gold);">Free</div>
             <div class="rg-price">$0</div>
             <p style="color:var(--muted);font-size:14px;">Forever free</p>
@@ -876,7 +1030,7 @@
             </ul>
             <button type="button" class="rg-btn-outline" style="width:100%;" id="rgPricingFree">Start Analyzing Free</button>
           </div>
-          <div class="rg-pricing-card rg-popular rg-interactive">
+          <div class="rg-pricing-card rg-popular rg-interactive rg-reveal" data-reveal>
             <span class="rg-pop-badge">Most Popular</span>
             <div style="font-weight:800;color:var(--gold);">Pro</div>
             <div class="rg-price">$7.99<span style="font-size:16px;font-weight:600;">/month</span></div>
@@ -890,7 +1044,7 @@
               <li>✅ Priority AI processing</li>
               <li>✅ Early access to new features</li>
             </ul>
-            <button type="button" class="rg-nav-cta" style="width:100%;border:none;">Upgrade to Pro →</button>
+            <button type="button" class="rg-nav-cta" style="width:100%;border:none;" id="rgUpgradePro">Upgrade to Pro →</button>
             <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:0.75rem;">🔒 Secure payment via Stripe</p>
           </div>
         </div>
@@ -935,7 +1089,7 @@
     <section class="rg-final-cta" id="final-cta">
       <h2>What Score Does Your Room Deserve? 🏠</h2>
       <p>Find out in 30 seconds. No account needed.</p>
-      <button type="button" class="rg-btn-white" id="rgFinalCta">Analyze My Room Free →</button>
+      <button type="button" class="rg-btn-white" id="rgFinalCta">Get My Room Score Free →</button>
       <p style="font-size:14px;margin-top:0.75rem;color:rgba(10,10,10,0.75);">✨ Join 10,000+ people who already discovered their room's potential</p>
     </section>
 
@@ -944,25 +1098,58 @@
       <div class="rg-footer-top container">
         <div class="rg-logo">🔥 RoomGlow</div>
         <nav>
-          <a href="#home">Home</a>
-          <a href="#how">How It Works</a>
-          <a href="#examples">Examples</a>
-          <a href="#pricing">Pricing</a>
+          <a href="#home" class="rg-anchor">Home</a>
+          <a href="#how" class="rg-anchor">How It Works</a>
+          <a href="#examples" class="rg-anchor">Examples</a>
+          <a href="#pricing" class="rg-anchor">Pricing</a>
+          <a href="#reviews" class="rg-anchor">Reviews</a>
         </nav>
         <p class="rg-tagline">Aesthetic intelligence for every room.</p>
       </div>
       <div class="rg-footer-bottom container">
         <span>© <span id="rgYear"></span> RoomGlow. All rights reserved.</span>
         <span>Made with ❤️ and AI</span>
-        <span><a href="#" class="rg-link">Privacy Policy</a> · <a href="#" class="rg-link">Terms</a></span>
+        <span><a href="#privacy" class="rg-link">Privacy Policy</a> · <a href="#terms" class="rg-link">Terms</a></span>
       </div>
     </footer>
+
+    <section id="privacy" class="rg-section section-muted" style="padding-top:3rem;padding-bottom:3rem;">
+      <div class="container">
+        <h2 class="rg-sec-title" style="font-size:1.5rem;">Privacy</h2>
+        <p class="rg-sec-sub" style="margin-bottom:0;">Photos are analyzed in real time and not stored. We only use your image to generate your score and tips.</p>
+      </div>
+    </section>
+    <section id="terms" class="rg-section section-alt" style="padding-top:3rem;padding-bottom:4rem;">
+      <div class="container">
+        <h2 class="rg-sec-title" style="font-size:1.5rem;">Terms</h2>
+        <p class="rg-sec-sub" style="margin-bottom:0;">RoomGlow is provided as-is for personal use. Product links may be affiliate links (tag=technova050-20).</p>
+      </div>
+    </section>
+
+    <div class="rg-modal" id="rgProModal" role="dialog" aria-modal="true" aria-labelledby="rgProModalTitle" aria-hidden="true">
+      <div class="rg-modal-backdrop" id="rgProModalBackdrop"></div>
+      <div class="rg-modal-card">
+        <button type="button" class="rg-modal-close" id="rgProModalClose" aria-label="Close">&times;</button>
+        <h3 id="rgProModalTitle">Pro Plan Coming Soon 🚀</h3>
+        <p>Coming Soon — Pro plan launching soon! Enter your email to be notified.</p>
+        <p style="margin-top:0.5rem;">Be the first to know when Pro launches and get 50% off your first month</p>
+        <form id="rgProForm" action="javascript:void(0)">
+          <input type="email" id="rgProEmail" name="email" placeholder="you@email.com" autocomplete="email" required />
+          <button type="submit" class="rg-nav-cta" style="width:100%;border:none;" id="rgProNotify">Notify Me →</button>
+        </form>
+        <p class="rg-modal-msg" id="rgProThanks">Thanks! We'll notify you 🎉</p>
+      </div>
+    </div>
+
+    <div class="rg-toast" id="rgToast" role="status" aria-live="polite">Copied!</div>
   </div>
 
   <script>
     (function () {
       const BACKEND_URL = "https://roomglow-backend.onrender.com/analyze";
       const MAX_BYTES = 20 * 1024 * 1024;
+      const NAV_OFFSET = 76;
+      const AFFILIATE_TAG = "technova050-20";
 
       let currentBase64 = null;
       let currentMime = "image/jpeg";
@@ -988,9 +1175,11 @@
       const stylePill = $("rgStylePill");
       const shareSummary = $("rgShareSummary");
       const nav = $("rgNav");
+      const rgToast = $("rgToast");
+      const liveNumEl = $("rgLiveNum");
 
       function showError(msg) {
-        errorEl.textContent = msg;
+        errorEl.textContent = msg || "Something went wrong. Please try again.";
         errorEl.classList.add("visible");
       }
       function clearError() {
@@ -998,31 +1187,97 @@
         errorEl.classList.remove("visible");
       }
 
+      function scrollToId(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const y = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+        window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+      }
+
+      function scrollToEl(el) {
+        if (!el) return;
+        const y = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+        window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+      }
+
+      function scrollToAnalyze() {
+        scrollToId("analyze");
+      }
+
+      document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        const href = a.getAttribute("href");
+        if (!href || href === "#" || href.length < 2) return;
+        const id = href.slice(1);
+        if (!document.getElementById(id)) return;
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          scrollToId(id);
+        });
+      });
+
+      function withAmazonTag(url) {
+        const raw = String(url || "").trim();
+        if (!raw) return "https://www.amazon.com/s?k=room+decor&tag=" + AFFILIATE_TAG;
+        try {
+          const u = new URL(raw, window.location.origin);
+          if (!/amazon\./i.test(u.hostname)) return raw;
+          u.searchParams.set("tag", AFFILIATE_TAG);
+          return u.toString();
+        } catch (_) {
+          if (raw.includes("tag=")) return raw;
+          return raw + (raw.includes("?") ? "&" : "?") + "tag=" + AFFILIATE_TAG;
+        }
+      }
+
+      function showToast(msg) {
+        if (!rgToast) return;
+        rgToast.textContent = msg || "Copied!";
+        rgToast.classList.add("show");
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => rgToast.classList.remove("show"), 2200);
+      }
+
+      const liveStart = 89 + Math.floor(Math.random() * (127 - 89 + 1));
+      if (liveNumEl) liveNumEl.textContent = String(liveStart);
+      setInterval(() => {
+        if (!liveNumEl) return;
+        const n = parseInt(liveNumEl.textContent, 10) || liveStart;
+        liveNumEl.textContent = String(n + 1);
+      }, 45000);
+
       function setRoomPills() {
-        document.querySelectorAll(".rg-room-pill").forEach((btn) => {
+        const row = $("rgRoomPills");
+        if (!row) return;
+        row.querySelectorAll(".rg-room-pill").forEach((btn) => {
           btn.classList.toggle("is-active", btn.dataset.room === selectedRoom);
-          btn.addEventListener("click", () => {
-            selectedRoom = btn.dataset.room;
-            document.querySelectorAll(".rg-room-pill").forEach((b) => b.classList.toggle("is-active", b.dataset.room === selectedRoom));
+        });
+        row.addEventListener("click", (e) => {
+          const btn = e.target.closest(".rg-room-pill");
+          if (!btn || !row.contains(btn)) return;
+          selectedRoom = btn.dataset.room || "Bedroom";
+          row.querySelectorAll(".rg-room-pill").forEach((b) => {
+            b.classList.toggle("is-active", b.dataset.room === selectedRoom);
           });
         });
       }
       setRoomPills();
 
-      function scrollToAnalyze() {
-        $("analyze").scrollIntoView({ behavior: "smooth", block: "start" });
-      }
       document.querySelectorAll("#rgNavCta, #rgHeroAnalyze, #rgFinalCta, #rgPricingFree").forEach((el) => {
         el && el.addEventListener("click", scrollToAnalyze);
       });
-      $("rgHeroExamples")?.addEventListener("click", () => $("examples").scrollIntoView({ behavior: "smooth" }));
+      $("rgHeroExamples")?.addEventListener("click", () => scrollToId("examples"));
 
       // Mobile menu
       const overlay = $("rgMenuOverlay");
       $("rgMenuOpen")?.addEventListener("click", () => overlay.classList.add("open"));
       $("rgMenuClose")?.addEventListener("click", () => overlay.classList.remove("open"));
-      overlay?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => overlay.classList.remove("open"));
-      overlay?.querySelector(".rg-nav-cta")?.addEventListener("click", () => { overlay.classList.remove("open"); scrollToAnalyze(); });
+      overlay?.querySelectorAll("a[href^='#']").forEach((a) =>
+        a.addEventListener("click", () => overlay.classList.remove("open"))
+      );
+      $("rgMenuCta")?.addEventListener("click", () => {
+        overlay.classList.remove("open");
+        scrollToAnalyze();
+      });
 
       // Nav shrink
       window.addEventListener("scroll", () => {
@@ -1061,12 +1316,12 @@
           previewWrap.classList.add("visible");
         };
         reader.readAsDataURL(file);
+        results.classList.remove("visible");
+        tipList.innerHTML = "";
         fileToBase64(file).then((b64) => {
           currentBase64 = b64;
           analyzeBtn.disabled = false;
         }).catch(() => showError("Could not read file."));
-    results.classList.remove("visible");
-    tipList.innerHTML = "";
       }
 
       dropZone.addEventListener("click", (e) => {
@@ -1113,26 +1368,38 @@
 
       function renderTips(tips) {
         tipList.innerHTML = "";
-        tips.forEach((tip, i) => {
+        const list = Array.isArray(tips) ? tips.slice(0, 5) : [];
+        while (list.length < 5) {
+          list.push({
+            icon: "✨",
+            category: "Tip",
+            tip: "Keep refining your space — small changes add up.",
+            product_search_url: "https://www.amazon.com/s?k=room+decor",
+          });
+        }
+        list.forEach((tip, i) => {
           const card = document.createElement("div");
           card.className = "rg-tip-card rg-interactive";
           card.style.animationDelay = i * 200 + "ms";
           const icon = escapeHtml(tip.icon || "✨");
           const cat = escapeHtml(tip.category || "Tip");
-          const txt = escapeHtml(tip.tip || "");
-          const url = tip.product_search_url || "https://www.amazon.com/s?k=room+decor";
+          const txt = escapeHtml(tip.tip || "Personalize this corner of your room.");
+          const tagged = withAmazonTag(tip.product_search_url || "https://www.amazon.com/s?k=room+decor");
           card.innerHTML = `
             <div class="rg-cat"><span class="rg-cat-pill">${cat}</span></div>
             <div class="rg-tip-icon">${icon}</div>
             <div>
               <p class="rg-tip-text">${txt}</p>
-              <button type="button" class="rg-shop-btn" data-url="${escapeAttr(url)}">Shop This →</button>
+              <button type="button" class="rg-shop-btn" data-url="${escapeAttr(tagged)}">Shop This →</button>
             </div>
           `;
           tipList.appendChild(card);
         });
         tipList.querySelectorAll(".rg-shop-btn").forEach((btn) => {
-          btn.addEventListener("click", () => window.open(btn.dataset.url, "_blank", "noopener,noreferrer"));
+          btn.addEventListener("click", () => {
+            const u = withAmazonTag(btn.dataset.url);
+            window.open(u, "_blank", "noopener,noreferrer");
+          });
         });
       }
 
@@ -1164,22 +1431,27 @@
               room_type: selectedRoom,
             }),
           });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data.error || "Request failed (" + res.status + ")");
-          if (typeof data.score !== "number" || !Array.isArray(data.tips)) {
-            throw new Error("Unexpected response from server.");
+          let data;
+          try {
+            data = await res.json();
+          } catch (_) {
+            throw new Error("bad_json");
           }
-          lastScore = data.score;
-          lastStyle = data.style || "Your Style";
+          if (!res.ok || typeof data.score !== "number" || !Array.isArray(data.tips)) {
+            throw new Error("api_fail");
+          }
+          const rawScore = Number(data.score);
+          lastScore = Number.isFinite(rawScore) ? Math.min(100, Math.max(0, Math.round(rawScore))) : 0;
+          lastStyle = String(data.style || "Your Style").trim() || "Your Style";
           scoreRing.style.setProperty("--ring-color", scoreColor(lastScore));
           stylePill.textContent = "✨ " + lastStyle;
-          shareSummary.textContent = "Score " + lastScore + "/100 · " + lastStyle;
+          if (shareSummary) shareSummary.textContent = "Score " + lastScore + "/100 · " + lastStyle;
           results.classList.add("visible");
           animateScore(lastScore);
-          renderTips(data.tips.slice(0, 5));
-          results.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          renderTips(data.tips);
+          scrollToEl(results);
         } catch (e) {
-          showError(e.message || "Something went wrong.");
+          showError("Something went wrong. Please try again.");
         } finally {
           skeleton.classList.remove("active");
           analyzeBtn.classList.remove("loading");
@@ -1202,19 +1474,31 @@
       });
 
       $("rgShareBtn")?.addEventListener("click", async function shareScore() {
-        const text = "My RoomGlow score: " + lastScore + "/100 — " + lastStyle;
+        const text = "My RoomGlow score: " + (lastScore || 0) + "/100 — " + (lastStyle || "RoomGlow");
         const url = window.location.href;
-        if (navigator.share) {
+        if (navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
           try {
             await navigator.share({ title: "RoomGlow", text, url });
             return;
-          } catch (_) {}
+          } catch (err) {
+            if (err && err.name === "AbortError") return;
+          }
         }
         try {
           await navigator.clipboard.writeText(text + " " + url);
-          alert("Copied to clipboard!");
+          showToast("Copied!");
         } catch (_) {
-          prompt("Copy this:", text + " " + url);
+          try {
+            const ta = document.createElement("textarea");
+            ta.value = text + " " + url;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            document.body.removeChild(ta);
+            showToast("Copied!");
+          } catch (__) {
+            prompt("Copy this:", text + " " + url);
+          }
         }
       });
 
@@ -1228,6 +1512,10 @@
         { threshold: 0.12 }
       );
       document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+
+      function observeReveals(root) {
+        root.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+      }
 
       // Stats counter
       let statsDone = false;
@@ -1278,38 +1566,101 @@
         });
       });
 
-      // Example filters
+      // Example filters (fade then hide)
       const exFilters = $("rgExFilters");
+      const exGrid = $("rgExGrid");
       exFilters?.addEventListener("click", (e) => {
         const pill = e.target.closest(".rg-filter-pill");
         if (!pill) return;
         exFilters.querySelectorAll(".rg-filter-pill").forEach((p) => p.classList.remove("is-active"));
         pill.classList.add("is-active");
         const f = pill.dataset.filter;
-        document.querySelectorAll(".rg-ex-card").forEach((card) => {
+        const cards = document.querySelectorAll(".rg-ex-card");
+        cards.forEach((card) => {
           const show = f === "all" || card.dataset.room === f;
-          card.classList.toggle("rg-hidden", !show);
+          if (show) {
+            card.classList.remove("rg-hidden", "rg-ex-hiding");
+          } else {
+            card.classList.add("rg-ex-hiding");
+          }
         });
+        clearTimeout(exFilters._ft);
+        exFilters._ft = setTimeout(() => {
+          cards.forEach((card) => {
+            const show = f === "all" || card.dataset.room === f;
+            if (!show) card.classList.add("rg-hidden");
+            else card.classList.remove("rg-ex-hiding");
+          });
+          if (exGrid) exGrid.style.minHeight = "";
+        }, 320);
       });
 
       // Testimonials carousel — duplicate nodes
       const testimonials = [
-        { q: "I got a 43/100 on my bedroom and was honestly a little offended 😂 But I followed every tip and bought the lamp it suggested and now I'm at 78. My room looks incredible.", n: "Sarah K.", r: "College Student" },
-        { q: "The AI told me my desk setup was 'missing warmth and personality' and recommended a plant and a LED strip. Spent $40, now my setup looks like it belongs on Reddit.", n: "Marcus T.", r: "Software Developer" },
-        { q: "I used this on my living room before having people over for a dinner party. Followed 3 of the 5 tips. My friend literally asked if I hired an interior designer.", n: "Priya M.", r: "Marketing Manager" },
-        { q: "The aesthetic style detection is scary accurate. It called my room 'Dark Academia with Maximalist tendencies' which is literally my entire personality.", n: "Jake R.", r: "Photographer" },
-        { q: "As a college student on a budget this is gold. The product recommendations are all affordable and actually match my room. I've bought 4 things it suggested.", n: "Emma L.", r: "University Student" },
-        { q: "I run an Airbnb and I use RoomGlow on every room before listing. My bookings went up after I renovated based on the tips. Genuinely useful tool.", n: "David C.", r: "Airbnb Host" },
+        { q: "I got a 43/100 on my bedroom and was honestly a little offended 😂 But I followed every tip and bought the lamp it suggested and now I'm at 78. My room looks incredible.", n: "Sarah K.", r: "College Student", g: "linear-gradient(135deg,#ff9a56,#ff6a88)" },
+        { q: "The AI told me my desk setup was 'missing warmth and personality' and recommended a plant and a LED strip. Spent $40, now my setup looks like it belongs on Reddit.", n: "Marcus T.", r: "Software Developer", g: "linear-gradient(135deg,#f7971e,#ffd200)" },
+        { q: "I used this on my living room before having people over for a dinner party. Followed 3 of the 5 tips. My friend literally asked if I hired an interior designer.", n: "Priya M.", r: "Marketing Manager", g: "linear-gradient(135deg,#f093fb,#f5576c)" },
+        { q: "The aesthetic style detection is scary accurate. It called my room 'Dark Academia with Maximalist tendencies' which is literally my entire personality.", n: "Jake R.", r: "Photographer", g: "linear-gradient(135deg,#fa709a,#fee140)" },
+        { q: "As a college student on a budget this is gold. The product recommendations are all affordable and actually match my room. I've bought 4 things it suggested.", n: "Emma L.", r: "University Student", g: "linear-gradient(135deg,#a8edea,#fed6e3)" },
+        { q: "I run an Airbnb and I use RoomGlow on every room before listing. My bookings went up after I renovated based on the tips. Genuinely useful tool.", n: "David C.", r: "Airbnb Host", g: "linear-gradient(135deg,#d4a574,#8b4513)" },
       ];
       const track = $("rgCarouselTrack");
+      function initialsFromName(name) {
+        const parts = String(name || "").replace(/\./g, " ").trim().split(/\s+/).filter(Boolean);
+        if (!parts.length) return "?";
+        const a = parts[0][0] || "";
+        const b = parts.length > 1 ? parts[parts.length - 1][0] : (parts[0][1] || "");
+        return (a + b).toUpperCase();
+      }
       function buildTestiCard(t) {
         const div = document.createElement("div");
-        div.className = "rg-testi-card rg-interactive";
-        div.innerHTML = `<div class="rg-stars">★★★★★</div><blockquote>${escapeHtml(t.q)}</blockquote><div class="rg-author"><div class="rg-av"></div><div><strong>${escapeHtml(t.n)}</strong><br/><span style="color:var(--muted);font-size:13px;">${escapeHtml(t.r)}</span></div></div>`;
+        div.className = "rg-testi-card rg-interactive rg-reveal";
+        div.setAttribute("data-reveal", "");
+        const ini = initialsFromName(t.n);
+        const grad = t.g || "linear-gradient(135deg,#f0a500,#ff6b35)";
+        div.innerHTML = `<div class="rg-stars">★★★★★</div><blockquote>${escapeHtml(t.q)}</blockquote><div class="rg-author"><div class="rg-testi-av" style="background:${grad};">${escapeHtml(ini)}</div><div><strong>${escapeHtml(t.n)}</strong><br/><span style="color:var(--muted);font-size:13px;">${escapeHtml(t.r)}</span></div></div>`;
         return div;
       }
       testimonials.forEach((t) => track.appendChild(buildTestiCard(t)));
       testimonials.forEach((t) => track.appendChild(buildTestiCard(t)));
+      if (track) observeReveals(track);
+
+      document.querySelectorAll("a.rg-amazon-link").forEach((a) => {
+        try {
+          a.href = withAmazonTag(a.getAttribute("href"));
+        } catch (_) {}
+      });
+
+      const proModal = $("rgProModal");
+      const openPro = () => {
+        if (!proModal) return;
+        proModal.classList.add("open");
+        proModal.setAttribute("aria-hidden", "false");
+        const th = $("rgProThanks");
+        const fm = $("rgProForm");
+        if (th) th.style.display = "none";
+        if (fm) fm.style.display = "";
+        const em = $("rgProEmail");
+        if (em) em.value = "";
+      };
+      const closePro = () => {
+        if (!proModal) return;
+        proModal.classList.remove("open");
+        proModal.setAttribute("aria-hidden", "true");
+      };
+      $("rgUpgradePro")?.addEventListener("click", openPro);
+      $("rgProModalClose")?.addEventListener("click", closePro);
+      $("rgProModalBackdrop")?.addEventListener("click", closePro);
+      $("rgProForm")?.addEventListener("submit", (ev) => {
+        ev.preventDefault();
+        const thanks = $("rgProThanks");
+        const form = $("rgProForm");
+        if (thanks) thanks.style.display = "block";
+        if (form) form.style.display = "none";
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && proModal && proModal.classList.contains("open")) closePro();
+      });
 
       $("rgYear").textContent = new Date().getFullYear();
     })();
