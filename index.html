@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RoomGlow</title>
+    <style>
+      :root {
+        --bg0: #fff7e8;
+        --bg1: #f7efe2;
+        --card: rgba(255, 255, 255, 0.72);
+        --card2: rgba(255, 255, 255, 0.9);
+        --text: #1f2a2a;
+        --muted: rgba(31, 42, 42, 0.7);
+        --border: rgba(31, 42, 42, 0.12);
+        --shadow: 0 18px 55px rgba(31, 42, 42, 0.14);
+        --terracotta: #d97b5a;
+        --sage: #7baa8e;
+        --cream: #fff1d8;
+        --focus: rgba(217, 123, 90, 0.38);
+        --radius-xl: 28px;
+        --radius-lg: 18px;
+        --radius-md: 14px;
+        --radius-sm: 12px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Helvetica,
+          Arial,
+          "Apple Color Emoji",
+          "Segoe UI Emoji";
+        color: var(--text);
+        background: radial-gradient(1100px 700px at 20% -10%, rgba(217, 123, 90, 0.22), transparent 55%),
+          radial-gradient(900px 550px at 90% 0%, rgba(123, 170, 142, 0.22), transparent 52%),
+          linear-gradient(180deg, var(--bg0), var(--bg1));
+        overflow-x: hidden;
+      }
+
+      .shell {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        padding: 14px 18px;
+        background: rgba(255, 247, 232, 0.62);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(31, 42, 42, 0.08);
+      }
+
+      .nav-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        user-select: none;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .brand-badge {
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, rgba(217, 123, 90, 0.35), rgba(123, 170, 142, 0.25));
+        border: 1px solid rgba(31, 42, 42, 0.12);
+        box-shadow: 0 14px 40px rgba(217, 123, 90, 0.18);
+        display: grid;
+        place-items: center;
+        font-size: 18px;
+      }
+
+      .brand-title {
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        font-size: 16px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 12px 18px 42px;
+        display: grid;
+        gap: 18px;
+      }
+
+      .hero {
+        margin-top: 6px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.42));
+        border: 1px solid var(--border);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        background: radial-gradient(700px 220px at 18% 0%, rgba(217, 123, 90, 0.23), transparent 60%),
+          radial-gradient(620px 210px at 90% 10%, rgba(123, 170, 142, 0.23), transparent 60%);
+        pointer-events: none;
+      }
+
+      .hero-inner {
+        position: relative;
+        padding: 26px 22px 22px;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 18px;
+        align-items: start;
+      }
+
+      .features {
+        scroll-margin-top: 90px;
+      }
+
+      .features-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 14px;
+        flex-wrap: wrap;
+        padding: 8px 0 2px;
+      }
+
+      .features-head h2 {
+        margin: 0;
+        font-size: clamp(20px, 2.8vw, 28px);
+        letter-spacing: -0.03em;
+      }
+
+      .features-head p {
+        margin: 0;
+        color: var(--muted);
+        font-weight: 650;
+        font-size: 13px;
+        max-width: 52ch;
+        line-height: 1.5;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .feature-card {
+        border-radius: var(--radius-lg);
+        background: rgba(255, 255, 255, 0.56);
+        border: 1px solid rgba(31, 42, 42, 0.10);
+        box-shadow: 0 18px 55px rgba(31, 42, 42, 0.05);
+        padding: 16px;
+        position: relative;
+        overflow: hidden;
+        transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+      }
+
+      .feature-card::after {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        background: radial-gradient(360px 130px at 18% 0%, rgba(217, 123, 90, 0.16), transparent 58%),
+          radial-gradient(380px 160px at 95% 20%, rgba(123, 170, 142, 0.16), transparent 56%);
+        pointer-events: none;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-3px);
+        background: rgba(255, 255, 255, 0.68);
+        border-color: rgba(217, 123, 90, 0.20);
+      }
+
+      .feature-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 18px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 241, 216, 0.78);
+        border: 1px solid rgba(217, 123, 90, 0.2);
+        font-size: 22px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .feature-title {
+        margin: 12px 0 6px;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        position: relative;
+        z-index: 1;
+      }
+
+      .feature-desc {
+        margin: 0;
+        color: rgba(31, 42, 42, 0.82);
+        font-weight: 650;
+        line-height: 1.55;
+        font-size: 13px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-copy h1 {
+        margin: 0;
+        font-size: clamp(34px, 5.2vw, 56px);
+        line-height: 1.02;
+        letter-spacing: -0.05em;
+        font-weight: 900;
+      }
+
+      .hero-copy p {
+        margin: 10px 0 18px;
+        color: var(--muted);
+        font-size: clamp(14px, 1.8vw, 18px);
+        line-height: 1.55;
+        max-width: 46ch;
+      }
+
+      .highlight {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(255, 241, 216, 0.9);
+        border: 1px solid rgba(217, 123, 90, 0.18);
+        color: rgba(31, 42, 42, 0.92);
+        box-shadow: 0 16px 45px rgba(217, 123, 90, 0.12);
+        font-weight: 750;
+      }
+
+      .panel {
+        background: rgba(255, 255, 255, 0.52);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 16px;
+        backdrop-filter: blur(10px);
+      }
+
+      .uploader {
+        border-radius: var(--radius-md);
+        border: 1px dashed rgba(31, 42, 42, 0.25);
+        background: rgba(255, 255, 255, 0.55);
+        padding: 16px;
+        display: grid;
+        gap: 12px;
+        transition: transform 240ms ease, border-color 200ms ease, background 200ms ease;
+      }
+
+      .uploader.is-dragover {
+        border-color: rgba(217, 123, 90, 0.6);
+        background: rgba(255, 241, 216, 0.7);
+        transform: translateY(-2px);
+      }
+
+      .drop-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .drop-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, rgba(217, 123, 90, 0.22), rgba(123, 170, 142, 0.18));
+        border: 1px solid rgba(31, 42, 42, 0.12);
+        font-size: 20px;
+        flex: 0 0 auto;
+      }
+
+      .drop-text {
+        display: grid;
+        gap: 4px;
+      }
+
+      .drop-text strong {
+        font-size: 15px;
+      }
+
+      .drop-text span {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.35;
+      }
+
+      .upload-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        appearance: none;
+        border: 1px solid rgba(31, 42, 42, 0.14);
+        background: rgba(255, 255, 255, 0.6);
+        color: var(--text);
+        padding: 10px 14px;
+        border-radius: 14px;
+        font-weight: 750;
+        cursor: pointer;
+        transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 18px 55px rgba(31, 42, 42, 0.12);
+        border-color: rgba(217, 123, 90, 0.28);
+      }
+
+      .btn:active {
+        transform: translateY(0px);
+      }
+
+      .btn:focus-visible {
+        outline: 3px solid var(--focus);
+        outline-offset: 2px;
+      }
+
+      .btn-primary {
+        border-color: rgba(217, 123, 90, 0.35);
+        background: linear-gradient(135deg, rgba(217, 123, 90, 0.32), rgba(123, 170, 142, 0.22));
+      }
+
+      .btn[disabled] {
+        opacity: 0.65;
+        cursor: not-allowed;
+        box-shadow: none;
+        transform: none;
+      }
+
+      .preview-wrap {
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.52);
+        border: 1px solid var(--border);
+        overflow: hidden;
+        display: grid;
+        gap: 0;
+      }
+
+      .preview-header {
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        border-bottom: 1px solid rgba(31, 42, 42, 0.08);
+      }
+
+      .preview-header span {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 650;
+      }
+
+      .preview-img {
+        width: 100%;
+        height: auto;
+        display: block;
+        max-height: 310px;
+        object-fit: cover;
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .status-row {
+        min-height: 36px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--muted);
+        font-weight: 650;
+      }
+
+      .spinner {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2px solid rgba(31, 42, 42, 0.16);
+        border-top-color: rgba(217, 123, 90, 0.75);
+        animation: spin 900ms linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .pulse-dots {
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+      }
+
+      .pulse-dots i {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        display: inline-block;
+        background: rgba(31, 42, 42, 0.35);
+        animation: dot 1200ms ease-in-out infinite;
+      }
+
+      .pulse-dots i:nth-child(2) {
+        animation-delay: 200ms;
+      }
+
+      .pulse-dots i:nth-child(3) {
+        animation-delay: 400ms;
+      }
+
+      @keyframes dot {
+        0%,
+        100% {
+          transform: translateY(0);
+          opacity: 0.45;
+        }
+        50% {
+          transform: translateY(-3px);
+          opacity: 0.95;
+        }
+      }
+
+      .error {
+        border-radius: 16px;
+        background: rgba(217, 123, 90, 0.12);
+        border: 1px solid rgba(217, 123, 90, 0.25);
+        padding: 12px 12px;
+        color: rgba(31, 42, 42, 0.92);
+        font-weight: 650;
+        display: none;
+      }
+
+      .results {
+        display: grid;
+        gap: 14px;
+        padding: 18px 0 0;
+      }
+
+      .results-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .results-head h2 {
+        margin: 0;
+        font-size: clamp(20px, 2.8vw, 26px);
+        letter-spacing: -0.02em;
+      }
+
+      .results-head .hint {
+        color: var(--muted);
+        font-weight: 650;
+        font-size: 13px;
+      }
+
+      .tips-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .tip-card {
+        position: relative;
+        background: rgba(255, 255, 255, 0.65);
+        border: 1px solid rgba(31, 42, 42, 0.12);
+        border-radius: 18px;
+        padding: 14px 14px 14px 14px;
+        overflow: hidden;
+        box-shadow: 0 18px 55px rgba(31, 42, 42, 0.06);
+        transform: translateY(6px);
+        opacity: 0;
+        animation: pop-in 420ms ease forwards;
+      }
+
+      @keyframes pop-in {
+        to {
+          transform: translateY(0px);
+          opacity: 1;
+        }
+      }
+
+      .tip-card::after {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        background: radial-gradient(260px 120px at 20% 0%, rgba(217, 123, 90, 0.18), transparent 55%),
+          radial-gradient(280px 140px at 95% 20%, rgba(123, 170, 142, 0.18), transparent 55%);
+        pointer-events: none;
+      }
+
+      .tip-row {
+        position: relative;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .tip-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 241, 216, 0.75);
+        border: 1px solid rgba(217, 123, 90, 0.2);
+        font-size: 22px;
+        flex: 0 0 auto;
+      }
+
+      .tip-num {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        width: 54px;
+        height: 54px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.65);
+        border: 1px solid rgba(31, 42, 42, 0.12);
+        display: grid;
+        place-items: center;
+        color: rgba(31, 42, 42, 0.5);
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        transform: rotate(8deg);
+      }
+
+      .tip-text {
+        position: relative;
+        display: grid;
+        gap: 6px;
+      }
+
+      .tip-text strong {
+        font-size: 14px;
+        letter-spacing: -0.01em;
+      }
+
+      .tip-text span {
+        color: rgba(31, 42, 42, 0.85);
+        line-height: 1.5;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .footer {
+        color: rgba(31, 42, 42, 0.55);
+        font-weight: 650;
+        padding: 0 18px 22px;
+        max-width: 1100px;
+        margin: 0 auto;
+        width: 100%;
+        font-size: 12px;
+      }
+
+      @media (max-width: 920px) {
+        .nav-inner {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+
+        .nav-actions .btn {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .hero-inner {
+          grid-template-columns: 1fr;
+        }
+
+        .features-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .tips-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .tip-card {
+          animation: none;
+          opacity: 1;
+          transform: none;
+        }
+        .spinner {
+          animation: none;
+        }
+        .pulse-dots i {
+          animation: none;
+        }
+        .btn {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <nav class="nav">
+        <div class="nav-inner">
+          <a class="brand" href="#home" aria-label="RoomGlow Home">
+            <div class="brand-badge">✦</div>
+            <div class="brand-title">RoomGlow</div>
+          </a>
+          <div class="nav-actions">
+            <button id="tryFreeButton" class="btn btn-primary" type="button">
+              Try it free
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container">
+        <section id="home" class="hero">
+          <div class="hero-inner">
+            <div class="hero-copy">
+              <h1>
+                RoomGlow
+                <span class="highlight">Aesthetic tips in seconds</span>
+              </h1>
+              <p>
+                Upload a photo. Get your perfect aesthetic. RoomGlow turns what you
+                already have into a warm, cohesive, designer-worthy space.
+              </p>
+
+              <div class="panel">
+                <div
+                  id="dropZone"
+                  class="uploader"
+                  role="button"
+                  tabindex="0"
+                  aria-label="Upload a photo"
+                >
+                  <div class="drop-row">
+                    <div class="drop-icon">📷</div>
+                    <div class="drop-text">
+                      <strong>Drag & drop your space</strong>
+                      <span>or click to choose an image (JPG, PNG, WEBP).</span>
+                    </div>
+                  </div>
+                  <div class="upload-actions">
+                    <button id="chooseButton" class="btn" type="button">
+                      Choose photo
+                    </button>
+                    <input id="fileInput" type="file" accept="image/*" hidden />
+                    <button id="analyzeButton" class="btn btn-primary" type="button" disabled>
+                      <span id="analyzeIcon" aria-hidden="true">✨</span>
+                      Analyze
+                    </button>
+                  </div>
+
+                  <div class="status-row" aria-live="polite">
+                    <div id="loadingRow" style="display: none; align-items: center; gap: 12px;">
+                      <div class="spinner" aria-hidden="true"></div>
+                      <div>
+                        <div style="font-weight: 800; color: rgba(31, 42, 42, 0.72);">Thinking</div>
+                        <div class="pulse-dots" aria-hidden="true">
+                          <i></i><i></i><i></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="errorBox" class="error"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel" style="display: grid; gap: 14px; align-content: start;">
+              <div class="preview-wrap">
+                <div class="preview-header">
+                  <span>Preview</span>
+                  <span id="fileMeta" style="color: rgba(31, 42, 42, 0.55); font-weight: 700;">No photo yet</span>
+                </div>
+                <img id="previewImage" class="preview-img" alt="Uploaded preview" style="display: none;" />
+              </div>
+
+              <div style="color: rgba(31, 42, 42, 0.62); font-weight: 700; font-size: 13px; line-height: 1.5;">
+                Tip: try a well-lit shot of your room corner. The more details you show, the more actionable the tips.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="features" class="features">
+          <div class="features-head">
+            <h2>Everything you need to glow</h2>
+            <p>Simple steps, expert guidance, and ideas that work with the space you already have.</p>
+          </div>
+
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon" aria-hidden="true">⚡</div>
+              <div class="feature-title">Instant Analysis</div>
+              <p class="feature-desc">Upload a photo and get recommendations right away.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon" aria-hidden="true">🧠</div>
+              <div class="feature-title">Expert AI Tips</div>
+              <p class="feature-desc">Friendly, specific improvements you can actually do.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon" aria-hidden="true">🏡</div>
+              <div class="feature-title">Any Room Type</div>
+              <p class="feature-desc">Works for living rooms, desks, closets, and more.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="resultsSection" class="results" style="display: none;">
+          <div class="results-head">
+            <h2>Your 5 RoomGlow tips</h2>
+            <div class="hint">Actionable ideas tailored to what the photo shows.</div>
+          </div>
+          <div id="tipsGrid" class="tips-grid"></div>
+        </section>
+      </div>
+
+      <footer class="footer">
+        <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+          <span style="font-weight: 900; color: rgba(31, 42, 42, 0.7);">RoomGlow</span>
+          <span>© <span id="year"></span> RoomGlow. All rights reserved.</span>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      const BACKEND_URL = "http://localhost:5000/analyze";
+
+      const dropZone = document.getElementById("dropZone");
+      const chooseButton = document.getElementById("chooseButton");
+      const fileInput = document.getElementById("fileInput");
+      const analyzeButton = document.getElementById("analyzeButton");
+      const previewImage = document.getElementById("previewImage");
+      const fileMeta = document.getElementById("fileMeta");
+      const resultsSection = document.getElementById("resultsSection");
+      const tipsGrid = document.getElementById("tipsGrid");
+      const loadingRow = document.getElementById("loadingRow");
+      const errorBox = document.getElementById("errorBox");
+      const tryFreeButton = document.getElementById("tryFreeButton");
+
+      let currentBase64 = null;
+      let currentMime = "image/jpeg";
+      let currentFile = null;
+
+      const MAX_BYTES = 20 * 1024 * 1024; // keep consistent with typical vision limits
+
+      function setError(message) {
+        errorBox.style.display = "block";
+        errorBox.textContent = message;
+      }
+
+      function clearError() {
+        errorBox.style.display = "none";
+        errorBox.textContent = "";
+      }
+
+      function setLoading(isLoading) {
+        loadingRow.style.display = isLoading ? "flex" : "none";
+        analyzeButton.disabled = !currentBase64 || isLoading;
+        chooseButton.disabled = isLoading;
+      }
+
+      function resetResults() {
+        tipsGrid.innerHTML = "";
+        resultsSection.style.display = "none";
+      }
+
+      function setPreview(dataUrl) {
+        previewImage.src = dataUrl;
+        previewImage.style.display = "block";
+      }
+
+      async function fileToBase64(file) {
+        const dataUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(new Error("Failed to read file"));
+          reader.readAsDataURL(file);
+        });
+
+        const result = String(dataUrl);
+        const commaIdx = result.indexOf(",");
+        const base64 = commaIdx >= 0 ? result.slice(commaIdx + 1) : result;
+        return base64;
+      }
+
+      function formatBytes(bytes) {
+        if (!Number.isFinite(bytes)) return "";
+        const units = ["B", "KB", "MB", "GB"];
+        let i = 0;
+        let v = bytes;
+        while (v >= 1024 && i < units.length - 1) {
+          v /= 1024;
+          i++;
+        }
+        return `${v.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
+      }
+
+      function handleFile(file) {
+        clearError();
+
+        if (!file || !file.type || !file.type.startsWith("image/")) {
+          setError("Please upload a valid image file.");
+          return;
+        }
+        if (file.size > MAX_BYTES) {
+          setError("That image is a bit large. Please choose an image under 20MB.");
+          return;
+        }
+
+        currentFile = file;
+        currentMime = file.type || "image/jpeg";
+        analyzeButton.disabled = true;
+        resetResults();
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          const dataUrl = String(reader.result || "");
+          setPreview(dataUrl);
+          fileMeta.textContent = `${file.name} • ${formatBytes(file.size)}`;
+        };
+        reader.readAsDataURL(file);
+
+        fileToBase64(file)
+          .then((b64) => {
+            currentBase64 = b64;
+            analyzeButton.disabled = false;
+          })
+          .catch(() => {
+            currentBase64 = null;
+            analyzeButton.disabled = true;
+            setError("Could not process that image. Please try another one.");
+          });
+      }
+
+      chooseButton.addEventListener("click", () => fileInput.click());
+      dropZone.addEventListener("click", (e) => {
+        const targetTag = (e.target && e.target.tagName ? e.target.tagName.toLowerCase() : "");
+        if (targetTag === "button") return;
+        fileInput.click();
+      });
+
+      dropZone.addEventListener("dragenter", (e) => {
+        e.preventDefault();
+        dropZone.classList.add("is-dragover");
+      });
+      dropZone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropZone.classList.add("is-dragover");
+      });
+      dropZone.addEventListener("dragleave", () => dropZone.classList.remove("is-dragover"));
+      dropZone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropZone.classList.remove("is-dragover");
+        const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        handleFile(file);
+      });
+
+      fileInput.addEventListener("change", () => {
+        const file = fileInput.files && fileInput.files[0];
+        handleFile(file);
+      });
+
+      function renderTips(tips) {
+        tipsGrid.innerHTML = "";
+        tips.forEach((item, idx) => {
+          const tip = item && typeof item.tip === "string" ? item.tip.trim() : "Tip coming soon...";
+          const icon = item && typeof item.icon === "string" && item.icon.trim() ? item.icon.trim() : "✨";
+
+          const card = document.createElement("div");
+          card.className = "tip-card";
+          card.style.animationDelay = `${idx * 70}ms`;
+
+          const num = idx + 1;
+          card.innerHTML = `
+            <div class="tip-num">${num}</div>
+            <div class="tip-row">
+              <div class="tip-icon" aria-hidden="true">${icon}</div>
+              <div class="tip-text">
+                <strong>Tip ${num}</strong>
+                <span>${escapeHtml(tip)}</span>
+              </div>
+            </div>
+          `;
+          tipsGrid.appendChild(card);
+        });
+      }
+
+      function escapeHtml(s) {
+        return String(s)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      async function analyze() {
+        if (!currentBase64) {
+          setError("Please upload a photo first.");
+          return;
+        }
+
+        clearError();
+        setLoading(true);
+        resultsSection.style.display = "none";
+
+        try {
+          const res = await fetch(BACKEND_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ image: currentBase64, mime: currentMime })
+          });
+
+          if (!res.ok) {
+            let message = `Request failed (${res.status}).`;
+            try {
+              const err = await res.json();
+              if (err && err.error) message = err.error;
+            } catch (_) {}
+            throw new Error(message);
+          }
+
+          const tips = await res.json();
+          if (!Array.isArray(tips) || tips.length !== 5) {
+            throw new Error("The server returned unexpected results. Please try again.");
+          }
+
+          renderTips(tips);
+          resultsSection.style.display = "grid";
+        } catch (err) {
+          const msg = err && err.message ? err.message : "Something went wrong. Please try again.";
+          setError(msg);
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      analyzeButton.addEventListener("click", analyze);
+      document.addEventListener("keydown", (e) => {
+        if ((e.key || "") === "Enter" && document.activeElement === dropZone) {
+          fileInput.click();
+        }
+      });
+
+      // Small premium touch: CTA jumps to the upload area and the footer year stays current.
+      if (tryFreeButton) {
+        tryFreeButton.addEventListener("click", () => {
+          dropZone.scrollIntoView({ behavior: "smooth", block: "center" });
+          fileInput.focus?.();
+        });
+      }
+      const yearEl = document.getElementById("year");
+      if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+    </script>
+  </body>
+</html>
+
