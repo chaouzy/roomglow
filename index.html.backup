@@ -390,40 +390,6 @@
     }
     .rg-hint { color: var(--muted); margin-top: 0.75rem; font-size: 15px; }
 
-    /* Score breakdown bars */
-    .rg-score-breakdown {
-      width: 100%; max-width: 480px; margin: 1.5rem auto 0;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.25rem 1.5rem;
-      box-shadow: var(--shadow);
-    }
-    .rg-breakdown-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 1rem; }
-    .rg-breakdown-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.65rem; }
-    .rg-breakdown-row:last-child { margin-bottom: 0; }
-    .rg-breakdown-label { font-size: 12px; color: var(--muted); width: 130px; flex-shrink: 0; }
-    .rg-breakdown-bar-wrap { flex: 1; background: #1a1a1a; border-radius: 100px; height: 7px; overflow: hidden; }
-    .rg-breakdown-bar { height: 100%; border-radius: 100px; background: var(--grad); width: 0%; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
-    .rg-breakdown-val { font-size: 12px; font-weight: 700; color: var(--gold); width: 28px; text-align: right; flex-shrink: 0; }
-
-    /* What's working */
-    .rg-whats-working {
-      margin: 1.5rem 0;
-      background: rgba(76, 175, 80, 0.08);
-      border: 1px solid rgba(76, 175, 80, 0.3);
-      border-radius: var(--radius);
-      padding: 1.1rem 1.25rem;
-      display: flex; gap: 0.75rem; align-items: flex-start;
-    }
-    .rg-whats-working-icon { font-size: 1.25rem; flex-shrink: 0; margin-top: 1px; }
-    .rg-whats-working-text { font-size: 14px; line-height: 1.6; color: #b9f5bb; }
-    .rg-whats-working-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--success); margin-bottom: 0.3rem; }
-
-    /* Style description */
-    .rg-style-desc {
-      font-size: 14px; color: var(--muted); text-align: center;
-      max-width: 480px; margin: 0.5rem auto 0; line-height: 1.6;
-    }
-
     .rg-tip-list { display: flex; flex-direction: column; gap: 1rem; }
     .rg-tip-card {
       background: var(--surface);
@@ -438,68 +404,20 @@
       opacity: 0;
       transform: translateY(18px);
       animation: tipIn 0.45s ease forwards;
-      position: relative;
     }
     @keyframes tipIn { to { opacity: 1; transform: translateY(0); } }
-    .rg-tip-card .rg-cat { grid-column: 1 / -1; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-    .rg-tip-title { font-size: 15px; font-weight: 700; margin-bottom: 0.35rem; }
+    .rg-tip-card .rg-cat { grid-column: 1 / -1; }
     .rg-tip-icon {
       width: 52px; height: 52px; border-radius: 50%;
       background: rgba(240, 165, 0, 0.12); border: 1px solid rgba(240, 165, 0, 0.35);
       display: grid; place-items: center; font-size: 24px;
     }
     .rg-cat-pill { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); background: #1a1a1a; padding: 0.25rem 0.6rem; border-radius: var(--pill); border: 1px solid var(--border); }
-    .rg-diff-pill {
-      display: inline-block; font-size: 11px; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: var(--pill);
-    }
-    .rg-diff-pill.easy { background: rgba(76,175,80,0.15); color: #4caf50; border: 1px solid rgba(76,175,80,0.3); }
-    .rg-diff-pill.medium { background: rgba(251,192,45,0.15); color: #fbc02d; border: 1px solid rgba(251,192,45,0.3); }
-    .rg-diff-pill.hard { background: rgba(229,57,53,0.15); color: #e53935; border: 1px solid rgba(229,57,53,0.3); }
-    .rg-boost-pill {
-      display: inline-block; font-size: 11px; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: var(--pill);
-      background: rgba(240,165,0,0.12); color: var(--gold); border: 1px solid rgba(240,165,0,0.3);
-    }
-    .rg-tip-text { font-size: 14px; line-height: 1.6; color: var(--muted); }
-    .rg-product-box {
-      margin-top: 0.75rem;
-      background: #161616;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.75rem 1rem;
-      display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;
-    }
-    .rg-product-info { flex: 1; min-width: 0; }
-    .rg-product-name { font-size: 13px; font-weight: 700; margin-bottom: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .rg-product-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
-    .rg-product-price { font-size: 13px; font-weight: 700; color: var(--gold); white-space: nowrap; }
+    .rg-tip-text { font-size: 15px; line-height: 1.55; }
     .rg-shop-btn {
-      display: inline-flex; align-items: center; gap: 0.35rem;
+      margin-top: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;
       background: transparent; color: var(--gold); border: 1px solid rgba(240, 165, 0, 0.5);
       padding: 0.45rem 0.9rem; border-radius: var(--pill); font-weight: 700; font-size: 13px; cursor: pointer;
-      white-space: nowrap;
-    }
-
-    /* Pro blur lock on tips 4 & 5 */
-    .rg-tip-card.rg-pro-locked {
-      position: relative; overflow: hidden; user-select: none;
-    }
-    .rg-tip-card.rg-pro-locked > *:not(.rg-pro-overlay) {
-      filter: blur(5px); pointer-events: none;
-    }
-    .rg-pro-overlay {
-      position: absolute; inset: 0;
-      background: rgba(10,10,10,0.65);
-      backdrop-filter: blur(2px);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 0.5rem; z-index: 10; border-radius: var(--radius);
-    }
-    .rg-pro-overlay-icon { font-size: 1.75rem; }
-    .rg-pro-overlay-text { font-size: 14px; font-weight: 700; color: var(--text); }
-    .rg-pro-overlay-sub { font-size: 12px; color: var(--muted); }
-    .rg-pro-overlay-btn {
-      margin-top: 0.25rem;
-      background: var(--grad); color: #0a0a0a; font-weight: 800;
-      padding: 0.55rem 1.25rem; border-radius: var(--pill); border: none; cursor: pointer; font-size: 13px;
     }
 
     .rg-share-card {
@@ -893,43 +811,7 @@
               <span id="rgScoreNum">0</span>
             </div>
             <div class="rg-style-pill" id="rgStylePill">✨ Style</div>
-            <p class="rg-style-desc" id="rgStyleDesc"></p>
-            <div class="rg-score-breakdown" id="rgScoreBreakdown" style="display:none;">
-              <div class="rg-breakdown-title">Score Breakdown</div>
-              <div class="rg-breakdown-row">
-                <span class="rg-breakdown-label">💡 Lighting</span>
-                <div class="rg-breakdown-bar-wrap"><div class="rg-breakdown-bar" id="rgBarLighting"></div></div>
-                <span class="rg-breakdown-val" id="rgValLighting">0</span>
-              </div>
-              <div class="rg-breakdown-row">
-                <span class="rg-breakdown-label">🎨 Color Harmony</span>
-                <div class="rg-breakdown-bar-wrap"><div class="rg-breakdown-bar" id="rgBarColor"></div></div>
-                <span class="rg-breakdown-val" id="rgValColor">0</span>
-              </div>
-              <div class="rg-breakdown-row">
-                <span class="rg-breakdown-label">🛋️ Furniture Layout</span>
-                <div class="rg-breakdown-bar-wrap"><div class="rg-breakdown-bar" id="rgBarFurniture"></div></div>
-                <span class="rg-breakdown-val" id="rgValFurniture">0</span>
-              </div>
-              <div class="rg-breakdown-row">
-                <span class="rg-breakdown-label">✨ Decor &amp; Personality</span>
-                <div class="rg-breakdown-bar-wrap"><div class="rg-breakdown-bar" id="rgBarDecor"></div></div>
-                <span class="rg-breakdown-val" id="rgValDecor">0</span>
-              </div>
-              <div class="rg-breakdown-row">
-                <span class="rg-breakdown-label">🧹 Organization</span>
-                <div class="rg-breakdown-bar-wrap"><div class="rg-breakdown-bar" id="rgBarOrg"></div></div>
-                <span class="rg-breakdown-val" id="rgValOrg">0</span>
-              </div>
-            </div>
             <p class="rg-hint">Here's how to improve your space:</p>
-          </div>
-          <div class="rg-whats-working" id="rgWhatsWorking" style="display:none;">
-            <span class="rg-whats-working-icon">✅</span>
-            <div>
-              <div class="rg-whats-working-label">What's Already Working</div>
-              <p class="rg-whats-working-text" id="rgWhatsWorkingText"></p>
-            </div>
           </div>
           <div class="rg-tip-list" id="rgTipList"></div>
 
@@ -1463,24 +1345,6 @@
         if (f) handleFile(f);
       });
 
-      const proModal = $("rgProModal");
-      const openPro = () => {
-        if (!proModal) return;
-        proModal.classList.add("open");
-        proModal.setAttribute("aria-hidden", "false");
-        const th = $("rgProThanks");
-        const fm = $("rgProForm");
-        if (th) th.style.display = "none";
-        if (fm) fm.style.display = "";
-        const em = $("rgProEmail");
-        if (em) em.value = "";
-      };
-      const closePro = () => {
-        if (!proModal) return;
-        proModal.classList.remove("open");
-        proModal.setAttribute("aria-hidden", "true");
-      };
-
       function scoreColor(score) {
         if (score <= 40) return "#e53935";
         if (score <= 70) return "#fbc02d";
@@ -1507,62 +1371,27 @@
         const list = Array.isArray(tips) ? tips.slice(0, 5) : [];
         while (list.length < 5) {
           list.push({
-            title: "Refine Your Space",
             icon: "✨",
-            category: "Decor",
-            difficulty: "Easy",
-            estimated_score_boost: 5,
+            category: "Tip",
             tip: "Keep refining your space — small changes add up.",
-            product_name: "room decor",
-            product_description: "A simple accent that elevates your space.",
-            product_price_range: "$20-40",
-            product_search_url: "https://www.amazon.com/s?k=room+decor&tag=technova050-20",
+            product_search_url: "https://www.amazon.com/s?k=room+decor",
           });
         }
         list.forEach((tip, i) => {
-          const isLocked = i >= 3;
           const card = document.createElement("div");
-          card.className = "rg-tip-card rg-interactive" + (isLocked ? " rg-pro-locked" : "");
-          card.style.animationDelay = i * 180 + "ms";
-
+          card.className = "rg-tip-card rg-interactive";
+          card.style.animationDelay = i * 200 + "ms";
           const icon = escapeHtml(tip.icon || "✨");
-          const cat = escapeHtml(tip.category || "Decor");
-          const title = escapeHtml(tip.title || "Improve Your Space");
+          const cat = escapeHtml(tip.category || "Tip");
           const txt = escapeHtml(tip.tip || "Personalize this corner of your room.");
-          const diff = escapeHtml(tip.difficulty || "Medium");
-          const diffClass = diff.toLowerCase();
-          const boost = parseInt(tip.estimated_score_boost, 10) || 5;
-          const prodName = escapeHtml(tip.product_name || "Room Decor");
-          const prodDesc = escapeHtml(tip.product_description || "");
-          const prodPrice = escapeHtml(tip.product_price_range || "$20-40");
           const tagged = withAmazonTag(tip.product_search_url || "https://www.amazon.com/s?k=room+decor");
-
           card.innerHTML = `
-            <div class="rg-cat">
-              <span class="rg-cat-pill">${cat}</span>
-              <span class="rg-diff-pill ${diffClass}">${diff}</span>
-              <span class="rg-boost-pill">+${boost} pts</span>
-            </div>
+            <div class="rg-cat"><span class="rg-cat-pill">${cat}</span></div>
             <div class="rg-tip-icon">${icon}</div>
             <div>
-              <p class="rg-tip-title">${title}</p>
               <p class="rg-tip-text">${txt}</p>
-              <div class="rg-product-box">
-                <div class="rg-product-info">
-                  <div class="rg-product-name">🛍️ ${prodName}</div>
-                  ${prodDesc ? `<div class="rg-product-desc">${prodDesc}</div>` : ""}
-                </div>
-                <span class="rg-product-price">${prodPrice}</span>
-                <button type="button" class="rg-shop-btn" data-url="${escapeAttr(tagged)}">Shop →</button>
-              </div>
+              <button type="button" class="rg-shop-btn" data-url="${escapeAttr(tagged)}">Shop This →</button>
             </div>
-            ${isLocked ? `
-            <div class="rg-pro-overlay">
-              <span class="rg-pro-overlay-icon">🔒</span>
-              <span class="rg-pro-overlay-text">Pro Tip ${i + 1}</span>
-              <span class="rg-pro-overlay-sub">Unlock with Pro plan</span>
-              <button type="button" class="rg-pro-overlay-btn" id="rgUpgradePro">Upgrade to Pro →</button>
-            </div>` : ""}
           `;
           tipList.appendChild(card);
         });
@@ -1571,30 +1400,6 @@
             const u = withAmazonTag(btn.dataset.url);
             window.open(u, "_blank", "noopener,noreferrer");
           });
-        });
-        tipList.querySelectorAll(".rg-pro-overlay-btn").forEach((btn) => {
-          btn.addEventListener("click", openPro);
-        });
-      }
-
-      function renderBreakdown(breakdown) {
-        if (!breakdown || typeof breakdown !== "object") return;
-        const bd = $("rgScoreBreakdown");
-        if (bd) bd.style.display = "";
-
-        const bars = [
-          { bar: "rgBarLighting",  val: "rgValLighting",  key: "lighting" },
-          { bar: "rgBarColor",     val: "rgValColor",     key: "color_harmony" },
-          { bar: "rgBarFurniture", val: "rgValFurniture", key: "furniture_arrangement" },
-          { bar: "rgBarDecor",     val: "rgValDecor",     key: "decor_personality" },
-          { bar: "rgBarOrg",       val: "rgValOrg",       key: "cleanliness_organization" },
-        ];
-        bars.forEach(({ bar, val, key }) => {
-          const v = Math.max(0, Math.min(20, parseInt(breakdown[key], 10) || 0));
-          const barEl = $(bar);
-          const valEl = $(val);
-          if (barEl) setTimeout(() => { barEl.style.width = (v / 20 * 100) + "%"; }, 300);
-          if (valEl) valEl.textContent = v;
         });
       }
 
@@ -1640,25 +1445,9 @@
           lastStyle = String(data.style || "Your Style").trim() || "Your Style";
           scoreRing.style.setProperty("--ring-color", scoreColor(lastScore));
           stylePill.textContent = "✨ " + lastStyle;
-
-          // Style description
-          const styleDescEl = $("rgStyleDesc");
-          if (styleDescEl) styleDescEl.textContent = data.style_description || "";
-
-          // What's working
-          const whatsWorkingEl = $("rgWhatsWorking");
-          const whatsWorkingText = $("rgWhatsWorkingText");
-          if (data.whats_working && whatsWorkingEl && whatsWorkingText) {
-            whatsWorkingText.textContent = data.whats_working;
-            whatsWorkingEl.style.display = "";
-          } else if (whatsWorkingEl) {
-            whatsWorkingEl.style.display = "none";
-          }
-
           if (shareSummary) shareSummary.textContent = "Score " + lastScore + "/100 · " + lastStyle;
           results.classList.add("visible");
           animateScore(lastScore);
-          renderBreakdown(data.score_breakdown);
           renderTips(data.tips);
           scrollToEl(results);
         } catch (e) {
@@ -1681,12 +1470,6 @@
         placeholder.classList.remove("hidden");
         previewWrap.classList.remove("visible");
         analyzeBtn.disabled = true;
-        const bd = $("rgScoreBreakdown");
-        if (bd) bd.style.display = "none";
-        const ww = $("rgWhatsWorking");
-        if (ww) ww.style.display = "none";
-        const sd = $("rgStyleDesc");
-        if (sd) sd.textContent = "";
         scrollToAnalyze();
       });
 
@@ -1848,6 +1631,23 @@
         } catch (_) {}
       });
 
+      const proModal = $("rgProModal");
+      const openPro = () => {
+        if (!proModal) return;
+        proModal.classList.add("open");
+        proModal.setAttribute("aria-hidden", "false");
+        const th = $("rgProThanks");
+        const fm = $("rgProForm");
+        if (th) th.style.display = "none";
+        if (fm) fm.style.display = "";
+        const em = $("rgProEmail");
+        if (em) em.value = "";
+      };
+      const closePro = () => {
+        if (!proModal) return;
+        proModal.classList.remove("open");
+        proModal.setAttribute("aria-hidden", "true");
+      };
       $("rgUpgradePro")?.addEventListener("click", openPro);
       $("rgProModalClose")?.addEventListener("click", closePro);
       $("rgProModalBackdrop")?.addEventListener("click", closePro);
