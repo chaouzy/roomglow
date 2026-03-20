@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RoomGlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600;700;900&display=swap" rel="stylesheet" />
     <style>
       :root {
         --bg0: #fff7e8;
@@ -642,21 +645,782 @@
           transition: none;
         }
       }
+
+      /* --- Premium SaaS Overrides --- */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: #fafaf8;
+        color: #1a1a1a;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+        background-image: radial-gradient(950px 520px at 18% 0%, rgba(196, 98, 45, 0.10), transparent 58%),
+          radial-gradient(820px 460px at 90% 10%, rgba(143, 175, 143, 0.12), transparent 54%),
+          linear-gradient(180deg, #fafaf8, #fbfbfa);
+      }
+
+      .shell {
+        animation: pageFadeIn 700ms ease both;
+      }
+
+      @keyframes pageFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0px);
+        }
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        padding: 14px 18px;
+        background: rgba(250, 250, 248, 0.55);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(26, 26, 26, 0.06);
+        transition: background 200ms ease, border-color 200ms ease;
+      }
+
+      .nav.scrolled {
+        background: rgba(250, 250, 248, 0.82);
+        border-bottom-color: rgba(26, 26, 26, 0.10);
+      }
+
+      .brand-badge {
+        border-radius: 16px;
+        box-shadow: 0 14px 40px rgba(196, 98, 45, 0.16);
+      }
+
+      .brand-title {
+        font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+      }
+
+      .btn {
+        font-family: Inter, ui-sans-serif, system-ui;
+      }
+
+      .btn-primary {
+        background: linear-gradient(180deg, rgba(196, 98, 45, 0.95), rgba(196, 98, 45, 0.88));
+        border: 1px solid rgba(196, 98, 45, 0.55);
+        color: #ffffff;
+        box-shadow: 0 18px 50px rgba(196, 98, 45, 0.18);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px) scale(1.01);
+      }
+
+      /* Hero */
+      .hero {
+        min-height: 100vh;
+        display: grid;
+        align-items: center;
+        margin-top: 0;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        padding: 56px 18px 28px;
+      }
+
+      .hero-copy {
+        text-align: center;
+        padding: 0;
+        width: 100%;
+      }
+
+      .hero-copy h1 {
+        font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+        font-size: clamp(38px, 5.2vw, 68px);
+        line-height: 1.03;
+        margin: 0 auto;
+        max-width: 22ch;
+        letter-spacing: -0.04em;
+      }
+
+      .hero-copy p {
+        margin: 14px auto 28px;
+        max-width: 56ch;
+        font-size: clamp(14px, 2vw, 18px);
+        color: rgba(26, 26, 26, 0.72);
+      }
+
+      /* Upload */
+      .uploadSection {
+        padding: 20px 0 10px;
+      }
+
+      .uploadCard {
+        background: #ffffff;
+        border: 1px solid rgba(26, 26, 26, 0.08);
+        border-radius: 24px;
+        box-shadow: 0 22px 70px rgba(26, 26, 26, 0.06);
+        padding: 20px;
+      }
+
+      .uploadInner {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 16px;
+        align-items: start;
+      }
+
+      .dropzone {
+        border-radius: 18px;
+        border: 1px dashed rgba(196, 98, 45, 0.45);
+        background: linear-gradient(180deg, rgba(250, 250, 248, 0.8), rgba(250, 250, 248, 0.6));
+        padding: 18px;
+        transition: box-shadow 200ms ease, border-color 200ms ease, transform 200ms ease;
+      }
+
+      .dropzone.is-dragover {
+        border-color: rgba(196, 98, 45, 0.9);
+        box-shadow: 0 0 0 6px rgba(196, 98, 45, 0.10), 0 20px 60px rgba(196, 98, 45, 0.12);
+        transform: translateY(-2px);
+      }
+
+      .uploadAnalyzeRow {
+        margin-top: 12px;
+      }
+
+      .analyzeFull {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 18px;
+        font-weight: 900;
+        letter-spacing: -0.01em;
+        font-size: 16px;
+      }
+
+      .loadingText {
+        font-weight: 800;
+        color: rgba(26, 26, 26, 0.78);
+      }
+
+      .pulsingDots i {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(196, 98, 45, 0.55);
+        display: inline-block;
+        animation: dotPulse 1100ms ease-in-out infinite;
+      }
+
+      .pulsingDots i:nth-child(2) {
+        animation-delay: 160ms;
+      }
+
+      .pulsingDots i:nth-child(3) {
+        animation-delay: 320ms;
+      }
+
+      @keyframes dotPulse {
+        0%,
+        100% {
+          transform: translateY(0);
+          opacity: 0.45;
+        }
+        50% {
+          transform: translateY(-4px);
+          opacity: 1;
+        }
+      }
+
+      /* Preview */
+      .previewCard {
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid rgba(26, 26, 26, 0.08);
+        background: #fff;
+      }
+
+      .previewHeader {
+        padding: 10px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(26, 26, 26, 0.06);
+        color: rgba(26, 26, 26, 0.62);
+        font-weight: 700;
+        font-size: 13px;
+      }
+
+      .previewImg {
+        width: 100%;
+        height: auto;
+        display: block;
+        max-height: 420px;
+        object-fit: cover;
+        background: rgba(26, 26, 26, 0.02);
+      }
+
+      .sectionHead {
+        margin-top: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: center;
+        text-align: center;
+      }
+
+      .sectionHead h2 {
+        font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+        font-size: clamp(24px, 2.8vw, 34px);
+        letter-spacing: -0.03em;
+        margin: 0;
+      }
+
+      .sectionHead p {
+        margin: 0;
+        color: rgba(26, 26, 26, 0.7);
+        font-weight: 650;
+        max-width: 62ch;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      /* Features row */
+      .featuresSection {
+        padding: 26px 0 0;
+      }
+
+      .featuresGrid {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .featureCard {
+        background: #ffffff;
+        border: 1px solid rgba(26, 26, 26, 0.08);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 18px 60px rgba(26, 26, 26, 0.05);
+        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .featureCard::after {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        background: radial-gradient(350px 120px at 20% 0%, rgba(196, 98, 45, 0.14), transparent 60%),
+          radial-gradient(340px 140px at 95% 15%, rgba(143, 175, 143, 0.14), transparent 58%);
+        opacity: 0.55;
+        pointer-events: none;
+      }
+
+      .featureCard:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 22px 70px rgba(26, 26, 26, 0.08);
+        border-color: rgba(196, 98, 45, 0.22);
+      }
+
+      .featureIcon {
+        width: 44px;
+        height: 44px;
+        border-radius: 16px;
+        background: rgba(196, 98, 45, 0.08);
+        border: 1px solid rgba(196, 98, 45, 0.22);
+        display: grid;
+        place-items: center;
+        font-size: 22px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .featureTitle {
+        position: relative;
+        z-index: 1;
+        margin-top: 12px;
+        font-weight: 950;
+        letter-spacing: -0.02em;
+      }
+
+      .featureDesc {
+        position: relative;
+        z-index: 1;
+        margin-top: 6px;
+        color: rgba(26, 26, 26, 0.74);
+        font-weight: 650;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      /* How it works */
+      .howSection {
+        padding: 26px 0 0;
+      }
+
+      .howRow {
+        margin-top: 16px;
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: nowrap;
+      }
+
+      .stepBlock {
+        min-width: 0;
+        flex: 1 1 0;
+        background: #ffffff;
+        border: 1px solid rgba(26, 26, 26, 0.08);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 18px 60px rgba(26, 26, 26, 0.05);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stepNum {
+        font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+        font-weight: 950;
+        font-size: 44px;
+        line-height: 1;
+        color: rgba(196, 98, 45, 0.32);
+        letter-spacing: -0.04em;
+      }
+
+      .stepTitle {
+        margin-top: 10px;
+        font-weight: 950;
+        letter-spacing: -0.02em;
+      }
+
+      .stepDesc {
+        margin-top: 6px;
+        color: rgba(26, 26, 26, 0.72);
+        font-weight: 650;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .stepConnector {
+        height: 2px;
+        flex: 0 0 34px;
+        background: linear-gradient(90deg, rgba(196, 98, 45, 0.45), rgba(143, 175, 143, 0.35));
+        border-radius: 999px;
+      }
+
+      /* Results */
+      .resultsSection {
+        padding: 28px 0 0;
+      }
+
+      .tipsGrid {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .tipCard {
+        background: #ffffff;
+        border: 1px solid rgba(26, 26, 26, 0.08);
+        border-radius: 18px;
+        padding: 16px;
+        box-shadow: 0 18px 60px rgba(26, 26, 26, 0.05);
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        opacity: 0;
+        transform: translateY(10px);
+        animation: tipIn 520ms ease forwards;
+      }
+
+      @keyframes tipIn {
+        to {
+          opacity: 1;
+          transform: translateY(0px);
+        }
+      }
+
+      .tipIconCircle {
+        width: 44px;
+        height: 44px;
+        border-radius: 18px;
+        background: rgba(196, 98, 45, 0.08);
+        border: 1px solid rgba(196, 98, 45, 0.22);
+        display: grid;
+        place-items: center;
+        font-size: 22px;
+        flex: 0 0 auto;
+      }
+
+      .tipText {
+        font-weight: 750;
+        color: rgba(26, 26, 26, 0.9);
+        line-height: 1.55;
+        font-size: 14px;
+      }
+
+      .tipText small {
+        display: block;
+        margin-top: 4px;
+        color: rgba(26, 26, 26, 0.62);
+        font-weight: 650;
+        font-size: 12px;
+      }
+
+      .anotherBtn {
+        width: 100%;
+        margin-top: 14px;
+        padding: 13px 16px;
+        border-radius: 18px;
+        border: 1px solid rgba(26, 26, 26, 0.10);
+        background: rgba(255, 255, 255, 0.9);
+        font-weight: 900;
+        color: rgba(26, 26, 26, 0.86);
+        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      }
+
+      .anotherBtn:hover {
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: 0 18px 60px rgba(26, 26, 26, 0.08);
+        border-color: rgba(196, 98, 45, 0.24);
+      }
+
+      /* Nav + Hero micro-interactions */
+      .hamburger {
+        display: none;
+        border: 1px solid rgba(26, 26, 26, 0.10);
+        background: rgba(255, 255, 255, 0.66);
+        color: rgba(26, 26, 26, 0.9);
+        width: 42px;
+        height: 42px;
+        border-radius: 16px;
+        cursor: pointer;
+        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      }
+
+      .hamburger:hover {
+        transform: translateY(-1px) scale(1.03);
+        box-shadow: 0 18px 55px rgba(26, 26, 26, 0.08);
+        border-color: rgba(196, 98, 45, 0.35);
+      }
+
+      .mobileMenu {
+        display: none;
+        margin: 10px auto 0;
+        max-width: 520px;
+        padding: 12px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(26, 26, 26, 0.08);
+        backdrop-filter: blur(14px);
+        box-shadow: 0 22px 70px rgba(26, 26, 26, 0.07);
+      }
+
+      .mobileMenu.open {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .mobileLink {
+        text-decoration: none;
+        color: rgba(26, 26, 26, 0.9);
+        font-weight: 850;
+        padding: 12px 12px;
+        border-radius: 14px;
+        transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+      }
+
+      .mobileLink:hover {
+        transform: translateY(-1px);
+        background: rgba(196, 98, 45, 0.10);
+        box-shadow: 0 18px 55px rgba(196, 98, 45, 0.10);
+      }
+
+      .hero-copy {
+        position: relative;
+      }
+
+      .heroShapes {
+        position: absolute;
+        inset: -60px -20px auto -20px;
+        height: 240px;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: -1;
+      }
+
+      .heroShapes .shape {
+        position: absolute;
+        border-radius: 999px;
+        filter: blur(0px);
+        opacity: 0.28;
+        background: radial-gradient(circle at 30% 30%, rgba(196, 98, 45, 0.35), rgba(196, 98, 45, 0.00) 65%);
+        animation: floatShape 10s ease-in-out infinite;
+      }
+
+      .heroShapes .s1 {
+        width: 120px;
+        height: 120px;
+        left: 10%;
+        top: 40px;
+        animation-duration: 12s;
+      }
+
+      .heroShapes .s2 {
+        width: 170px;
+        height: 170px;
+        right: 6%;
+        top: 10px;
+        opacity: 0.22;
+        background: radial-gradient(circle at 30% 30%, rgba(143, 175, 143, 0.35), rgba(143, 175, 143, 0.00) 65%);
+        animation-duration: 15s;
+      }
+
+      .heroShapes .s3 {
+        width: 90px;
+        height: 90px;
+        left: 48%;
+        top: 90px;
+        opacity: 0.18;
+        background: radial-gradient(circle at 30% 30%, rgba(196, 98, 45, 0.26), rgba(196, 98, 45, 0.00) 65%);
+        animation-duration: 14s;
+      }
+
+      @keyframes floatShape {
+        0%,
+        100% {
+          transform: translateY(0px) scale(1);
+        }
+        50% {
+          transform: translateY(-14px) scale(1.03);
+        }
+      }
+
+      /* Premium surface overrides (using your existing class names) */
+      #upload {
+        padding: 20px;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.82);
+        border: 1px solid rgba(26, 26, 26, 0.08);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 22px 70px rgba(26, 26, 26, 0.06);
+      }
+
+      #upload.panel {
+        padding: 20px;
+      }
+
+      #upload .uploader {
+        border-radius: 18px;
+        border-color: rgba(196, 98, 45, 0.45);
+        background: rgba(255, 255, 255, 0.65);
+      }
+
+      #upload .uploader.is-dragover {
+        border-color: rgba(196, 98, 45, 0.95);
+        box-shadow: 0 0 0 7px rgba(196, 98, 45, 0.12), 0 22px 70px rgba(196, 98, 45, 0.16);
+        transform: translateY(-2px);
+      }
+
+      #upload .panel {
+        background: transparent;
+        border: none;
+        padding: 0;
+        backdrop-filter: none;
+      }
+
+      #upload .upload-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      #upload #analyzeButton {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 16px;
+      }
+
+      #upload .status-row {
+        margin-top: 4px;
+        justify-content: center;
+      }
+
+      #upload .pulse-dots i {
+        background: rgba(196, 98, 45, 0.60);
+      }
+
+      .preview-wrap {
+        background: rgba(255, 255, 255, 0.82);
+        border-radius: 18px;
+        border: 1px solid rgba(26, 26, 26, 0.08);
+        overflow: hidden;
+      }
+
+      .preview-img {
+        max-height: 520px;
+      }
+
+      .feature-card {
+        background: rgba(255, 255, 255, 0.88);
+        border-color: rgba(26, 26, 26, 0.08);
+        box-shadow: 0 18px 60px rgba(26, 26, 26, 0.04);
+      }
+
+      .feature-icon {
+        background: rgba(196, 98, 45, 0.08);
+        border-color: rgba(196, 98, 45, 0.22);
+      }
+
+      .feature-card:hover {
+        border-color: rgba(196, 98, 45, 0.22);
+      }
+
+      /* Tips cards */
+      .tip-card {
+        background: #ffffff;
+        border-color: rgba(26, 26, 26, 0.08);
+        box-shadow: 0 18px 60px rgba(26, 26, 26, 0.04);
+        padding: 16px;
+        animation: tipFadeUp 520ms ease forwards;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      }
+
+      .tip-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 22px 80px rgba(26, 26, 26, 0.07);
+        border-color: rgba(196, 98, 45, 0.18);
+      }
+
+      @keyframes tipFadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0px);
+        }
+      }
+
+      .tip-num {
+        display: none;
+      }
+
+      .tip-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 20px;
+        font-size: 24px;
+        background: rgba(196, 98, 45, 0.08);
+        border-color: rgba(196, 98, 45, 0.22);
+      }
+
+      .tip-text span {
+        font-size: 15px;
+        font-weight: 650;
+        color: rgba(26, 26, 26, 0.92);
+      }
+
+      /* Footer */
+      .footer {
+        margin-top: 30px;
+        padding: 22px 18px 28px;
+        max-width: 1100px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .footerInner {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .footerLeft {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 950;
+        color: rgba(26, 26, 26, 0.86);
+        justify-content: flex-start;
+      }
+
+      .footerCenter {
+        font-weight: 800;
+        color: rgba(26, 26, 26, 0.62);
+      }
+
+      .footerRight {
+        text-align: right;
+        color: rgba(26, 26, 26, 0.62);
+        font-weight: 750;
+      }
+
+      /* Mobile */
+      @media (max-width: 920px) {
+        .hero-inner {
+          padding: 46px 18px 18px;
+        }
+        .hamburger {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .uploadInner {
+          grid-template-columns: 1fr;
+        }
+        .featuresGrid {
+          grid-template-columns: 1fr;
+        }
+        .tipsGrid {
+          grid-template-columns: 1fr;
+        }
+        .howRow {
+          flex-wrap: wrap;
+        }
+        .stepConnector {
+          display: none;
+        }
+        .footerInner {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+        .footerRight {
+          text-align: center;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="shell">
-      <nav class="nav">
+      <nav class="nav" id="topNav">
         <div class="nav-inner">
           <a class="brand" href="#home" aria-label="RoomGlow Home">
-            <div class="brand-badge">✦</div>
-            <div class="brand-title">RoomGlow</div>
+            <div class="brand-badge" aria-hidden="true">✦</div>
+            <div class="brand-title">
+              RoomGlow <span aria-hidden="true">🔥</span>
+            </div>
           </a>
           <div class="nav-actions">
             <button id="tryFreeButton" class="btn btn-primary" type="button">
               Try it free
             </button>
+            <button id="menuButton" class="hamburger" type="button" aria-label="Open menu" aria-expanded="false">
+              ☰
+            </button>
           </div>
+        </div>
+
+        <div id="mobileMenu" class="mobileMenu" aria-hidden="true">
+          <a class="mobileLink" href="#features">Features</a>
+          <a class="mobileLink" href="#how">How it works</a>
+          <a class="mobileLink" href="#upload">Upload</a>
         </div>
       </nav>
 
@@ -664,56 +1428,59 @@
         <section id="home" class="hero">
           <div class="hero-inner">
             <div class="hero-copy">
-              <h1>
-                RoomGlow
-                <span class="highlight">Aesthetic tips in seconds</span>
-              </h1>
-              <p>
-                Upload a photo. Get your perfect aesthetic. RoomGlow turns what you
-                already have into a warm, cohesive, designer-worthy space.
-              </p>
+              <div class="heroShapes" aria-hidden="true">
+                <span class="shape s1"></span>
+                <span class="shape s2"></span>
+                <span class="shape s3"></span>
+              </div>
+              <h1>Your room has potential. Let's unlock it.</h1>
+              <p>Upload a photo of any space and get instant, personalized aesthetic tips powered by AI</p>
 
-              <div class="panel">
-                <div
-                  id="dropZone"
-                  class="uploader"
+              <div style="display: flex; justify-content: center; margin-top: 12px;">
+                <button id="heroAnalyzeCta" class="btn btn-primary" type="button">
+                  Analyze My Room &rarr;
+                </button>
+              </div>
+
+              <div id="upload" class="uploadSection">
+                <div class="panel">
+                  <div
+                    id="dropZone"
+                    class="uploader"
                   role="button"
                   tabindex="0"
                   aria-label="Upload a photo"
-                >
-                  <div class="drop-row">
-                    <div class="drop-icon">📷</div>
-                    <div class="drop-text">
-                      <strong>Drag & drop your space</strong>
-                      <span>or click to choose an image (JPG, PNG, WEBP).</span>
+                  >
+                    <div class="drop-row">
+                      <div class="drop-icon">📷</div>
+                      <div class="drop-text">
+                        <strong>Drag & drop your space</strong>
+                        <span>or click to choose an image (JPG, PNG, WEBP).</span>
+                      </div>
                     </div>
-                  </div>
-                  <div class="upload-actions">
-                    <button id="chooseButton" class="btn" type="button">
-                      Choose photo
-                    </button>
-                    <input id="fileInput" type="file" accept="image/*" hidden />
-                    <button id="analyzeButton" class="btn btn-primary" type="button" disabled>
-                      <span id="analyzeIcon" aria-hidden="true">✨</span>
-                      Analyze
-                    </button>
-                  </div>
+                    <div class="upload-actions">
+                      <button id="chooseButton" class="btn" type="button">
+                        Choose photo
+                      </button>
+                      <input id="fileInput" type="file" accept="image/*" hidden />
+                      <button id="analyzeButton" class="btn btn-primary" type="button" disabled>
+                        <span id="analyzeIcon" aria-hidden="true">✨</span>
+                        Analyze
+                      </button>
+                    </div>
 
-                  <div class="status-row" aria-live="polite">
-                    <div id="loadingRow" style="display: none; align-items: center; gap: 12px;">
-                      <div class="spinner" aria-hidden="true"></div>
-                      <div>
-                        <div style="font-weight: 800; color: rgba(31, 42, 42, 0.72);">Thinking</div>
+                    <div class="status-row" aria-live="polite">
+                      <div id="loadingRow" style="display: none; align-items: center; gap: 12px;">
                         <div class="pulse-dots" aria-hidden="true">
                           <i></i><i></i><i></i>
                         </div>
+                        <div style="font-weight: 900; color: rgba(26, 26, 26, 0.78);">Analyzing your space...</div>
                       </div>
                     </div>
-                  </div>
 
-                  <div id="errorBox" class="error"></div>
+                    <div id="errorBox" class="error"></div>
+                  </div>
                 </div>
-              </div>
             </div>
 
             <div class="panel" style="display: grid; gap: 14px; align-content: start;">
@@ -729,6 +1496,7 @@
                 Tip: try a well-lit shot of your room corner. The more details you show, the more actionable the tips.
               </div>
             </div>
+              </div>
           </div>
         </section>
 
@@ -742,36 +1510,82 @@
             <div class="feature-card">
               <div class="feature-icon" aria-hidden="true">⚡</div>
               <div class="feature-title">Instant Analysis</div>
-              <p class="feature-desc">Upload a photo and get recommendations right away.</p>
+                <p class="feature-desc">AI results in seconds.</p>
             </div>
 
             <div class="feature-card">
-              <div class="feature-icon" aria-hidden="true">🧠</div>
-              <div class="feature-title">Expert AI Tips</div>
-              <p class="feature-desc">Friendly, specific improvements you can actually do.</p>
+                <div class="feature-icon" aria-hidden="true">👁️</div>
+                <div class="feature-title">Expert Eye</div>
+                <p class="feature-desc">Trained on thousands of beautiful spaces.</p>
             </div>
 
             <div class="feature-card">
               <div class="feature-icon" aria-hidden="true">🏡</div>
-              <div class="feature-title">Any Room Type</div>
-              <p class="feature-desc">Works for living rooms, desks, closets, and more.</p>
+                <div class="feature-title">Any Room</div>
+                <p class="feature-desc">Bedroom, living room, desk, closet.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="how" class="howSection">
+          <div class="sectionHead">
+            <h2>How it works</h2>
+            <p>Upload, analyze, and transform your space.</p>
+          </div>
+
+          <div class="howRow">
+            <div class="stepBlock">
+              <div class="stepNum">1</div>
+              <div class="stepTitle">Upload your photo</div>
+              <div class="stepDesc">Drag & drop an image of your space.</div>
+            </div>
+
+            <div class="stepConnector" aria-hidden="true"></div>
+
+            <div class="stepBlock">
+              <div class="stepNum">2</div>
+              <div class="stepTitle">AI analyzes your space</div>
+              <div class="stepDesc">Get five focused, actionable tips.</div>
+            </div>
+
+            <div class="stepConnector" aria-hidden="true"></div>
+
+            <div class="stepBlock">
+              <div class="stepNum">3</div>
+              <div class="stepTitle">Transform your room</div>
+              <div class="stepDesc">Make changes that actually elevate the vibe.</div>
             </div>
           </div>
         </section>
 
         <section id="resultsSection" class="results" style="display: none;">
           <div class="results-head">
-            <h2>Your 5 RoomGlow tips</h2>
-            <div class="hint">Actionable ideas tailored to what the photo shows.</div>
+            <h2>Your RoomGlow tips</h2>
+            <div class="hint">Five actionable improvements tailored to your space.</div>
           </div>
           <div id="tipsGrid" class="tips-grid"></div>
+          <button id="anotherButton" class="anotherBtn" type="button">
+            Analyze Another Room
+          </button>
         </section>
       </div>
 
       <footer class="footer">
-        <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
-          <span style="font-weight: 900; color: rgba(31, 42, 42, 0.7);">RoomGlow</span>
-          <span>© <span id="year"></span> RoomGlow. All rights reserved.</span>
+        <div class="footerInner">
+          <div class="footerLeft">
+            <div class="brand-badge" aria-hidden="true" style="width: 36px; height: 36px; border-radius: 14px;">
+              ✦
+            </div>
+            <div style="font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; font-weight: 900; letter-spacing: -0.02em;">
+              RoomGlow
+            </div>
+          </div>
+
+          <div class="footerCenter">Made with ❤️ and AI</div>
+
+          <div class="footerRight">
+            © <span id="year"></span> RoomGlow. All rights reserved.
+          </div>
         </div>
       </footer>
     </div>
@@ -790,6 +1604,12 @@
       const loadingRow = document.getElementById("loadingRow");
       const errorBox = document.getElementById("errorBox");
       const tryFreeButton = document.getElementById("tryFreeButton");
+      const heroAnalyzeCta = document.getElementById("heroAnalyzeCta");
+      const uploadSection = document.getElementById("upload");
+      const anotherButton = document.getElementById("anotherButton");
+      const topNav = document.getElementById("topNav");
+      const menuButton = document.getElementById("menuButton");
+      const mobileMenu = document.getElementById("mobileMenu");
 
       let currentBase64 = null;
       let currentMime = "image/jpeg";
@@ -889,7 +1709,7 @@
       chooseButton.addEventListener("click", () => fileInput.click());
       dropZone.addEventListener("click", (e) => {
         const targetTag = (e.target && e.target.tagName ? e.target.tagName.toLowerCase() : "");
-        if (targetTag === "button") return;
+        if (targetTag === "button" || targetTag === "img") return;
         fileInput.click();
       });
 
@@ -922,15 +1742,12 @@
 
           const card = document.createElement("div");
           card.className = "tip-card";
-          card.style.animationDelay = `${idx * 70}ms`;
+          card.style.animationDelay = `${idx * 140}ms`;
 
-          const num = idx + 1;
           card.innerHTML = `
-            <div class="tip-num">${num}</div>
             <div class="tip-row">
               <div class="tip-icon" aria-hidden="true">${icon}</div>
               <div class="tip-text">
-                <strong>Tip ${num}</strong>
                 <span>${escapeHtml(tip)}</span>
               </div>
             </div>
@@ -996,13 +1813,66 @@
         }
       });
 
-      // Small premium touch: CTA jumps to the upload area and the footer year stays current.
-      if (tryFreeButton) {
-        tryFreeButton.addEventListener("click", () => {
-          dropZone.scrollIntoView({ behavior: "smooth", block: "center" });
-          fileInput.focus?.();
+      function scrollToUpload() {
+        if (!uploadSection) return;
+        uploadSection.scrollIntoView({ behavior: "smooth", block: "center" });
+        fileInput.focus?.();
+      }
+
+      // Premium CTA behavior
+      if (heroAnalyzeCta) heroAnalyzeCta.addEventListener("click", scrollToUpload);
+      if (tryFreeButton) tryFreeButton.addEventListener("click", scrollToUpload);
+      if (anotherButton) {
+        anotherButton.addEventListener("click", () => {
+          resetResults();
+          scrollToUpload();
         });
       }
+
+      // Sticky nav blur on scroll
+      if (topNav) {
+        const onScroll = () => {
+          if (window.scrollY > 10) topNav.classList.add("scrolled");
+          else topNav.classList.remove("scrolled");
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+      }
+
+      // Mobile menu toggle
+      if (menuButton && mobileMenu) {
+        const setMenuOpen = (isOpen) => {
+          mobileMenu.classList.toggle("open", isOpen);
+          mobileMenu.setAttribute("aria-hidden", isOpen ? "false" : "true");
+          menuButton.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        };
+
+        const closeMenu = () => setMenuOpen(false);
+        const openMenu = () => setMenuOpen(true);
+
+        menuButton.addEventListener("click", () => {
+          const isOpenNow = mobileMenu.classList.contains("open");
+          setMenuOpen(!isOpenNow);
+        });
+
+        mobileMenu.addEventListener("click", (e) => {
+          const target = e.target;
+          if (target && target.tagName && target.tagName.toLowerCase() === "a") {
+            closeMenu();
+          }
+        });
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") closeMenu();
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!mobileMenu.classList.contains("open")) return;
+          if (!menuButton.contains(e.target) && !mobileMenu.contains(e.target)) closeMenu();
+        });
+      }
+
+      // Footer year
       const yearEl = document.getElementById("year");
       if (yearEl) yearEl.textContent = String(new Date().getFullYear());
     </script>
