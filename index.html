@@ -1,1881 +1,1318 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RoomGlow</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600;700;900&display=swap" rel="stylesheet" />
-    <style>
-      :root {
-        --bg0: #fff7e8;
-        --bg1: #f7efe2;
-        --card: rgba(255, 255, 255, 0.72);
-        --card2: rgba(255, 255, 255, 0.9);
-        --text: #1f2a2a;
-        --muted: rgba(31, 42, 42, 0.7);
-        --border: rgba(31, 42, 42, 0.12);
-        --shadow: 0 18px 55px rgba(31, 42, 42, 0.14);
-        --terracotta: #d97b5a;
-        --sage: #7baa8e;
-        --cream: #fff1d8;
-        --focus: rgba(217, 123, 90, 0.38);
-        --radius-xl: 28px;
-        --radius-lg: 18px;
-        --radius-md: 14px;
-        --radius-sm: 12px;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      html,
-      body {
-        height: 100%;
-      }
-
-      body {
-        margin: 0;
-        font-family:
-          ui-sans-serif,
-          system-ui,
-          -apple-system,
-          Segoe UI,
-          Roboto,
-          Helvetica,
-          Arial,
-          "Apple Color Emoji",
-          "Segoe UI Emoji";
-        color: var(--text);
-        background: radial-gradient(1100px 700px at 20% -10%, rgba(217, 123, 90, 0.22), transparent 55%),
-          radial-gradient(900px 550px at 90% 0%, rgba(123, 170, 142, 0.22), transparent 52%),
-          linear-gradient(180deg, var(--bg0), var(--bg1));
-        overflow-x: hidden;
-      }
-
-      .shell {
-        min-height: 100%;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .nav {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        padding: 14px 18px;
-        background: rgba(255, 247, 232, 0.62);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(31, 42, 42, 0.08);
-      }
-
-      .nav-inner {
-        max-width: 1100px;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-      }
-
-      .nav-actions {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        user-select: none;
-        text-decoration: none;
-        color: inherit;
-      }
-
-      .brand-badge {
-        width: 40px;
-        height: 40px;
-        border-radius: 14px;
-        background: linear-gradient(135deg, rgba(217, 123, 90, 0.35), rgba(123, 170, 142, 0.25));
-        border: 1px solid rgba(31, 42, 42, 0.12);
-        box-shadow: 0 14px 40px rgba(217, 123, 90, 0.18);
-        display: grid;
-        place-items: center;
-        font-size: 18px;
-      }
-
-      .brand-title {
-        font-weight: 800;
-        letter-spacing: -0.02em;
-        font-size: 16px;
-      }
-
-      .container {
-        width: 100%;
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 12px 18px 42px;
-        display: grid;
-        gap: 18px;
-      }
-
-      .hero {
-        margin-top: 6px;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.42));
-        border: 1px solid var(--border);
-        border-radius: var(--radius-xl);
-        box-shadow: var(--shadow);
-        overflow: hidden;
-        position: relative;
-      }
-
-      .hero::before {
-        content: "";
-        position: absolute;
-        inset: -2px;
-        background: radial-gradient(700px 220px at 18% 0%, rgba(217, 123, 90, 0.23), transparent 60%),
-          radial-gradient(620px 210px at 90% 10%, rgba(123, 170, 142, 0.23), transparent 60%);
-        pointer-events: none;
-      }
-
-      .hero-inner {
-        position: relative;
-        padding: 26px 22px 22px;
-        display: grid;
-        grid-template-columns: 1.1fr 0.9fr;
-        gap: 18px;
-        align-items: start;
-      }
-
-      .features {
-        scroll-margin-top: 90px;
-      }
-
-      .features-head {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: 14px;
-        flex-wrap: wrap;
-        padding: 8px 0 2px;
-      }
-
-      .features-head h2 {
-        margin: 0;
-        font-size: clamp(20px, 2.8vw, 28px);
-        letter-spacing: -0.03em;
-      }
-
-      .features-head p {
-        margin: 0;
-        color: var(--muted);
-        font-weight: 650;
-        font-size: 13px;
-        max-width: 52ch;
-        line-height: 1.5;
-      }
-
-      .features-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .feature-card {
-        border-radius: var(--radius-lg);
-        background: rgba(255, 255, 255, 0.56);
-        border: 1px solid rgba(31, 42, 42, 0.10);
-        box-shadow: 0 18px 55px rgba(31, 42, 42, 0.05);
-        padding: 16px;
-        position: relative;
-        overflow: hidden;
-        transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
-      }
-
-      .feature-card::after {
-        content: "";
-        position: absolute;
-        inset: -2px;
-        background: radial-gradient(360px 130px at 18% 0%, rgba(217, 123, 90, 0.16), transparent 58%),
-          radial-gradient(380px 160px at 95% 20%, rgba(123, 170, 142, 0.16), transparent 56%);
-        pointer-events: none;
-      }
-
-      .feature-card:hover {
-        transform: translateY(-3px);
-        background: rgba(255, 255, 255, 0.68);
-        border-color: rgba(217, 123, 90, 0.20);
-      }
-
-      .feature-icon {
-        width: 46px;
-        height: 46px;
-        border-radius: 18px;
-        display: grid;
-        place-items: center;
-        background: rgba(255, 241, 216, 0.78);
-        border: 1px solid rgba(217, 123, 90, 0.2);
-        font-size: 22px;
-        position: relative;
-        z-index: 1;
-      }
-
-      .feature-title {
-        margin: 12px 0 6px;
-        font-weight: 900;
-        letter-spacing: -0.02em;
-        position: relative;
-        z-index: 1;
-      }
-
-      .feature-desc {
-        margin: 0;
-        color: rgba(31, 42, 42, 0.82);
-        font-weight: 650;
-        line-height: 1.55;
-        font-size: 13px;
-        position: relative;
-        z-index: 1;
-      }
-
-      .hero-copy h1 {
-        margin: 0;
-        font-size: clamp(34px, 5.2vw, 56px);
-        line-height: 1.02;
-        letter-spacing: -0.05em;
-        font-weight: 900;
-      }
-
-      .hero-copy p {
-        margin: 10px 0 18px;
-        color: var(--muted);
-        font-size: clamp(14px, 1.8vw, 18px);
-        line-height: 1.55;
-        max-width: 46ch;
-      }
-
-      .highlight {
-        display: inline-block;
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: rgba(255, 241, 216, 0.9);
-        border: 1px solid rgba(217, 123, 90, 0.18);
-        color: rgba(31, 42, 42, 0.92);
-        box-shadow: 0 16px 45px rgba(217, 123, 90, 0.12);
-        font-weight: 750;
-      }
-
-      .panel {
-        background: rgba(255, 255, 255, 0.52);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        padding: 16px;
-        backdrop-filter: blur(10px);
-      }
-
-      .uploader {
-        border-radius: var(--radius-md);
-        border: 1px dashed rgba(31, 42, 42, 0.25);
-        background: rgba(255, 255, 255, 0.55);
-        padding: 16px;
-        display: grid;
-        gap: 12px;
-        transition: transform 240ms ease, border-color 200ms ease, background 200ms ease;
-      }
-
-      .uploader.is-dragover {
-        border-color: rgba(217, 123, 90, 0.6);
-        background: rgba(255, 241, 216, 0.7);
-        transform: translateY(-2px);
-      }
-
-      .drop-row {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-      }
-
-      .drop-icon {
-        width: 44px;
-        height: 44px;
-        border-radius: 16px;
-        display: grid;
-        place-items: center;
-        background: linear-gradient(135deg, rgba(217, 123, 90, 0.22), rgba(123, 170, 142, 0.18));
-        border: 1px solid rgba(31, 42, 42, 0.12);
-        font-size: 20px;
-        flex: 0 0 auto;
-      }
-
-      .drop-text {
-        display: grid;
-        gap: 4px;
-      }
-
-      .drop-text strong {
-        font-size: 15px;
-      }
-
-      .drop-text span {
-        color: var(--muted);
-        font-size: 13px;
-        line-height: 1.35;
-      }
-
-      .upload-actions {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        flex-wrap: wrap;
-      }
-
-      .btn {
-        appearance: none;
-        border: 1px solid rgba(31, 42, 42, 0.14);
-        background: rgba(255, 255, 255, 0.6);
-        color: var(--text);
-        padding: 10px 14px;
-        border-radius: 14px;
-        font-weight: 750;
-        cursor: pointer;
-        transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
-        display: inline-flex;
-        gap: 10px;
-        align-items: center;
-      }
-
-      .btn:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 18px 55px rgba(31, 42, 42, 0.12);
-        border-color: rgba(217, 123, 90, 0.28);
-      }
-
-      .btn:active {
-        transform: translateY(0px);
-      }
-
-      .btn:focus-visible {
-        outline: 3px solid var(--focus);
-        outline-offset: 2px;
-      }
-
-      .btn-primary {
-        border-color: rgba(217, 123, 90, 0.35);
-        background: linear-gradient(135deg, rgba(217, 123, 90, 0.32), rgba(123, 170, 142, 0.22));
-      }
-
-      .btn[disabled] {
-        opacity: 0.65;
-        cursor: not-allowed;
-        box-shadow: none;
-        transform: none;
-      }
-
-      .preview-wrap {
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.52);
-        border: 1px solid var(--border);
-        overflow: hidden;
-        display: grid;
-        gap: 0;
-      }
-
-      .preview-header {
-        padding: 10px 12px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        border-bottom: 1px solid rgba(31, 42, 42, 0.08);
-      }
-
-      .preview-header span {
-        color: var(--muted);
-        font-size: 13px;
-        font-weight: 650;
-      }
-
-      .preview-img {
-        width: 100%;
-        height: auto;
-        display: block;
-        max-height: 310px;
-        object-fit: cover;
-        background: rgba(255, 255, 255, 0.2);
-      }
-
-      .status-row {
-        min-height: 36px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: var(--muted);
-        font-weight: 650;
-      }
-
-      .spinner {
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        border: 2px solid rgba(31, 42, 42, 0.16);
-        border-top-color: rgba(217, 123, 90, 0.75);
-        animation: spin 900ms linear infinite;
-      }
-
-      @keyframes spin {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      .pulse-dots {
-        display: inline-flex;
-        gap: 6px;
-        align-items: center;
-      }
-
-      .pulse-dots i {
-        width: 6px;
-        height: 6px;
-        border-radius: 999px;
-        display: inline-block;
-        background: rgba(31, 42, 42, 0.35);
-        animation: dot 1200ms ease-in-out infinite;
-      }
-
-      .pulse-dots i:nth-child(2) {
-        animation-delay: 200ms;
-      }
-
-      .pulse-dots i:nth-child(3) {
-        animation-delay: 400ms;
-      }
-
-      @keyframes dot {
-        0%,
-        100% {
-          transform: translateY(0);
-          opacity: 0.45;
-        }
-        50% {
-          transform: translateY(-3px);
-          opacity: 0.95;
-        }
-      }
-
-      .error {
-        border-radius: 16px;
-        background: rgba(217, 123, 90, 0.12);
-        border: 1px solid rgba(217, 123, 90, 0.25);
-        padding: 12px 12px;
-        color: rgba(31, 42, 42, 0.92);
-        font-weight: 650;
-        display: none;
-      }
-
-      .results {
-        display: grid;
-        gap: 14px;
-        padding: 18px 0 0;
-      }
-
-      .results-head {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
-
-      .results-head h2 {
-        margin: 0;
-        font-size: clamp(20px, 2.8vw, 26px);
-        letter-spacing: -0.02em;
-      }
-
-      .results-head .hint {
-        color: var(--muted);
-        font-weight: 650;
-        font-size: 13px;
-      }
-
-      .tips-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .tip-card {
-        position: relative;
-        background: rgba(255, 255, 255, 0.65);
-        border: 1px solid rgba(31, 42, 42, 0.12);
-        border-radius: 18px;
-        padding: 14px 14px 14px 14px;
-        overflow: hidden;
-        box-shadow: 0 18px 55px rgba(31, 42, 42, 0.06);
-        transform: translateY(6px);
-        opacity: 0;
-        animation: pop-in 420ms ease forwards;
-      }
-
-      @keyframes pop-in {
-        to {
-          transform: translateY(0px);
-          opacity: 1;
-        }
-      }
-
-      .tip-card::after {
-        content: "";
-        position: absolute;
-        inset: -2px;
-        background: radial-gradient(260px 120px at 20% 0%, rgba(217, 123, 90, 0.18), transparent 55%),
-          radial-gradient(280px 140px at 95% 20%, rgba(123, 170, 142, 0.18), transparent 55%);
-        pointer-events: none;
-      }
-
-      .tip-row {
-        position: relative;
-        display: flex;
-        gap: 12px;
-        align-items: flex-start;
-      }
-
-      .tip-icon {
-        width: 44px;
-        height: 44px;
-        border-radius: 16px;
-        display: grid;
-        place-items: center;
-        background: rgba(255, 241, 216, 0.75);
-        border: 1px solid rgba(217, 123, 90, 0.2);
-        font-size: 22px;
-        flex: 0 0 auto;
-      }
-
-      .tip-num {
-        position: absolute;
-        top: -6px;
-        right: -6px;
-        width: 54px;
-        height: 54px;
-        border-radius: 22px;
-        background: rgba(255, 255, 255, 0.65);
-        border: 1px solid rgba(31, 42, 42, 0.12);
-        display: grid;
-        place-items: center;
-        color: rgba(31, 42, 42, 0.5);
-        font-weight: 900;
-        letter-spacing: -0.02em;
-        transform: rotate(8deg);
-      }
-
-      .tip-text {
-        position: relative;
-        display: grid;
-        gap: 6px;
-      }
-
-      .tip-text strong {
-        font-size: 14px;
-        letter-spacing: -0.01em;
-      }
-
-      .tip-text span {
-        color: rgba(31, 42, 42, 0.85);
-        line-height: 1.5;
-        font-size: 14px;
-        font-weight: 600;
-      }
-
-      .footer {
-        color: rgba(31, 42, 42, 0.55);
-        font-weight: 650;
-        padding: 0 18px 22px;
-        max-width: 1100px;
-        margin: 0 auto;
-        width: 100%;
-        font-size: 12px;
-      }
-
-      @media (max-width: 920px) {
-        .nav-inner {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 10px;
-        }
-
-        .nav-actions .btn {
-          width: 100%;
-          justify-content: center;
-        }
-
-        .hero-inner {
-          grid-template-columns: 1fr;
-        }
-
-        .features-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .tips-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .tip-card {
-          animation: none;
-          opacity: 1;
-          transform: none;
-        }
-        .spinner {
-          animation: none;
-        }
-        .pulse-dots i {
-          animation: none;
-        }
-        .btn {
-          transition: none;
-        }
-      }
-
-      /* --- Premium SaaS Overrides --- */
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        background: #fafaf8;
-        color: #1a1a1a;
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-        background-image: radial-gradient(950px 520px at 18% 0%, rgba(196, 98, 45, 0.10), transparent 58%),
-          radial-gradient(820px 460px at 90% 10%, rgba(143, 175, 143, 0.12), transparent 54%),
-          linear-gradient(180deg, #fafaf8, #fbfbfa);
-      }
-
-      .shell {
-        animation: pageFadeIn 700ms ease both;
-      }
-
-      @keyframes pageFadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(6px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0px);
-        }
-      }
-
-      .nav {
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        padding: 14px 18px;
-        background: rgba(250, 250, 248, 0.55);
-        backdrop-filter: blur(14px);
-        border-bottom: 1px solid rgba(26, 26, 26, 0.06);
-        transition: background 200ms ease, border-color 200ms ease;
-      }
-
-      .nav.scrolled {
-        background: rgba(250, 250, 248, 0.82);
-        border-bottom-color: rgba(26, 26, 26, 0.10);
-      }
-
-      .brand-badge {
-        border-radius: 16px;
-        box-shadow: 0 14px 40px rgba(196, 98, 45, 0.16);
-      }
-
-      .brand-title {
-        font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-        font-weight: 900;
-        letter-spacing: -0.02em;
-      }
-
-      .btn {
-        font-family: Inter, ui-sans-serif, system-ui;
-      }
-
-      .btn-primary {
-        background: linear-gradient(180deg, rgba(196, 98, 45, 0.95), rgba(196, 98, 45, 0.88));
-        border: 1px solid rgba(196, 98, 45, 0.55);
-        color: #ffffff;
-        box-shadow: 0 18px 50px rgba(196, 98, 45, 0.18);
-      }
-
-      .btn-primary:hover {
-        transform: translateY(-1px) scale(1.01);
-      }
-
-      /* Hero */
-      .hero {
-        min-height: 100vh;
-        display: grid;
-        align-items: center;
-        margin-top: 0;
-      }
-
-      .hero-inner {
-        grid-template-columns: 1fr;
-        padding: 56px 18px 28px;
-      }
-
-      .hero-copy {
-        text-align: center;
-        padding: 0;
-        width: 100%;
-      }
-
-      .hero-copy h1 {
-        font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-        font-size: clamp(38px, 5.2vw, 68px);
-        line-height: 1.03;
-        margin: 0 auto;
-        max-width: 22ch;
-        letter-spacing: -0.04em;
-      }
-
-      .hero-copy p {
-        margin: 14px auto 28px;
-        max-width: 56ch;
-        font-size: clamp(14px, 2vw, 18px);
-        color: rgba(26, 26, 26, 0.72);
-      }
-
-      /* Upload */
-      .uploadSection {
-        padding: 20px 0 10px;
-      }
-
-      .uploadCard {
-        background: #ffffff;
-        border: 1px solid rgba(26, 26, 26, 0.08);
-        border-radius: 24px;
-        box-shadow: 0 22px 70px rgba(26, 26, 26, 0.06);
-        padding: 20px;
-      }
-
-      .uploadInner {
-        display: grid;
-        grid-template-columns: 1.1fr 0.9fr;
-        gap: 16px;
-        align-items: start;
-      }
-
-      .dropzone {
-        border-radius: 18px;
-        border: 1px dashed rgba(196, 98, 45, 0.45);
-        background: linear-gradient(180deg, rgba(250, 250, 248, 0.8), rgba(250, 250, 248, 0.6));
-        padding: 18px;
-        transition: box-shadow 200ms ease, border-color 200ms ease, transform 200ms ease;
-      }
-
-      .dropzone.is-dragover {
-        border-color: rgba(196, 98, 45, 0.9);
-        box-shadow: 0 0 0 6px rgba(196, 98, 45, 0.10), 0 20px 60px rgba(196, 98, 45, 0.12);
-        transform: translateY(-2px);
-      }
-
-      .uploadAnalyzeRow {
-        margin-top: 12px;
-      }
-
-      .analyzeFull {
-        width: 100%;
-        padding: 14px 16px;
-        border-radius: 18px;
-        font-weight: 900;
-        letter-spacing: -0.01em;
-        font-size: 16px;
-      }
-
-      .loadingText {
-        font-weight: 800;
-        color: rgba(26, 26, 26, 0.78);
-      }
-
-      .pulsingDots i {
-        width: 8px;
-        height: 8px;
-        border-radius: 999px;
-        background: rgba(196, 98, 45, 0.55);
-        display: inline-block;
-        animation: dotPulse 1100ms ease-in-out infinite;
-      }
-
-      .pulsingDots i:nth-child(2) {
-        animation-delay: 160ms;
-      }
-
-      .pulsingDots i:nth-child(3) {
-        animation-delay: 320ms;
-      }
-
-      @keyframes dotPulse {
-        0%,
-        100% {
-          transform: translateY(0);
-          opacity: 0.45;
-        }
-        50% {
-          transform: translateY(-4px);
-          opacity: 1;
-        }
-      }
-
-      /* Preview */
-      .previewCard {
-        border-radius: 18px;
-        overflow: hidden;
-        border: 1px solid rgba(26, 26, 26, 0.08);
-        background: #fff;
-      }
-
-      .previewHeader {
-        padding: 10px 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid rgba(26, 26, 26, 0.06);
-        color: rgba(26, 26, 26, 0.62);
-        font-weight: 700;
-        font-size: 13px;
-      }
-
-      .previewImg {
-        width: 100%;
-        height: auto;
-        display: block;
-        max-height: 420px;
-        object-fit: cover;
-        background: rgba(26, 26, 26, 0.02);
-      }
-
-      .sectionHead {
-        margin-top: 18px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        align-items: center;
-        text-align: center;
-      }
-
-      .sectionHead h2 {
-        font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-        font-size: clamp(24px, 2.8vw, 34px);
-        letter-spacing: -0.03em;
-        margin: 0;
-      }
-
-      .sectionHead p {
-        margin: 0;
-        color: rgba(26, 26, 26, 0.7);
-        font-weight: 650;
-        max-width: 62ch;
-        font-size: 14px;
-        line-height: 1.6;
-      }
-
-      /* Features row */
-      .featuresSection {
-        padding: 26px 0 0;
-      }
-
-      .featuresGrid {
-        margin-top: 14px;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .featureCard {
-        background: #ffffff;
-        border: 1px solid rgba(26, 26, 26, 0.08);
-        border-radius: 18px;
-        padding: 18px;
-        box-shadow: 0 18px 60px rgba(26, 26, 26, 0.05);
-        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .featureCard::after {
-        content: "";
-        position: absolute;
-        inset: -2px;
-        background: radial-gradient(350px 120px at 20% 0%, rgba(196, 98, 45, 0.14), transparent 60%),
-          radial-gradient(340px 140px at 95% 15%, rgba(143, 175, 143, 0.14), transparent 58%);
-        opacity: 0.55;
-        pointer-events: none;
-      }
-
-      .featureCard:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 22px 70px rgba(26, 26, 26, 0.08);
-        border-color: rgba(196, 98, 45, 0.22);
-      }
-
-      .featureIcon {
-        width: 44px;
-        height: 44px;
-        border-radius: 16px;
-        background: rgba(196, 98, 45, 0.08);
-        border: 1px solid rgba(196, 98, 45, 0.22);
-        display: grid;
-        place-items: center;
-        font-size: 22px;
-        position: relative;
-        z-index: 1;
-      }
-
-      .featureTitle {
-        position: relative;
-        z-index: 1;
-        margin-top: 12px;
-        font-weight: 950;
-        letter-spacing: -0.02em;
-      }
-
-      .featureDesc {
-        position: relative;
-        z-index: 1;
-        margin-top: 6px;
-        color: rgba(26, 26, 26, 0.74);
-        font-weight: 650;
-        font-size: 13px;
-        line-height: 1.6;
-      }
-
-      /* How it works */
-      .howSection {
-        padding: 26px 0 0;
-      }
-
-      .howRow {
-        margin-top: 16px;
-        display: flex;
-        gap: 16px;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap;
-      }
-
-      .stepBlock {
-        min-width: 0;
-        flex: 1 1 0;
-        background: #ffffff;
-        border: 1px solid rgba(26, 26, 26, 0.08);
-        border-radius: 18px;
-        padding: 18px;
-        box-shadow: 0 18px 60px rgba(26, 26, 26, 0.05);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .stepNum {
-        font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-        font-weight: 950;
-        font-size: 44px;
-        line-height: 1;
-        color: rgba(196, 98, 45, 0.32);
-        letter-spacing: -0.04em;
-      }
-
-      .stepTitle {
-        margin-top: 10px;
-        font-weight: 950;
-        letter-spacing: -0.02em;
-      }
-
-      .stepDesc {
-        margin-top: 6px;
-        color: rgba(26, 26, 26, 0.72);
-        font-weight: 650;
-        font-size: 13px;
-        line-height: 1.6;
-      }
-
-      .stepConnector {
-        height: 2px;
-        flex: 0 0 34px;
-        background: linear-gradient(90deg, rgba(196, 98, 45, 0.45), rgba(143, 175, 143, 0.35));
-        border-radius: 999px;
-      }
-
-      /* Results */
-      .resultsSection {
-        padding: 28px 0 0;
-      }
-
-      .tipsGrid {
-        margin-top: 14px;
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .tipCard {
-        background: #ffffff;
-        border: 1px solid rgba(26, 26, 26, 0.08);
-        border-radius: 18px;
-        padding: 16px;
-        box-shadow: 0 18px 60px rgba(26, 26, 26, 0.05);
-        display: flex;
-        gap: 12px;
-        align-items: flex-start;
-        opacity: 0;
-        transform: translateY(10px);
-        animation: tipIn 520ms ease forwards;
-      }
-
-      @keyframes tipIn {
-        to {
-          opacity: 1;
-          transform: translateY(0px);
-        }
-      }
-
-      .tipIconCircle {
-        width: 44px;
-        height: 44px;
-        border-radius: 18px;
-        background: rgba(196, 98, 45, 0.08);
-        border: 1px solid rgba(196, 98, 45, 0.22);
-        display: grid;
-        place-items: center;
-        font-size: 22px;
-        flex: 0 0 auto;
-      }
-
-      .tipText {
-        font-weight: 750;
-        color: rgba(26, 26, 26, 0.9);
-        line-height: 1.55;
-        font-size: 14px;
-      }
-
-      .tipText small {
-        display: block;
-        margin-top: 4px;
-        color: rgba(26, 26, 26, 0.62);
-        font-weight: 650;
-        font-size: 12px;
-      }
-
-      .anotherBtn {
-        width: 100%;
-        margin-top: 14px;
-        padding: 13px 16px;
-        border-radius: 18px;
-        border: 1px solid rgba(26, 26, 26, 0.10);
-        background: rgba(255, 255, 255, 0.9);
-        font-weight: 900;
-        color: rgba(26, 26, 26, 0.86);
-        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
-      }
-
-      .anotherBtn:hover {
-        transform: translateY(-2px) scale(1.01);
-        box-shadow: 0 18px 60px rgba(26, 26, 26, 0.08);
-        border-color: rgba(196, 98, 45, 0.24);
-      }
-
-      /* Nav + Hero micro-interactions */
-      .hamburger {
-        display: none;
-        border: 1px solid rgba(26, 26, 26, 0.10);
-        background: rgba(255, 255, 255, 0.66);
-        color: rgba(26, 26, 26, 0.9);
-        width: 42px;
-        height: 42px;
-        border-radius: 16px;
-        cursor: pointer;
-        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
-      }
-
-      .hamburger:hover {
-        transform: translateY(-1px) scale(1.03);
-        box-shadow: 0 18px 55px rgba(26, 26, 26, 0.08);
-        border-color: rgba(196, 98, 45, 0.35);
-      }
-
-      .mobileMenu {
-        display: none;
-        margin: 10px auto 0;
-        max-width: 520px;
-        padding: 12px;
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.78);
-        border: 1px solid rgba(26, 26, 26, 0.08);
-        backdrop-filter: blur(14px);
-        box-shadow: 0 22px 70px rgba(26, 26, 26, 0.07);
-      }
-
-      .mobileMenu.open {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .mobileLink {
-        text-decoration: none;
-        color: rgba(26, 26, 26, 0.9);
-        font-weight: 850;
-        padding: 12px 12px;
-        border-radius: 14px;
-        transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
-      }
-
-      .mobileLink:hover {
-        transform: translateY(-1px);
-        background: rgba(196, 98, 45, 0.10);
-        box-shadow: 0 18px 55px rgba(196, 98, 45, 0.10);
-      }
-
-      .hero-copy {
-        position: relative;
-      }
-
-      .heroShapes {
-        position: absolute;
-        inset: -60px -20px auto -20px;
-        height: 240px;
-        pointer-events: none;
-        overflow: hidden;
-        z-index: -1;
-      }
-
-      .heroShapes .shape {
-        position: absolute;
-        border-radius: 999px;
-        filter: blur(0px);
-        opacity: 0.28;
-        background: radial-gradient(circle at 30% 30%, rgba(196, 98, 45, 0.35), rgba(196, 98, 45, 0.00) 65%);
-        animation: floatShape 10s ease-in-out infinite;
-      }
-
-      .heroShapes .s1 {
-        width: 120px;
-        height: 120px;
-        left: 10%;
-        top: 40px;
-        animation-duration: 12s;
-      }
-
-      .heroShapes .s2 {
-        width: 170px;
-        height: 170px;
-        right: 6%;
-        top: 10px;
-        opacity: 0.22;
-        background: radial-gradient(circle at 30% 30%, rgba(143, 175, 143, 0.35), rgba(143, 175, 143, 0.00) 65%);
-        animation-duration: 15s;
-      }
-
-      .heroShapes .s3 {
-        width: 90px;
-        height: 90px;
-        left: 48%;
-        top: 90px;
-        opacity: 0.18;
-        background: radial-gradient(circle at 30% 30%, rgba(196, 98, 45, 0.26), rgba(196, 98, 45, 0.00) 65%);
-        animation-duration: 14s;
-      }
-
-      @keyframes floatShape {
-        0%,
-        100% {
-          transform: translateY(0px) scale(1);
-        }
-        50% {
-          transform: translateY(-14px) scale(1.03);
-        }
-      }
-
-      /* Premium surface overrides (using your existing class names) */
-      #upload {
-        padding: 20px;
-        border-radius: 24px;
-        background: rgba(255, 255, 255, 0.82);
-        border: 1px solid rgba(26, 26, 26, 0.08);
-        backdrop-filter: blur(12px);
-        box-shadow: 0 22px 70px rgba(26, 26, 26, 0.06);
-      }
-
-      #upload.panel {
-        padding: 20px;
-      }
-
-      #upload .uploader {
-        border-radius: 18px;
-        border-color: rgba(196, 98, 45, 0.45);
-        background: rgba(255, 255, 255, 0.65);
-      }
-
-      #upload .uploader.is-dragover {
-        border-color: rgba(196, 98, 45, 0.95);
-        box-shadow: 0 0 0 7px rgba(196, 98, 45, 0.12), 0 22px 70px rgba(196, 98, 45, 0.16);
-        transform: translateY(-2px);
-      }
-
-      #upload .panel {
-        background: transparent;
-        border: none;
-        padding: 0;
-        backdrop-filter: none;
-      }
-
-      #upload .upload-actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      #upload #analyzeButton {
-        width: 100%;
-        justify-content: center;
-        padding: 14px 16px;
-      }
-
-      #upload .status-row {
-        margin-top: 4px;
-        justify-content: center;
-      }
-
-      #upload .pulse-dots i {
-        background: rgba(196, 98, 45, 0.60);
-      }
-
-      .preview-wrap {
-        background: rgba(255, 255, 255, 0.82);
-        border-radius: 18px;
-        border: 1px solid rgba(26, 26, 26, 0.08);
-        overflow: hidden;
-      }
-
-      .preview-img {
-        max-height: 520px;
-      }
-
-      .feature-card {
-        background: rgba(255, 255, 255, 0.88);
-        border-color: rgba(26, 26, 26, 0.08);
-        box-shadow: 0 18px 60px rgba(26, 26, 26, 0.04);
-      }
-
-      .feature-icon {
-        background: rgba(196, 98, 45, 0.08);
-        border-color: rgba(196, 98, 45, 0.22);
-      }
-
-      .feature-card:hover {
-        border-color: rgba(196, 98, 45, 0.22);
-      }
-
-      /* Tips cards */
-      .tip-card {
-        background: #ffffff;
-        border-color: rgba(26, 26, 26, 0.08);
-        box-shadow: 0 18px 60px rgba(26, 26, 26, 0.04);
-        padding: 16px;
-        animation: tipFadeUp 520ms ease forwards;
-        opacity: 0;
-        transform: translateY(10px);
-        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
-      }
-
-      .tip-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 22px 80px rgba(26, 26, 26, 0.07);
-        border-color: rgba(196, 98, 45, 0.18);
-      }
-
-      @keyframes tipFadeUp {
-        to {
-          opacity: 1;
-          transform: translateY(0px);
-        }
-      }
-
-      .tip-num {
-        display: none;
-      }
-
-      .tip-icon {
-        width: 52px;
-        height: 52px;
-        border-radius: 20px;
-        font-size: 24px;
-        background: rgba(196, 98, 45, 0.08);
-        border-color: rgba(196, 98, 45, 0.22);
-      }
-
-      .tip-text span {
-        font-size: 15px;
-        font-weight: 650;
-        color: rgba(26, 26, 26, 0.92);
-      }
-
-      /* Footer */
-      .footer {
-        margin-top: 30px;
-        padding: 22px 18px 28px;
-        max-width: 1100px;
-        width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .footerInner {
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
-        align-items: center;
-        gap: 12px;
-      }
-
-      .footerLeft {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 950;
-        color: rgba(26, 26, 26, 0.86);
-        justify-content: flex-start;
-      }
-
-      .footerCenter {
-        font-weight: 800;
-        color: rgba(26, 26, 26, 0.62);
-      }
-
-      .footerRight {
-        text-align: right;
-        color: rgba(26, 26, 26, 0.62);
-        font-weight: 750;
-      }
-
-      /* Mobile */
-      @media (max-width: 920px) {
-        .hero-inner {
-          padding: 46px 18px 18px;
-        }
-        .hamburger {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .uploadInner {
-          grid-template-columns: 1fr;
-        }
-        .featuresGrid {
-          grid-template-columns: 1fr;
-        }
-        .tipsGrid {
-          grid-template-columns: 1fr;
-        }
-        .howRow {
-          flex-wrap: wrap;
-        }
-        .stepConnector {
-          display: none;
-        }
-        .footerInner {
-          grid-template-columns: 1fr;
-          text-align: center;
-        }
-        .footerRight {
-          text-align: center;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="shell">
-      <nav class="nav" id="topNav">
-        <div class="nav-inner">
-          <a class="brand" href="#home" aria-label="RoomGlow Home">
-            <div class="brand-badge" aria-hidden="true">✦</div>
-            <div class="brand-title">
-              RoomGlow <span aria-hidden="true">🔥</span>
-            </div>
-          </a>
-          <div class="nav-actions">
-            <button id="tryFreeButton" class="btn btn-primary" type="button">
-              Try it free
-            </button>
-            <button id="menuButton" class="hamburger" type="button" aria-label="Open menu" aria-expanded="false">
-              ☰
-            </button>
-          </div>
-        </div>
-
-        <div id="mobileMenu" class="mobileMenu" aria-hidden="true">
-          <a class="mobileLink" href="#features">Features</a>
-          <a class="mobileLink" href="#how">How it works</a>
-          <a class="mobileLink" href="#upload">Upload</a>
-        </div>
-      </nav>
-
-      <div class="container">
-        <section id="home" class="hero">
-          <div class="hero-inner">
-            <div class="hero-copy">
-              <div class="heroShapes" aria-hidden="true">
-                <span class="shape s1"></span>
-                <span class="shape s2"></span>
-                <span class="shape s3"></span>
-              </div>
-              <h1>Your room has potential. Let's unlock it.</h1>
-              <p>Upload a photo of any space and get instant, personalized aesthetic tips powered by AI</p>
-
-              <div style="display: flex; justify-content: center; margin-top: 12px;">
-                <button id="heroAnalyzeCta" class="btn btn-primary" type="button">
-                  Analyze My Room &rarr;
-                </button>
-              </div>
-
-              <div id="upload" class="uploadSection">
-                <div class="panel">
-                  <div
-                    id="dropZone"
-                    class="uploader"
-                  role="button"
-                  tabindex="0"
-                  aria-label="Upload a photo"
-                  >
-                    <div class="drop-row">
-                      <div class="drop-icon">📷</div>
-                      <div class="drop-text">
-                        <strong>Drag & drop your space</strong>
-                        <span>or click to choose an image (JPG, PNG, WEBP).</span>
-                      </div>
-                    </div>
-                    <div class="upload-actions">
-                      <button id="chooseButton" class="btn" type="button">
-                        Choose photo
-                      </button>
-                      <input id="fileInput" type="file" accept="image/*" hidden />
-                      <button id="analyzeButton" class="btn btn-primary" type="button" disabled>
-                        <span id="analyzeIcon" aria-hidden="true">✨</span>
-                        Analyze
-                      </button>
-                    </div>
-
-                    <div class="status-row" aria-live="polite">
-                      <div id="loadingRow" style="display: none; align-items: center; gap: 12px;">
-                        <div class="pulse-dots" aria-hidden="true">
-                          <i></i><i></i><i></i>
-                        </div>
-                        <div style="font-weight: 900; color: rgba(26, 26, 26, 0.78);">Analyzing your space...</div>
-                      </div>
-                    </div>
-
-                    <div id="errorBox" class="error"></div>
-                  </div>
-                </div>
-            </div>
-
-            <div class="panel" style="display: grid; gap: 14px; align-content: start;">
-              <div class="preview-wrap">
-                <div class="preview-header">
-                  <span>Preview</span>
-                  <span id="fileMeta" style="color: rgba(31, 42, 42, 0.55); font-weight: 700;">No photo yet</span>
-                </div>
-                <img id="previewImage" class="preview-img" alt="Uploaded preview" style="display: none;" />
-              </div>
-
-              <div style="color: rgba(31, 42, 42, 0.62); font-weight: 700; font-size: 13px; line-height: 1.5;">
-                Tip: try a well-lit shot of your room corner. The more details you show, the more actionable the tips.
-              </div>
-            </div>
-              </div>
-          </div>
-        </section>
-
-        <section id="features" class="features">
-          <div class="features-head">
-            <h2>Everything you need to glow</h2>
-            <p>Simple steps, expert guidance, and ideas that work with the space you already have.</p>
-          </div>
-
-          <div class="features-grid">
-            <div class="feature-card">
-              <div class="feature-icon" aria-hidden="true">⚡</div>
-              <div class="feature-title">Instant Analysis</div>
-                <p class="feature-desc">AI results in seconds.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon" aria-hidden="true">👁️</div>
-                <div class="feature-title">Expert Eye</div>
-                <p class="feature-desc">Trained on thousands of beautiful spaces.</p>
-            </div>
-
-            <div class="feature-card">
-              <div class="feature-icon" aria-hidden="true">🏡</div>
-                <div class="feature-title">Any Room</div>
-                <p class="feature-desc">Bedroom, living room, desk, closet.</p>
-            </div>
-          </div>
-        </section>
-
-        <section id="how" class="howSection">
-          <div class="sectionHead">
-            <h2>How it works</h2>
-            <p>Upload, analyze, and transform your space.</p>
-          </div>
-
-          <div class="howRow">
-            <div class="stepBlock">
-              <div class="stepNum">1</div>
-              <div class="stepTitle">Upload your photo</div>
-              <div class="stepDesc">Drag & drop an image of your space.</div>
-            </div>
-
-            <div class="stepConnector" aria-hidden="true"></div>
-
-            <div class="stepBlock">
-              <div class="stepNum">2</div>
-              <div class="stepTitle">AI analyzes your space</div>
-              <div class="stepDesc">Get five focused, actionable tips.</div>
-            </div>
-
-            <div class="stepConnector" aria-hidden="true"></div>
-
-            <div class="stepBlock">
-              <div class="stepNum">3</div>
-              <div class="stepTitle">Transform your room</div>
-              <div class="stepDesc">Make changes that actually elevate the vibe.</div>
-            </div>
-          </div>
-        </section>
-
-        <section id="resultsSection" class="results" style="display: none;">
-          <div class="results-head">
-            <h2>Your RoomGlow tips</h2>
-            <div class="hint">Five actionable improvements tailored to your space.</div>
-          </div>
-          <div id="tipsGrid" class="tips-grid"></div>
-          <button id="anotherButton" class="anotherBtn" type="button">
-            Analyze Another Room
-          </button>
-        </section>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RoomGlow — AI Room Aesthetic Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --border: #222222;
+      --gold: #f0a500;
+      --amber: #ff6b35;
+      --text: #f5f5f5;
+      --muted: #888888;
+      --success: #4caf50;
+      --danger: #e53935;
+      --warn: #fbc02d;
+      --grad: linear-gradient(135deg, #f0a500, #ff6b35);
+      --shadow: 0 4px 24px rgba(240, 165, 0, 0.08);
+      --shadow-hover: 0 12px 40px rgba(240, 165, 0, 0.15);
+      --radius: 16px;
+      --pill: 100px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.5;
+      opacity: 0;
+      animation: pageIn 0.6s ease forwards;
+    }
+    @keyframes pageIn { to { opacity: 1; } }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container { width: min(1180px, 100% - 40px); margin: 0 auto; }
+    .section-alt { background: #111111; }
+    .section-muted { background: #0d0d0d; }
+
+    /* Gold glow on interactive hover */
+    button, .rg-btn, .rg-navlink, .rg-pill, .rg-room-pill, .rg-filter-pill, .rg-faq-q, summary, a.rg-link {
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+    button:hover, .rg-btn:hover:not(:disabled), .rg-navlink:hover { transform: scale(1.02); }
+    .rg-card:hover, .rg-step-card:hover, .rg-ex-card:hover, .rg-prod-card:hover, .rg-testi-card:hover, .rg-pricing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    /* --- Nav --- */
+    .rg-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid transparent;
+      border-image: linear-gradient(90deg, transparent, var(--gold), var(--amber), transparent) 1;
+      transition: padding 0.25s ease;
+    }
+    .rg-nav.rg-nav--compact { padding-top: 8px; padding-bottom: 8px; }
+    .rg-nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 0;
+      max-width: 1180px;
+      margin: 0 auto;
+      width: calc(100% - 40px);
+    }
+    .rg-logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 800; font-size: 22px; color: var(--text); }
+    .rg-nav-links { display: flex; gap: 1.75rem; flex-wrap: wrap; justify-content: center; flex: 1; }
+    .rg-navlink { font-size: 14px; font-weight: 500; color: var(--muted); padding: 0.35rem 0; }
+    .rg-navlink:hover { color: var(--text); }
+    .rg-nav-cta {
+      background: var(--grad);
+      color: #0a0a0a;
+      font-weight: 700;
+      padding: 0.65rem 1.25rem;
+      border-radius: var(--pill);
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .rg-hamburger {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 44px; height: 44px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 22px;
+    }
+    .rg-menu-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 2000;
+      flex-direction: column;
+      padding: 2rem;
+      gap: 1.5rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .rg-menu-overlay.open { display: flex; opacity: 1; }
+    .rg-menu-overlay a { font-size: 1.25rem; font-weight: 600; color: var(--text); padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+    .rg-menu-close { align-self: flex-end; background: none; border: none; color: var(--text); font-size: 2rem; cursor: pointer; }
+
+    @media (max-width: 900px) {
+      .rg-nav-links { display: none; }
+      .rg-hamburger { display: grid; place-items: center; }
+    }
+
+    /* --- Hero --- */
+    .rg-hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 6rem 1.25rem 4rem;
+      overflow: hidden;
+    }
+    .rg-hero-bg { position: absolute; inset: 0; pointer-events: none; }
+    .rg-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35; animation: floatOrb 18s ease-in-out infinite; }
+    .rg-orb1 { width: 420px; height: 420px; background: radial-gradient(circle, #f0a50055, transparent 70%); top: -10%; left: -5%; }
+    .rg-orb2 { width: 380px; height: 380px; background: radial-gradient(circle, #ff6b3555, transparent 70%); top: 30%; right: -8%; animation-delay: -6s; }
+    .rg-orb3 { width: 320px; height: 320px; background: radial-gradient(circle, #d8431555, transparent 70%); bottom: 5%; left: 25%; animation-delay: -12s; }
+    @keyframes floatOrb { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(20px, -25px) scale(1.05); } }
+    .rg-grain {
+      position: absolute; inset: 0; opacity: 0.07; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .rg-hero-inner { position: relative; z-index: 2; text-align: center; max-width: 900px; }
+    .rg-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1rem; border-radius: var(--pill);
+      background: rgba(240, 165, 0, 0.12); border: 1px solid rgba(240, 165, 0, 0.35);
+      color: var(--gold); font-size: 13px; font-weight: 600; margin-bottom: 1.5rem;
+      animation: badgePulse 3s ease-in-out infinite;
+    }
+    @keyframes badgePulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(240,165,0,0.2); } 50% { box-shadow: 0 0 20px 2px rgba(240,165,0,0.15); } }
+    .rg-hero h1 {
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      margin-bottom: 1rem;
+    }
+    .rg-hero-sub { font-size: clamp(16px, 2vw, 20px); color: var(--muted); max-width: 720px; margin: 0 auto 2rem; }
+    .rg-hero-ctas { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-bottom: 2rem; }
+    .rg-btn-primary {
+      background: var(--grad);
+      color: #0a0a0a;
+      font-weight: 800;
+      padding: 1rem 1.75rem;
+      border-radius: var(--pill);
+      border: none;
+      cursor: pointer;
+      font-size: 17px;
+    }
+    .rg-btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 2px solid var(--border);
+      font-weight: 700;
+      padding: 1rem 1.75rem;
+      border-radius: var(--pill);
+      cursor: pointer;
+      font-size: 17px;
+    }
+    .rg-social-proof { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; color: var(--muted); font-size: 14px; }
+    .rg-avatars { display: flex; }
+    .rg-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, #333, #555);
+      border: 2px solid var(--bg);
+      margin-left: -12px;
+    }
+    .rg-avatar:first-child { margin-left: 0; }
+    .rg-scroll-hint {
+      position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+      font-size: 1.5rem; color: var(--muted); animation: bounce 2s ease infinite;
+    }
+    @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+    /* Trust bar */
+    .rg-trust {
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0;
+      background: #0a0a0a;
+    }
+    .rg-trust-shimmer {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(240,165,0,0.06), transparent);
+      background-size: 200% 100%;
+      animation: shimmer 4s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .rg-trust-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0; position: relative; z-index: 1; }
+    .rg-trust-item { padding: 0.5rem 1.5rem; font-size: 14px; font-weight: 600; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; }
+    .rg-trust-div { width: 1px; height: 24px; background: var(--border); }
+    @media (max-width: 768px) { .rg-trust-div { display: none; } .rg-trust-row { flex-direction: column; gap: 0.75rem; } }
+
+    /* Section titles */
+    .rg-section { padding: 5rem 1.25rem; }
+    .rg-pill-label {
+      display: inline-block; padding: 0.4rem 1rem; border-radius: var(--pill);
+      background: rgba(240, 165, 0, 0.1); border: 1px solid rgba(240, 165, 0, 0.25);
+      color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+    }
+    .rg-sec-title { font-size: clamp(28px, 4vw, 42px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+    .rg-sec-sub { color: var(--muted); font-size: 18px; max-width: 560px; margin-bottom: 2rem; }
+
+    /* How it works */
+    .rg-steps-wrap { position: relative; }
+    .rg-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;
+    }
+    @media (max-width: 900px) { .rg-steps { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .rg-steps { grid-template-columns: 1fr; } }
+    .rg-step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .rg-step-num { font-size: 48px; font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+    .rg-step-icon { font-size: 28px; margin: 0.5rem 0; }
+    .rg-step-card h3 { font-size: 17px; margin-bottom: 0.5rem; }
+    .rg-step-card p { font-size: 14px; color: var(--muted); }
+    .rg-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .rg-reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Analyzer */
+    .rg-room-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; justify-content: center; }
+    .rg-room-pill {
+      padding: 0.55rem 1rem; border-radius: var(--pill);
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .rg-room-pill.is-active { background: var(--grad); color: #0a0a0a; border-color: transparent; }
+
+    .rg-upload-card {
+      background: var(--surface);
+      border: 2px dashed rgba(240, 165, 0, 0.45);
+      border-radius: var(--radius);
+      padding: 2rem;
+      min-height: 280px;
+      position: relative;
+      box-shadow: var(--shadow);
+      transition: border-color 0.2s ease;
+    }
+    .rg-upload-card.rg-drag { border-color: var(--gold); }
+    .rg-upload-card-inner { text-align: center; cursor: pointer; }
+    .rg-upload-placeholder { padding: 2rem 0; }
+    .rg-upload-placeholder.hidden { display: none; }
+    .rg-preview-wrap { position: relative; display: none; border-radius: var(--radius); overflow: hidden; }
+    .rg-preview-wrap.visible { display: block; animation: fadeIn 0.4s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+    .rg-preview-wrap img { width: 100%; max-height: 420px; object-fit: cover; }
+    .rg-change-photo {
+      position: absolute; top: 12px; right: 12px;
+      background: rgba(0,0,0,0.75); color: var(--text);
+      border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: var(--pill);
+      font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .rg-skeleton { display: none; position: absolute; inset: 0; border-radius: var(--radius); background: linear-gradient(90deg, #1a1a1a 25%, #252525 50%, #1a1a1a 75%); background-size: 200% 100%; animation: skel 1.2s ease infinite; }
+    .rg-skeleton.active { display: block; }
+    @keyframes skel { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    .rg-analyze-btn {
+      width: 100%; margin-top: 1.25rem;
+      background: var(--grad);
+      color: #0a0a0a;
+      font-weight: 800;
+      font-size: 18px;
+      padding: 1.1rem;
+      border: none;
+      border-radius: var(--pill);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      min-height: 56px;
+    }
+    .rg-analyze-btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+    .rg-analyze-btn .rg-load-inner { display: none; align-items: center; gap: 0.75rem; }
+    .rg-analyze-btn.loading .rg-btn-text { display: none; }
+    .rg-analyze-btn.loading .rg-load-inner { display: flex; }
+    .rg-spinner { width: 22px; height: 22px; border: 3px solid rgba(10,10,10,0.2); border-top-color: #0a0a0a; border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .rg-pulse-text { animation: pulseOp 1.2s ease-in-out infinite; }
+    @keyframes pulseOp { 0%, 100% { opacity: 0.9; } 50% { opacity: 0.5; } }
+
+    /* Results */
+    .rg-results { display: none; margin-top: 3rem; }
+    .rg-results.visible { display: block; }
+    .rg-score-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: 2rem; }
+    .rg-score-ring {
+      width: 180px; height: 180px; border-radius: 50%;
+      display: grid; place-items: center;
+      position: relative;
+      background: conic-gradient(var(--ring-color, var(--success)) calc(var(--pct, 0) * 1%), #222 0);
+      padding: 8px;
+    }
+    .rg-score-ring::before {
+      content: ""; position: absolute; inset: 8px; border-radius: 50%; background: var(--surface);
+    }
+    .rg-score-ring span { position: relative; z-index: 1; font-size: 42px; font-weight: 800; }
+    .rg-style-pill {
+      margin-top: 1rem; padding: 0.5rem 1.25rem; border-radius: var(--pill);
+      background: rgba(240, 165, 0, 0.15); border: 1px solid rgba(240, 165, 0, 0.4);
+      color: var(--gold); font-weight: 700; font-size: 15px;
+    }
+    .rg-hint { color: var(--muted); margin-top: 0.75rem; font-size: 15px; }
+
+    .rg-tip-list { display: flex; flex-direction: column; gap: 1rem; }
+    .rg-tip-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: start;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: tipIn 0.45s ease forwards;
+    }
+    @keyframes tipIn { to { opacity: 1; transform: translateY(0); } }
+    .rg-tip-card .rg-cat { grid-column: 1 / -1; }
+    .rg-tip-icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(240, 165, 0, 0.12); border: 1px solid rgba(240, 165, 0, 0.35);
+      display: grid; place-items: center; font-size: 24px;
+    }
+    .rg-cat-pill { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); background: #1a1a1a; padding: 0.25rem 0.6rem; border-radius: var(--pill); border: 1px solid var(--border); }
+    .rg-tip-text { font-size: 15px; line-height: 1.55; }
+    .rg-shop-btn {
+      margin-top: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;
+      background: transparent; color: var(--gold); border: 1px solid rgba(240, 165, 0, 0.5);
+      padding: 0.45rem 0.9rem; border-radius: var(--pill); font-weight: 700; font-size: 13px; cursor: pointer;
+    }
+
+    .rg-share-card {
+      margin-top: 2rem;
+      background: linear-gradient(145deg, #1a1a1a, #111);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .rg-share-card .rg-logo-small { font-size: 20px; font-weight: 800; margin-bottom: 0.5rem; }
+    .rg-share-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 1.25rem; }
+    .rg-btn-white { background: var(--text); color: #0a0a0a; font-weight: 800; padding: 0.85rem 1.5rem; border-radius: var(--pill); border: none; cursor: pointer; }
+    .rg-btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); font-weight: 700; padding: 0.85rem 1.5rem; border-radius: var(--pill); cursor: pointer; }
+
+    /* Examples */
+    .rg-filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .rg-filter-pill { padding: 0.45rem 0.9rem; border-radius: var(--pill); font-size: 13px; font-weight: 600; background: var(--surface); border: 1px solid var(--border); color: var(--muted); cursor: pointer; }
+    .rg-filter-pill.is-active { background: var(--grad); color: #0a0a0a; border-color: transparent; }
+    .rg-ex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    @media (max-width: 900px) { .rg-ex-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .rg-ex-grid { grid-template-columns: 1fr; } }
+    .rg-ex-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+    .rg-ex-card.rg-hidden { display: none; }
+    .rg-ex-img { height: 160px; position: relative; }
+    .rg-ex-overlay {
+      position: absolute; inset: 0; background: rgba(0,0,0,0.55);
+      display: grid; place-items: center; opacity: 0; transition: opacity 0.2s ease;
+      font-weight: 800; color: var(--text);
+    }
+    .rg-ex-card:hover .rg-ex-overlay { opacity: 1; }
+    .rg-ex-meta { padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: flex-end; gap: 0.5rem; flex-wrap: wrap; }
+    .rg-badge-score { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.75); padding: 0.35rem 0.65rem; border-radius: var(--pill); font-size: 12px; font-weight: 800; color: var(--gold); border: 1px solid rgba(240,165,0,0.4); }
+
+    /* Products */
+    .rg-prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    @media (max-width: 900px) { .rg-prod-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .rg-prod-grid { grid-template-columns: 1fr; } }
+    .rg-prod-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .rg-prod-img { height: 140px; }
+    .rg-prod-body { padding: 1rem; }
+    .rg-prod-body h4 { font-size: 16px; margin-bottom: 0.35rem; }
+    .rg-prod-body p { font-size: 13px; color: var(--muted); margin-bottom: 0.75rem; }
+    .rg-prod-body a { margin-top: 0.5rem; display: inline-block; }
+
+    /* Stats */
+    .rg-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; text-align: center; }
+    @media (max-width: 768px) { .rg-stats-row { grid-template-columns: repeat(2, 1fr); } }
+    .rg-stat-num { font-size: clamp(32px, 5vw, 48px); font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .rg-stat-label { font-size: 14px; color: var(--muted); margin-top: 0.35rem; }
+
+    /* Testimonials carousel */
+    .rg-carousel-wrap { overflow: hidden; position: relative; padding: 0.5rem 0; }
+    .rg-carousel-wrap:hover .rg-carousel-track { animation-play-state: paused; }
+    .rg-carousel-track {
+      display: flex; gap: 1.25rem;
+      width: max-content;
+      animation: scrollX 40s linear infinite;
+    }
+    @keyframes scrollX { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .rg-testi-card {
+      flex: 0 0 320px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    .rg-stars { color: var(--gold); margin-bottom: 0.75rem; }
+    .rg-testi-card blockquote { font-style: italic; color: var(--text); font-size: 14px; margin-bottom: 1rem; line-height: 1.55; }
+    .rg-testi-card .rg-author { display: flex; align-items: center; gap: 0.75rem; }
+    .rg-av { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #333, #555); }
+
+    /* Pricing */
+    .rg-pricing-row { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; align-items: stretch; }
+    .rg-pricing-card {
+      flex: 1 1 320px; max-width: 400px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .rg-pricing-card.rg-popular {
+      border: 2px solid var(--gold);
+      transform: scale(1.03);
+      position: relative;
+    }
+    .rg-pop-badge {
+      position: absolute; top: -12px; right: 1rem;
+      background: var(--grad); color: #0a0a0a; font-size: 11px; font-weight: 800; padding: 0.35rem 0.75rem; border-radius: var(--pill);
+    }
+    .rg-price { font-size: 36px; font-weight: 800; margin: 0.5rem 0; }
+    .rg-features { list-style: none; margin: 1.25rem 0; }
+    .rg-features li { padding: 0.4rem 0; font-size: 14px; color: var(--muted); }
+
+    /* FAQ */
+    .rg-faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 0.75rem; overflow: hidden; background: var(--surface); }
+    .rg-faq-q { width: 100%; text-align: left; padding: 1.1rem 1.25rem; background: transparent; color: var(--text); font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; border: none; }
+    .rg-faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .rg-faq-item.open .rg-faq-a { max-height: 320px; }
+    .rg-faq-a-inner { padding: 0 1.25rem 1.1rem; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+    /* Final CTA */
+    .rg-final-cta {
+      padding: 5rem 1.25rem;
+      background: linear-gradient(135deg, #c77a00, #ff6b35, #f0a500);
+      background-size: 200% 200%;
+      animation: gradMove 8s ease infinite;
+      text-align: center;
+    }
+    @keyframes gradMove { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+    .rg-final-cta h2 { font-size: clamp(28px, 4vw, 44px); color: #0a0a0a; font-weight: 800; margin-bottom: 0.75rem; }
+    .rg-final-cta p { color: rgba(10,10,10,0.85); margin-bottom: 1.5rem; font-weight: 600; }
+    .rg-final-cta .rg-btn-white { font-size: 17px; margin-bottom: 0.75rem; }
+
+    /* Footer */
+    footer.rg-footer {
+      border-top: 2px solid transparent;
+      border-image: linear-gradient(90deg, transparent, var(--gold), var(--amber), transparent) 1;
+      padding: 3rem 1.25rem 2rem;
+      background: #0a0a0a;
+    }
+    .rg-footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1.5rem; align-items: center; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+    .rg-footer-top nav { display: flex; gap: 1.25rem; flex-wrap: wrap; justify-content: center; flex: 1; }
+    .rg-footer-top nav a { color: var(--muted); font-size: 14px; }
+    .rg-footer-top nav a:hover { color: var(--text); }
+    .rg-tagline { color: var(--muted); font-size: 14px; max-width: 220px; text-align: right; }
+    .rg-footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; padding-top: 1.5rem; font-size: 13px; color: var(--muted); }
+    @media (max-width: 768px) { .rg-footer-top { flex-direction: column; text-align: center; } .rg-tagline { text-align: center; } .rg-footer-bottom { flex-direction: column; text-align: center; } }
+
+    .rg-error { color: #ff8a80; margin-top: 1rem; font-size: 14px; display: none; }
+    .rg-error.visible { display: block; }
+
+    /* Cursor glow on interactive */
+    .rg-interactive { cursor: pointer; }
+    .rg-interactive:hover { box-shadow: 0 0 0 1px rgba(240,165,0,0.25), 0 0 24px rgba(240,165,0,0.08); }
+  </style>
+</head>
+<body>
+  <div id="rg-root">
+    <!-- NAV -->
+    <header class="rg-nav" id="rgNav">
+      <div class="rg-nav-inner">
+        <a href="#home" class="rg-logo">🔥 RoomGlow</a>
+        <nav class="rg-nav-links">
+          <a class="rg-navlink" href="#home">Home</a>
+          <a class="rg-navlink" href="#how">How It Works</a>
+          <a class="rg-navlink" href="#examples">Examples</a>
+          <a class="rg-navlink" href="#pricing">Pricing</a>
+          <a class="rg-navlink" href="#reviews">Reviews</a>
+        </nav>
+        <button type="button" class="rg-nav-cta" id="rgNavCta">Start Free →</button>
+        <button type="button" class="rg-hamburger" id="rgMenuOpen" aria-label="Menu">☰</button>
       </div>
+    </header>
 
-      <footer class="footer">
-        <div class="footerInner">
-          <div class="footerLeft">
-            <div class="brand-badge" aria-hidden="true" style="width: 36px; height: 36px; border-radius: 14px;">
-              ✦
-            </div>
-            <div style="font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; font-weight: 900; letter-spacing: -0.02em;">
-              RoomGlow
-            </div>
-          </div>
-
-          <div class="footerCenter">Made with ❤️ and AI</div>
-
-          <div class="footerRight">
-            © <span id="year"></span> RoomGlow. All rights reserved.
-          </div>
-        </div>
-      </footer>
+    <div class="rg-menu-overlay" id="rgMenuOverlay">
+      <button type="button" class="rg-menu-close" id="rgMenuClose">&times;</button>
+      <a href="#home">Home</a>
+      <a href="#how">How It Works</a>
+      <a href="#examples">Examples</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#reviews">Reviews</a>
+      <button type="button" class="rg-nav-cta" style="margin-top:1rem;">Start Free →</button>
     </div>
 
-    <script>
-      const BACKEND_URL = "https://roomglow-backend.onrender.com/analyze";
+    <!-- HERO -->
+    <section class="rg-hero" id="home">
+      <div class="rg-hero-bg">
+        <div class="rg-orb rg-orb1"></div>
+        <div class="rg-orb rg-orb2"></div>
+        <div class="rg-orb rg-orb3"></div>
+        <div class="rg-grain"></div>
+      </div>
+      <div class="rg-hero-inner">
+        <div class="rg-badge">✨ AI-Powered Room Analysis — Trusted by 10,000+ users</div>
+        <h1>Your Room Has Potential. Let's Unlock It. 🏠</h1>
+        <p class="rg-hero-sub">Upload any photo, get your Aesthetic Score, personalized tips, and shoppable product recommendations — all powered by AI</p>
+        <div class="rg-hero-ctas">
+          <button type="button" class="rg-btn-primary" id="rgHeroAnalyze">Analyze My Room Free 📸</button>
+          <button type="button" class="rg-btn-outline" id="rgHeroExamples">See Real Examples 🔥</button>
+        </div>
+        <div class="rg-social-proof">
+          <div class="rg-avatars">
+            <span class="rg-avatar"></span><span class="rg-avatar"></span><span class="rg-avatar"></span><span class="rg-avatar"></span><span class="rg-avatar"></span>
+          </div>
+          <span>Join 10,000+ home enthusiasts transforming their spaces</span>
+        </div>
+      </div>
+      <div class="rg-scroll-hint" aria-hidden="true">↓</div>
+    </section>
 
-      const dropZone = document.getElementById("dropZone");
-      const chooseButton = document.getElementById("chooseButton");
-      const fileInput = document.getElementById("fileInput");
-      const analyzeButton = document.getElementById("analyzeButton");
-      const previewImage = document.getElementById("previewImage");
-      const fileMeta = document.getElementById("fileMeta");
-      const resultsSection = document.getElementById("resultsSection");
-      const tipsGrid = document.getElementById("tipsGrid");
-      const loadingRow = document.getElementById("loadingRow");
-      const errorBox = document.getElementById("errorBox");
-      const tryFreeButton = document.getElementById("tryFreeButton");
-      const heroAnalyzeCta = document.getElementById("heroAnalyzeCta");
-      const uploadSection = document.getElementById("upload");
-      const anotherButton = document.getElementById("anotherButton");
-      const topNav = document.getElementById("topNav");
-      const menuButton = document.getElementById("menuButton");
-      const mobileMenu = document.getElementById("mobileMenu");
+    <!-- TRUST -->
+    <div class="rg-trust">
+      <div class="rg-trust-shimmer"></div>
+      <div class="rg-trust-row container">
+        <div class="rg-trust-item">⚡ Instant AI Analysis</div>
+        <span class="rg-trust-div"></span>
+        <div class="rg-trust-item">🔒 Photos Never Stored</div>
+        <span class="rg-trust-div"></span>
+        <div class="rg-trust-item">⭐ 4.9/5 Average Rating</div>
+        <span class="rg-trust-div"></span>
+        <div class="rg-trust-item">🏠 10,000+ Rooms Analyzed</div>
+      </div>
+    </div>
+
+    <!-- HOW -->
+    <section class="rg-section section-alt" id="how">
+      <div class="container">
+        <span class="rg-pill-label">Simple Process</span>
+        <h2 class="rg-sec-title">From Photo to Perfect Room in Seconds 🎯</h2>
+        <p class="rg-sec-sub">Four quick steps from upload to your personalized score and shopping list.</p>
+        <div class="rg-steps-wrap">
+          <div class="rg-steps">
+            <div class="rg-step-card rg-reveal" data-reveal>
+              <div class="rg-step-num">01</div>
+              <div class="rg-step-icon">📸</div>
+              <h3>Upload Your Photo</h3>
+              <p>Take a photo of any room, desk, closet or living space</p>
+            </div>
+            <div class="rg-step-card rg-reveal" data-reveal>
+              <div class="rg-step-num">02</div>
+              <div class="rg-step-icon">🛋️</div>
+              <h3>Choose Room Type</h3>
+              <p>Select your room type for more accurate personalized analysis</p>
+            </div>
+            <div class="rg-step-card rg-reveal" data-reveal>
+              <div class="rg-step-num">03</div>
+              <div class="rg-step-icon">🧠</div>
+              <h3>AI Analyzes Everything</h3>
+              <p>Our AI examines lighting, layout, color, furniture and style</p>
+            </div>
+            <div class="rg-step-card rg-reveal" data-reveal>
+              <div class="rg-step-num">04</div>
+              <div class="rg-step-icon">✨</div>
+              <h3>Get Score + Shop Tips</h3>
+              <p>Receive your Aesthetic Score, tips, and hand picked product links</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALYZER -->
+    <section class="rg-section" id="analyze">
+      <div class="container">
+        <span class="rg-pill-label">Try It Free</span>
+        <h2 class="rg-sec-title">Analyze Your Room Now 🏠</h2>
+        <p class="rg-sec-sub">No account required. Get your first analysis free.</p>
+
+        <div class="rg-room-row" id="rgRoomPills" role="group" aria-label="Room type">
+          <button type="button" class="rg-room-pill is-active" data-room="Bedroom">🛏️ Bedroom</button>
+          <button type="button" class="rg-room-pill" data-room="Living Room">🛋️ Living Room</button>
+          <button type="button" class="rg-room-pill" data-room="Desk Setup">💻 Desk Setup</button>
+          <button type="button" class="rg-room-pill" data-room="Closet">👗 Closet</button>
+          <button type="button" class="rg-room-pill" data-room="Kitchen">🍳 Kitchen</button>
+          <button type="button" class="rg-room-pill" data-room="Bathroom">🚿 Bathroom</button>
+        </div>
+
+        <div class="rg-upload-card" id="rgUploadCard">
+          <div class="rg-skeleton" id="rgSkeleton"></div>
+          <input type="file" id="rgFileInput" accept="image/*" hidden />
+          <div class="rg-upload-card-inner" id="rgDropZone">
+            <div class="rg-upload-placeholder" id="rgPlaceholder">
+              <div style="font-size:3rem;margin-bottom:0.5rem;">📷</div>
+              <p style="font-weight:700;font-size:18px;margin-bottom:0.5rem;">Drag & drop your photo here</p>
+              <p style="color:var(--muted);font-size:14px;">or click to browse</p>
+              <p style="color:var(--muted);font-size:12px;margin-top:1rem;">JPG, PNG, WEBP — up to 20MB</p>
+            </div>
+            <div class="rg-preview-wrap" id="rgPreviewWrap">
+              <img id="rgPreviewImg" alt="Preview" />
+              <button type="button" class="rg-change-photo" id="rgChangePhoto">Change Photo</button>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="rg-analyze-btn rg-interactive" id="rgAnalyzeBtn" disabled>
+          <span class="rg-btn-text">✨ Analyze My Room</span>
+          <span class="rg-load-inner">
+            <span class="rg-spinner"></span>
+            <span class="rg-pulse-text">Analyzing your space...</span>
+          </span>
+        </button>
+        <p class="rg-error" id="rgError"></p>
+
+        <div class="rg-results" id="rgResults">
+          <div class="rg-score-wrap">
+            <div class="rg-score-ring" id="rgScoreRing" style="--pct:0%;--ring-color:#4caf50;">
+              <span id="rgScoreNum">0</span>
+            </div>
+            <div class="rg-style-pill" id="rgStylePill">✨ Style</div>
+            <p class="rg-hint">Here's how to improve your space:</p>
+          </div>
+          <div class="rg-tip-list" id="rgTipList"></div>
+
+          <div class="rg-share-card">
+            <div class="rg-logo-small">🔥 RoomGlow</div>
+            <p style="color:var(--muted);font-size:14px;">Analyzed by RoomGlow AI</p>
+            <p id="rgShareSummary" style="margin-top:0.75rem;font-weight:600;"></p>
+            <div class="rg-share-actions">
+              <button type="button" class="rg-btn-white" id="rgShareBtn">Share Your Score 📤</button>
+              <button type="button" class="rg-btn-ghost" id="rgAnotherBtn">Analyze Another Room 🔄</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXAMPLES -->
+    <section class="rg-section section-alt" id="examples">
+      <div class="container">
+        <span class="rg-pill-label">Real Results</span>
+        <h2 class="rg-sec-title">See What RoomGlow Discovers 🔥</h2>
+        <p class="rg-sec-sub">Real rooms analyzed by our AI — see the scores and tips</p>
+        <div class="rg-filters" id="rgExFilters">
+          <button type="button" class="rg-filter-pill is-active" data-filter="all">All 🏠</button>
+          <button type="button" class="rg-filter-pill" data-filter="Bedroom">Bedroom 🛏️</button>
+          <button type="button" class="rg-filter-pill" data-filter="Living Room">Living Room 🛋️</button>
+          <button type="button" class="rg-filter-pill" data-filter="Desk Setup">Desk 💻</button>
+          <button type="button" class="rg-filter-pill" data-filter="Closet">Closet 👗</button>
+        </div>
+        <div class="rg-ex-grid" id="rgExGrid">
+          <article class="rg-ex-card" data-room="Bedroom">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#1e3a5f,#4a6fa5);position:relative;">
+              <span class="rg-badge-score">82/100</span>
+              <div class="rg-ex-overlay">See Tips</div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Scandinavian Minimal</span>
+              <span style="font-size:12px;color:var(--muted);">Bedroom</span>
+            </div>
+          </article>
+          <article class="rg-ex-card" data-room="Living Room">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#8b4513,#ff8c42);position:relative;">
+              <span class="rg-badge-score">71/100</span>
+              <div class="rg-ex-overlay">See Tips</div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Boho Chic</span>
+              <span style="font-size:12px;color:var(--muted);">Living Room</span>
+            </div>
+          </article>
+          <article class="rg-ex-card" data-room="Desk Setup">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#2d1b4e,#6b4c9a);position:relative;">
+              <span class="rg-badge-score">91/100</span>
+              <div class="rg-ex-overlay">See Tips</div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Dark Academia</span>
+              <span style="font-size:12px;color:var(--muted);">Desk Setup</span>
+            </div>
+          </article>
+          <article class="rg-ex-card" data-room="Closet">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#1b4332,#52b788);position:relative;">
+              <span class="rg-badge-score">65/100</span>
+              <div class="rg-ex-overlay">See Tips</div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Clean Aesthetic</span>
+              <span style="font-size:12px;color:var(--muted);">Closet</span>
+            </div>
+          </article>
+          <article class="rg-ex-card" data-room="Bedroom">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#5c1a3d,#e8a0bf);position:relative;">
+              <span class="rg-badge-score">88/100</span>
+              <div class="rg-ex-overlay">See Tips</div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Cottagecore</span>
+              <span style="font-size:12px;color:var(--muted);">Bedroom</span>
+            </div>
+          </article>
+          <article class="rg-ex-card" data-room="Living Room">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#424242,#9e9e9e);position:relative;">
+              <span class="rg-badge-score">77/100</span>
+              <div class="rg-ex-overlay">See Tips</div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Modern Industrial</span>
+              <span style="font-size:12px;color:var(--muted);">Living Room</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="rg-section" id="shop">
+      <div class="container">
+        <span class="rg-pill-label">Shop The Look</span>
+        <h2 class="rg-sec-title">Products Our AI Recommends 🛍️</h2>
+        <p class="rg-sec-sub">Hand picked items that transform real rooms — click to shop on Amazon</p>
+        <div class="rg-prod-grid">
+          <article class="rg-prod-card rg-interactive">
+            <div class="rg-prod-img" style="background:linear-gradient(135deg,#f0a50033,#ff6b3533);"></div>
+            <div class="rg-prod-body">
+              <h4>Warm LED Floor Lamp</h4>
+              <p>Perfect for cozy bedroom lighting</p>
+              <a class="rg-btn-primary" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=warm+led+floor+lamp" target="_blank" rel="noopener">Shop on Amazon →</a>
+            </div>
+          </article>
+          <article class="rg-prod-card rg-interactive">
+            <div class="rg-prod-img" style="background:linear-gradient(135deg,#4caf5033,#2e7d32);"></div>
+            <div class="rg-prod-body">
+              <h4>Minimalist Desk Plant</h4>
+              <p>Adds life and freshness to any desk</p>
+              <a class="rg-btn-primary" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=minimalist+desk+plant" target="_blank" rel="noopener">Shop Now →</a>
+            </div>
+          </article>
+          <article class="rg-prod-card rg-interactive">
+            <div class="rg-prod-img" style="background:linear-gradient(135deg,#e91e6333,#ff9800);"></div>
+            <div class="rg-prod-body">
+              <h4>Aesthetic Throw Blanket</h4>
+              <p>Instant texture and warmth to sofas</p>
+              <a class="rg-btn-primary" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=aesthetic+throw+blanket" target="_blank" rel="noopener">Shop Now →</a>
+            </div>
+          </article>
+          <article class="rg-prod-card rg-interactive">
+            <div class="rg-prod-img" style="background:linear-gradient(135deg,#607d8b33,#37474f);"></div>
+            <div class="rg-prod-body">
+              <h4>Floating Wall Shelves</h4>
+              <p>Clean storage that looks beautiful</p>
+              <a class="rg-btn-primary" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=floating+wall+shelves" target="_blank" rel="noopener">Shop Now →</a>
+            </div>
+          </article>
+          <article class="rg-prod-card rg-interactive">
+            <div class="rg-prod-img" style="background:linear-gradient(135deg,#ffd54f33,#ff6f00);"></div>
+            <div class="rg-prod-body">
+              <h4>Scented Candle Set</h4>
+              <p>Sets the mood in any room instantly</p>
+              <a class="rg-btn-primary" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=scented+candle+set" target="_blank" rel="noopener">Shop Now →</a>
+            </div>
+          </article>
+          <article class="rg-prod-card rg-interactive">
+            <div class="rg-prod-img" style="background:linear-gradient(135deg,#8d6e6333,#5d4037);"></div>
+            <div class="rg-prod-body">
+              <h4>Woven Storage Basket</h4>
+              <p>Organizes clutter stylishly</p>
+              <a class="rg-btn-primary" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=woven+storage+basket" target="_blank" rel="noopener">Shop Now →</a>
+            </div>
+          </article>
+        </div>
+        <p style="text-align:center;color:var(--muted);margin-top:2rem;font-size:14px;">💡 RoomGlow recommends products based on your specific room analysis</p>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="rg-section section-muted" id="stats">
+      <div class="container">
+        <div class="rg-stats-row">
+          <div class="rg-reveal" data-reveal>
+            <div class="rg-stat-num" data-target="10000" data-suffix="+">0</div>
+            <div class="rg-stat-label">🏠 Rooms Analyzed</div>
+          </div>
+          <div class="rg-reveal" data-reveal>
+            <div class="rg-stat-num" data-target="4.9" data-decimal="1">0</div>
+            <div class="rg-stat-label">⭐ User Rating</div>
+          </div>
+          <div class="rg-reveal" data-reveal>
+            <div class="rg-stat-num" data-target="2" data-prefix="$" data-suffix="M+">0</div>
+            <div class="rg-stat-label">🛍️ Products Recommended</div>
+          </div>
+          <div class="rg-reveal" data-reveal>
+            <div class="rg-stat-num" data-target="95" data-suffix="%">0</div>
+            <div class="rg-stat-label">✨ Say Their Room Improved</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="rg-section section-alt" id="reviews">
+      <div class="container">
+        <span class="rg-pill-label">Love Stories</span>
+        <h2 class="rg-sec-title">People Are Obsessed 💫</h2>
+        <p class="rg-sec-sub">Real people who transformed their spaces with RoomGlow</p>
+      </div>
+      <div class="rg-carousel-wrap">
+        <div class="rg-carousel-track" id="rgCarouselTrack">
+          <!-- duplicated for infinite loop -->
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="rg-section" id="pricing">
+      <div class="container">
+        <span class="rg-pill-label">Simple Pricing</span>
+        <h2 class="rg-sec-title">Start Free, Upgrade When Ready 💎</h2>
+        <p class="rg-sec-sub">No credit card required to start</p>
+        <div class="rg-pricing-row">
+          <div class="rg-pricing-card rg-interactive">
+            <div style="font-weight:800;color:var(--gold);">Free</div>
+            <div class="rg-price">$0</div>
+            <p style="color:var(--muted);font-size:14px;">Forever free</p>
+            <ul class="rg-features">
+              <li>✅ 2 room analyses per day</li>
+              <li>✅ Aesthetic score</li>
+              <li>✅ 5 AI tips per analysis</li>
+              <li>✅ Product recommendations</li>
+              <li>✅ Shareable score card</li>
+            </ul>
+            <button type="button" class="rg-btn-outline" style="width:100%;" id="rgPricingFree">Start Analyzing Free</button>
+          </div>
+          <div class="rg-pricing-card rg-popular rg-interactive">
+            <span class="rg-pop-badge">Most Popular</span>
+            <div style="font-weight:800;color:var(--gold);">Pro</div>
+            <div class="rg-price">$7.99<span style="font-size:16px;font-weight:600;">/month</span></div>
+            <p style="color:var(--muted);font-size:14px;">Cancel anytime</p>
+            <ul class="rg-features">
+              <li>✅ Unlimited analyses</li>
+              <li>✅ Advanced aesthetic score</li>
+              <li>✅ 10 detailed tips per analysis</li>
+              <li>✅ Style identity profile</li>
+              <li>✅ Progress tracking over time</li>
+              <li>✅ Priority AI processing</li>
+              <li>✅ Early access to new features</li>
+            </ul>
+            <button type="button" class="rg-nav-cta" style="width:100%;border:none;">Upgrade to Pro →</button>
+            <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:0.75rem;">🔒 Secure payment via Stripe</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="rg-section section-alt" id="faq">
+      <div class="container">
+        <span class="rg-pill-label">FAQ</span>
+        <h2 class="rg-sec-title">Questions? We Got Answers 💬</h2>
+        <div class="rg-faq-list">
+          <div class="rg-faq-item">
+            <button type="button" class="rg-faq-q">How accurate is the AI room analysis? <span>+</span></button>
+            <div class="rg-faq-a"><div class="rg-faq-a-inner">Our AI is powered by GPT-4o Vision, one of the most advanced image understanding models available. It analyzes lighting, color harmony, furniture placement, clutter, and style consistency to give you a precise and actionable score.</div></div>
+          </div>
+          <div class="rg-faq-item">
+            <button type="button" class="rg-faq-q">Is my photo stored or shared anywhere? <span>+</span></button>
+            <div class="rg-faq-a"><div class="rg-faq-a-inner">Never. Your photos are sent directly to the AI for analysis and immediately discarded. We do not store, share, or use your photos for any other purpose. Your privacy is our priority.</div></div>
+          </div>
+          <div class="rg-faq-item">
+            <button type="button" class="rg-faq-q">How many free analyses do I get? <span>+</span></button>
+            <div class="rg-faq-a"><div class="rg-faq-a-inner">Every visitor gets 2 free analyses per day with no account required. Upgrade to Pro for unlimited daily analyses and advanced features.</div></div>
+          </div>
+          <div class="rg-faq-item">
+            <button type="button" class="rg-faq-q">What rooms work best? <span>+</span></button>
+            <div class="rg-faq-a"><div class="rg-faq-a-inner">RoomGlow works on any indoor space — bedrooms, living rooms, desk setups, closets, kitchens, and bathrooms. The clearer and better lit your photo, the more accurate your results.</div></div>
+          </div>
+          <div class="rg-faq-item">
+            <button type="button" class="rg-faq-q">How do the product recommendations work? <span>+</span></button>
+            <div class="rg-faq-a"><div class="rg-faq-a-inner">After analyzing your room, our AI suggests specific types of products that would improve your aesthetic score. Each tip includes a direct Amazon search link so you can shop instantly.</div></div>
+          </div>
+          <div class="rg-faq-item">
+            <button type="button" class="rg-faq-q">Can I track my room's improvement over time? <span>+</span></button>
+            <div class="rg-faq-a"><div class="rg-faq-a-inner">Pro users get access to progress tracking, so you can see your aesthetic score improve as you make changes to your space.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="rg-final-cta" id="final-cta">
+      <h2>What Score Does Your Room Deserve? 🏠</h2>
+      <p>Find out in 30 seconds. No account needed.</p>
+      <button type="button" class="rg-btn-white" id="rgFinalCta">Analyze My Room Free →</button>
+      <p style="font-size:14px;margin-top:0.75rem;color:rgba(10,10,10,0.75);">✨ Join 10,000+ people who already discovered their room's potential</p>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="rg-footer">
+      <div class="rg-footer-top container">
+        <div class="rg-logo">🔥 RoomGlow</div>
+        <nav>
+          <a href="#home">Home</a>
+          <a href="#how">How It Works</a>
+          <a href="#examples">Examples</a>
+          <a href="#pricing">Pricing</a>
+        </nav>
+        <p class="rg-tagline">Aesthetic intelligence for every room.</p>
+      </div>
+      <div class="rg-footer-bottom container">
+        <span>© <span id="rgYear"></span> RoomGlow. All rights reserved.</span>
+        <span>Made with ❤️ and AI</span>
+        <span><a href="#" class="rg-link">Privacy Policy</a> · <a href="#" class="rg-link">Terms</a></span>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const BACKEND_URL = "https://roomglow-backend.onrender.com/analyze";
+      const MAX_BYTES = 20 * 1024 * 1024;
 
       let currentBase64 = null;
       let currentMime = "image/jpeg";
-      let currentFile = null;
+      let selectedRoom = "Bedroom";
+      let lastScore = 0;
+      let lastStyle = "";
 
-      const MAX_BYTES = 20 * 1024 * 1024; // keep consistent with typical vision limits
+      const $ = (id) => document.getElementById(id);
 
-      function setError(message) {
-        errorBox.style.display = "block";
-        errorBox.textContent = message;
+      const fileInput = $("rgFileInput");
+      const dropZone = $("rgDropZone");
+      const uploadCard = $("rgUploadCard");
+      const placeholder = $("rgPlaceholder");
+      const previewWrap = $("rgPreviewWrap");
+      const previewImg = $("rgPreviewImg");
+      const analyzeBtn = $("rgAnalyzeBtn");
+      const errorEl = $("rgError");
+      const results = $("rgResults");
+      const tipList = $("rgTipList");
+      const skeleton = $("rgSkeleton");
+      const scoreRing = $("rgScoreRing");
+      const scoreNum = $("rgScoreNum");
+      const stylePill = $("rgStylePill");
+      const shareSummary = $("rgShareSummary");
+      const nav = $("rgNav");
+
+      function showError(msg) {
+        errorEl.textContent = msg;
+        errorEl.classList.add("visible");
       }
-
       function clearError() {
-        errorBox.style.display = "none";
-        errorBox.textContent = "";
+        errorEl.textContent = "";
+        errorEl.classList.remove("visible");
       }
 
-      function setLoading(isLoading) {
-        loadingRow.style.display = isLoading ? "flex" : "none";
-        analyzeButton.disabled = !currentBase64 || isLoading;
-        chooseButton.disabled = isLoading;
-      }
-
-      function resetResults() {
-        tipsGrid.innerHTML = "";
-        resultsSection.style.display = "none";
-      }
-
-      function setPreview(dataUrl) {
-        previewImage.src = dataUrl;
-        previewImage.style.display = "block";
-      }
-
-      async function fileToBase64(file) {
-        const dataUrl = await new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = () => reject(new Error("Failed to read file"));
-          reader.readAsDataURL(file);
+      function setRoomPills() {
+        document.querySelectorAll(".rg-room-pill").forEach((btn) => {
+          btn.classList.toggle("is-active", btn.dataset.room === selectedRoom);
+          btn.addEventListener("click", () => {
+            selectedRoom = btn.dataset.room;
+            document.querySelectorAll(".rg-room-pill").forEach((b) => b.classList.toggle("is-active", b.dataset.room === selectedRoom));
+          });
         });
-
-        const result = String(dataUrl);
-        const commaIdx = result.indexOf(",");
-        const base64 = commaIdx >= 0 ? result.slice(commaIdx + 1) : result;
-        return base64;
       }
+      setRoomPills();
 
-      function formatBytes(bytes) {
-        if (!Number.isFinite(bytes)) return "";
-        const units = ["B", "KB", "MB", "GB"];
-        let i = 0;
-        let v = bytes;
-        while (v >= 1024 && i < units.length - 1) {
-          v /= 1024;
-          i++;
-        }
-        return `${v.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
+      function scrollToAnalyze() {
+        $("analyze").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      document.querySelectorAll("#rgNavCta, #rgHeroAnalyze, #rgFinalCta, #rgPricingFree").forEach((el) => {
+        el && el.addEventListener("click", scrollToAnalyze);
+      });
+      $("rgHeroExamples")?.addEventListener("click", () => $("examples").scrollIntoView({ behavior: "smooth" }));
+
+      // Mobile menu
+      const overlay = $("rgMenuOverlay");
+      $("rgMenuOpen")?.addEventListener("click", () => overlay.classList.add("open"));
+      $("rgMenuClose")?.addEventListener("click", () => overlay.classList.remove("open"));
+      overlay?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => overlay.classList.remove("open"));
+      overlay?.querySelector(".rg-nav-cta")?.addEventListener("click", () => { overlay.classList.remove("open"); scrollToAnalyze(); });
+
+      // Nav shrink
+      window.addEventListener("scroll", () => {
+        nav.classList.toggle("rg-nav--compact", window.scrollY > 40);
+      }, { passive: true });
+
+      function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+          const r = new FileReader();
+          r.onload = () => {
+            const s = String(r.result);
+            const i = s.indexOf(",");
+            resolve(i >= 0 ? s.slice(i + 1) : s);
+          };
+          r.onerror = reject;
+          r.readAsDataURL(file);
+        });
       }
 
       function handleFile(file) {
         clearError();
-
-        if (!file || !file.type || !file.type.startsWith("image/")) {
-          setError("Please upload a valid image file.");
+        if (!file || !file.type.startsWith("image/")) {
+          showError("Please upload a valid image.");
           return;
         }
         if (file.size > MAX_BYTES) {
-          setError("That image is a bit large. Please choose an image under 20MB.");
+          showError("Image too large (max 20MB).");
           return;
         }
-
-        currentFile = file;
         currentMime = file.type || "image/jpeg";
-        analyzeButton.disabled = true;
-        resetResults();
-
+        analyzeBtn.disabled = true;
         const reader = new FileReader();
         reader.onload = () => {
-          const dataUrl = String(reader.result || "");
-          setPreview(dataUrl);
-          fileMeta.textContent = `${file.name} • ${formatBytes(file.size)}`;
+          previewImg.src = reader.result;
+          placeholder.classList.add("hidden");
+          previewWrap.classList.add("visible");
         };
         reader.readAsDataURL(file);
-
-        fileToBase64(file)
-          .then((b64) => {
-            currentBase64 = b64;
-            analyzeButton.disabled = false;
-          })
-          .catch(() => {
-            currentBase64 = null;
-            analyzeButton.disabled = true;
-            setError("Could not process that image. Please try another one.");
-          });
+        fileToBase64(file).then((b64) => {
+          currentBase64 = b64;
+          analyzeBtn.disabled = false;
+        }).catch(() => showError("Could not read file."));
+    results.classList.remove("visible");
+    tipList.innerHTML = "";
       }
 
-      chooseButton.addEventListener("click", () => fileInput.click());
       dropZone.addEventListener("click", (e) => {
-        const targetTag = (e.target && e.target.tagName ? e.target.tagName.toLowerCase() : "");
-        if (targetTag === "button" || targetTag === "img") return;
+        if (e.target.closest("#rgChangePhoto") || e.target.closest("button")) return;
+        if (e.target.tagName === "IMG") return;
         fileInput.click();
       });
-
-      dropZone.addEventListener("dragenter", (e) => {
-        e.preventDefault();
-        dropZone.classList.add("is-dragover");
-      });
-      dropZone.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        dropZone.classList.add("is-dragover");
-      });
-      dropZone.addEventListener("dragleave", () => dropZone.classList.remove("is-dragover"));
-      dropZone.addEventListener("drop", (e) => {
-        e.preventDefault();
-        dropZone.classList.remove("is-dragover");
-        const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-        handleFile(file);
-      });
-
+      $("rgChangePhoto")?.addEventListener("click", (e) => { e.stopPropagation(); fileInput.click(); });
       fileInput.addEventListener("change", () => {
-        const file = fileInput.files && fileInput.files[0];
-        handleFile(file);
+        const f = fileInput.files && fileInput.files[0];
+        if (f) handleFile(f);
       });
+      ["dragenter", "dragover"].forEach((ev) => {
+        uploadCard.addEventListener(ev, (e) => { e.preventDefault(); uploadCard.classList.add("rg-drag"); });
+      });
+      ["dragleave", "drop"].forEach((ev) => {
+        uploadCard.addEventListener(ev, (e) => { e.preventDefault(); uploadCard.classList.remove("rg-drag"); });
+      });
+      uploadCard.addEventListener("drop", (e) => {
+        const f = e.dataTransfer.files && e.dataTransfer.files[0];
+        if (f) handleFile(f);
+      });
+
+      function scoreColor(score) {
+        if (score <= 40) return "#e53935";
+        if (score <= 70) return "#fbc02d";
+        return "#4caf50";
+      }
+
+      function animateScore(target) {
+        const dur = 1200;
+        const start = performance.now();
+        const from = 0;
+        function frame(now) {
+          const t = Math.min(1, (now - start) / dur);
+          const ease = 1 - Math.pow(1 - t, 3);
+          const val = Math.round(from + (target - from) * ease);
+          scoreNum.textContent = val;
+          scoreRing.style.setProperty("--pct", String(val));
+          if (t < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      }
 
       function renderTips(tips) {
-        tipsGrid.innerHTML = "";
-        tips.forEach((item, idx) => {
-          const tip = item && typeof item.tip === "string" ? item.tip.trim() : "Tip coming soon...";
-          const icon = item && typeof item.icon === "string" && item.icon.trim() ? item.icon.trim() : "✨";
-
+        tipList.innerHTML = "";
+        tips.forEach((tip, i) => {
           const card = document.createElement("div");
-          card.className = "tip-card";
-          card.style.animationDelay = `${idx * 140}ms`;
-
+          card.className = "rg-tip-card rg-interactive";
+          card.style.animationDelay = i * 200 + "ms";
+          const icon = escapeHtml(tip.icon || "✨");
+          const cat = escapeHtml(tip.category || "Tip");
+          const txt = escapeHtml(tip.tip || "");
+          const url = tip.product_search_url || "https://www.amazon.com/s?k=room+decor";
           card.innerHTML = `
-            <div class="tip-row">
-              <div class="tip-icon" aria-hidden="true">${icon}</div>
-              <div class="tip-text">
-                <span>${escapeHtml(tip)}</span>
-              </div>
+            <div class="rg-cat"><span class="rg-cat-pill">${cat}</span></div>
+            <div class="rg-tip-icon">${icon}</div>
+            <div>
+              <p class="rg-tip-text">${txt}</p>
+              <button type="button" class="rg-shop-btn" data-url="${escapeAttr(url)}">Shop This →</button>
             </div>
           `;
-          tipsGrid.appendChild(card);
+          tipList.appendChild(card);
+        });
+        tipList.querySelectorAll(".rg-shop-btn").forEach((btn) => {
+          btn.addEventListener("click", () => window.open(btn.dataset.url, "_blank", "noopener,noreferrer"));
         });
       }
 
       function escapeHtml(s) {
-        return String(s)
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;")
-          .replaceAll("'", "&#039;");
+        return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      }
+      function escapeAttr(s) {
+        return escapeHtml(s).replace(/'/g, "&#39;");
       }
 
       async function analyze() {
         if (!currentBase64) {
-          setError("Please upload a photo first.");
+          showError("Please upload a photo first.");
           return;
         }
-
         clearError();
-        setLoading(true);
-        resultsSection.style.display = "none";
+        skeleton.classList.add("active");
+        analyzeBtn.disabled = true;
+        analyzeBtn.classList.add("loading");
+        results.classList.remove("visible");
 
         try {
           const res = await fetch(BACKEND_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ image: currentBase64, mime: currentMime })
+            body: JSON.stringify({
+              image: currentBase64,
+              mime: currentMime,
+              room_type: selectedRoom,
+            }),
           });
-
-          if (!res.ok) {
-            let message = `Request failed (${res.status}).`;
-            try {
-              const err = await res.json();
-              if (err && err.error) message = err.error;
-            } catch (_) {}
-            throw new Error(message);
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || "Request failed (" + res.status + ")");
+          if (typeof data.score !== "number" || !Array.isArray(data.tips)) {
+            throw new Error("Unexpected response from server.");
           }
-
-          const tips = await res.json();
-          if (!Array.isArray(tips) || tips.length !== 5) {
-            throw new Error("The server returned unexpected results. Please try again.");
-          }
-
-          renderTips(tips);
-          resultsSection.style.display = "grid";
-        } catch (err) {
-          const msg = err && err.message ? err.message : "Something went wrong. Please try again.";
-          setError(msg);
+          lastScore = data.score;
+          lastStyle = data.style || "Your Style";
+          scoreRing.style.setProperty("--ring-color", scoreColor(lastScore));
+          stylePill.textContent = "✨ " + lastStyle;
+          shareSummary.textContent = "Score " + lastScore + "/100 · " + lastStyle;
+          results.classList.add("visible");
+          animateScore(lastScore);
+          renderTips(data.tips.slice(0, 5));
+          results.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        } catch (e) {
+          showError(e.message || "Something went wrong.");
         } finally {
-          setLoading(false);
+          skeleton.classList.remove("active");
+          analyzeBtn.classList.remove("loading");
+          analyzeBtn.disabled = !currentBase64;
         }
       }
 
-      analyzeButton.addEventListener("click", analyze);
-      document.addEventListener("keydown", (e) => {
-        if ((e.key || "") === "Enter" && document.activeElement === dropZone) {
-          fileInput.click();
+      analyzeBtn.addEventListener("click", analyze);
+
+      $("rgAnotherBtn")?.addEventListener("click", () => {
+        results.classList.remove("visible");
+        tipList.innerHTML = "";
+        fileInput.value = "";
+        currentBase64 = null;
+        previewImg.removeAttribute("src");
+        placeholder.classList.remove("hidden");
+        previewWrap.classList.remove("visible");
+        analyzeBtn.disabled = true;
+        scrollToAnalyze();
+      });
+
+      $("rgShareBtn")?.addEventListener("click", async function shareScore() {
+        const text = "My RoomGlow score: " + lastScore + "/100 — " + lastStyle;
+        const url = window.location.href;
+        if (navigator.share) {
+          try {
+            await navigator.share({ title: "RoomGlow", text, url });
+            return;
+          } catch (_) {}
+        }
+        try {
+          await navigator.clipboard.writeText(text + " " + url);
+          alert("Copied to clipboard!");
+        } catch (_) {
+          prompt("Copy this:", text + " " + url);
         }
       });
 
-      function scrollToUpload() {
-        if (!uploadSection) return;
-        uploadSection.scrollIntoView({ behavior: "smooth", block: "center" });
-        fileInput.focus?.();
-      }
+      // IntersectionObserver reveals
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) en.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.12 }
+      );
+      document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
 
-      // Premium CTA behavior
-      if (heroAnalyzeCta) heroAnalyzeCta.addEventListener("click", scrollToUpload);
-      if (tryFreeButton) tryFreeButton.addEventListener("click", scrollToUpload);
-      if (anotherButton) {
-        anotherButton.addEventListener("click", () => {
-          resetResults();
-          scrollToUpload();
-        });
-      }
+      // Stats counter
+      let statsDone = false;
+      const statsIo = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (!en.isIntersecting || statsDone) return;
+            statsDone = true;
+            en.target.querySelectorAll(".rg-stat-num").forEach((el) => {
+              const target = parseFloat(el.dataset.target);
+              const dec = el.dataset.decimal ? parseInt(el.dataset.decimal, 10) : 0;
+              const prefix = el.dataset.prefix || "";
+              const suffix = el.dataset.suffix || "";
+              const dur = 1500;
+              const start = performance.now();
+              function tick(now) {
+                const t = Math.min(1, (now - start) / dur);
+                const ease = 1 - Math.pow(1 - t, 2);
+                let v = target * ease;
+                if (dec === 0) el.textContent = prefix + Math.round(v) + suffix;
+                else el.textContent = prefix + v.toFixed(dec) + suffix;
+                if (t < 1) requestAnimationFrame(tick);
+              }
+              requestAnimationFrame(tick);
+            });
+          });
+        },
+        { threshold: 0.3 }
+      );
+      const statsSec = $("stats");
+      if (statsSec) statsIo.observe(statsSec);
 
-      // Sticky nav blur on scroll
-      if (topNav) {
-        const onScroll = () => {
-          if (window.scrollY > 10) topNav.classList.add("scrolled");
-          else topNav.classList.remove("scrolled");
-        };
-        window.addEventListener("scroll", onScroll, { passive: true });
-        onScroll();
-      }
-
-      // Mobile menu toggle
-      if (menuButton && mobileMenu) {
-        const setMenuOpen = (isOpen) => {
-          mobileMenu.classList.toggle("open", isOpen);
-          mobileMenu.setAttribute("aria-hidden", isOpen ? "false" : "true");
-          menuButton.setAttribute("aria-expanded", isOpen ? "true" : "false");
-        };
-
-        const closeMenu = () => setMenuOpen(false);
-        const openMenu = () => setMenuOpen(true);
-
-        menuButton.addEventListener("click", () => {
-          const isOpenNow = mobileMenu.classList.contains("open");
-          setMenuOpen(!isOpenNow);
-        });
-
-        mobileMenu.addEventListener("click", (e) => {
-          const target = e.target;
-          if (target && target.tagName && target.tagName.toLowerCase() === "a") {
-            closeMenu();
+      // FAQ
+      document.querySelectorAll(".rg-faq-q").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const item = btn.closest(".rg-faq-item");
+          const wasOpen = item.classList.contains("open");
+          document.querySelectorAll(".rg-faq-item").forEach((i) => {
+            i.classList.remove("open");
+            const s = i.querySelector(".rg-faq-q span");
+            if (s) s.textContent = "+";
+          });
+          if (!wasOpen) {
+            item.classList.add("open");
+            const s = btn.querySelector("span");
+            if (s) s.textContent = "−";
           }
         });
+      });
 
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") closeMenu();
+      // Example filters
+      const exFilters = $("rgExFilters");
+      exFilters?.addEventListener("click", (e) => {
+        const pill = e.target.closest(".rg-filter-pill");
+        if (!pill) return;
+        exFilters.querySelectorAll(".rg-filter-pill").forEach((p) => p.classList.remove("is-active"));
+        pill.classList.add("is-active");
+        const f = pill.dataset.filter;
+        document.querySelectorAll(".rg-ex-card").forEach((card) => {
+          const show = f === "all" || card.dataset.room === f;
+          card.classList.toggle("rg-hidden", !show);
         });
+      });
 
-        document.addEventListener("click", (e) => {
-          if (!mobileMenu.classList.contains("open")) return;
-          if (!menuButton.contains(e.target) && !mobileMenu.contains(e.target)) closeMenu();
-        });
+      // Testimonials carousel — duplicate nodes
+      const testimonials = [
+        { q: "I got a 43/100 on my bedroom and was honestly a little offended 😂 But I followed every tip and bought the lamp it suggested and now I'm at 78. My room looks incredible.", n: "Sarah K.", r: "College Student" },
+        { q: "The AI told me my desk setup was 'missing warmth and personality' and recommended a plant and a LED strip. Spent $40, now my setup looks like it belongs on Reddit.", n: "Marcus T.", r: "Software Developer" },
+        { q: "I used this on my living room before having people over for a dinner party. Followed 3 of the 5 tips. My friend literally asked if I hired an interior designer.", n: "Priya M.", r: "Marketing Manager" },
+        { q: "The aesthetic style detection is scary accurate. It called my room 'Dark Academia with Maximalist tendencies' which is literally my entire personality.", n: "Jake R.", r: "Photographer" },
+        { q: "As a college student on a budget this is gold. The product recommendations are all affordable and actually match my room. I've bought 4 things it suggested.", n: "Emma L.", r: "University Student" },
+        { q: "I run an Airbnb and I use RoomGlow on every room before listing. My bookings went up after I renovated based on the tips. Genuinely useful tool.", n: "David C.", r: "Airbnb Host" },
+      ];
+      const track = $("rgCarouselTrack");
+      function buildTestiCard(t) {
+        const div = document.createElement("div");
+        div.className = "rg-testi-card rg-interactive";
+        div.innerHTML = `<div class="rg-stars">★★★★★</div><blockquote>${escapeHtml(t.q)}</blockquote><div class="rg-author"><div class="rg-av"></div><div><strong>${escapeHtml(t.n)}</strong><br/><span style="color:var(--muted);font-size:13px;">${escapeHtml(t.r)}</span></div></div>`;
+        return div;
       }
+      testimonials.forEach((t) => track.appendChild(buildTestiCard(t)));
+      testimonials.forEach((t) => track.appendChild(buildTestiCard(t)));
 
-      // Footer year
-      const yearEl = document.getElementById("year");
-      if (yearEl) yearEl.textContent = String(new Date().getFullYear());
-    </script>
-  </body>
+      $("rgYear").textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
 </html>
-
