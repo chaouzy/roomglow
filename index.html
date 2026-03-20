@@ -184,36 +184,46 @@
       padding: 1.25rem 1.5rem;
       box-shadow: 0 8px 40px rgba(240,165,0,0.12), var(--shadow);
     }
+    .rg-mockup-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.85rem; }
     .rg-mockup-score {
       position: relative;
       isolation: isolate;
-      width: 100px; height: 100px; margin: 0 auto;
+      width: 72px; height: 72px;
       border-radius: 50%;
       background: conic-gradient(var(--gold) 73%, #2a2a2a 0);
       display: grid; place-items: center;
-      padding: 7px;
+      padding: 5px; flex-shrink: 0;
     }
     .rg-mockup-score::after {
-      content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--surface);
+      content: ""; position: absolute; inset: 5px; border-radius: 50%; background: var(--surface);
     }
     .rg-mockup-score .rg-mockup-num {
       position: relative; z-index: 1;
-      font-size: 20px; font-weight: 800;
+      font-size: 16px; font-weight: 800;
       background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .rg-mockup-score .rg-mockup-den { font-size: 0.55em; opacity: 0.85; }
+    .rg-mockup-meta { flex: 1; min-width: 0; }
     .rg-mockup-pill {
-      text-align: center; margin-top: 0.75rem;
-      display: inline-block; width: 100%;
-      padding: 0.4rem 0.75rem; border-radius: var(--pill);
+      display: inline-block;
+      padding: 0.3rem 0.65rem; border-radius: var(--pill);
       background: rgba(240, 165, 0, 0.12); border: 1px solid rgba(240, 165, 0, 0.35);
-      color: var(--gold); font-weight: 700; font-size: 13px;
+      color: var(--gold); font-weight: 700; font-size: 11px; margin-bottom: 0.3rem;
     }
-    .rg-mockup-tips { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .rg-mockup-room { font-size: 11px; color: var(--muted); }
+    .rg-mockup-bars { margin-bottom: 0.85rem; display: flex; flex-direction: column; gap: 0.35rem; }
+    .rg-mockup-bar-row { display: flex; align-items: center; gap: 0.5rem; }
+    .rg-mockup-bar-label { font-size: 10px; color: var(--muted); width: 80px; flex-shrink: 0; }
+    .rg-mockup-bar-track { flex: 1; background: #1a1a1a; border-radius: 100px; height: 5px; overflow: hidden; }
+    .rg-mockup-bar-fill { height: 100%; border-radius: 100px; background: var(--grad); }
+    .rg-mockup-bar-val { font-size: 10px; font-weight: 700; color: var(--gold); width: 18px; text-align: right; flex-shrink: 0; }
+    .rg-mockup-tips { display: flex; flex-direction: column; gap: 0.4rem; }
     .rg-mockup-tip {
-      background: #1a1a1a; border: 1px solid var(--border); border-radius: 10px;
-      padding: 0.5rem 0.65rem; font-size: 12px; color: var(--muted); text-align: left;
+      background: #1a1a1a; border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.45rem 0.65rem; font-size: 11px; color: var(--muted); text-align: left;
+      display: flex; align-items: center; gap: 0.4rem;
     }
+    .rg-mockup-tip-badge { font-size: 10px; font-weight: 700; padding: 0.15rem 0.4rem; border-radius: 100px; background: rgba(76,175,80,0.15); color: #4caf50; flex-shrink: 0; }
     @media (max-width: 479px) { .rg-hero-mockup { display: none; } }
     .rg-btn-primary {
       background: var(--grad);
@@ -239,9 +249,11 @@
     .rg-avatars { display: flex; }
     .rg-avatar {
       width: 40px; height: 40px; border-radius: 50%;
-      background: linear-gradient(135deg, #333, #555);
       border: 2px solid var(--bg);
       margin-left: -12px;
+      display: grid; place-items: center;
+      font-size: 13px; font-weight: 800; color: #fff;
+      flex-shrink: 0;
     }
     .rg-avatar:first-child { margin-left: 0; }
     .rg-scroll-hint {
@@ -417,44 +429,6 @@
     .rg-whats-working-icon { font-size: 1.25rem; flex-shrink: 0; margin-top: 1px; }
     .rg-whats-working-text { font-size: 14px; line-height: 1.6; color: #b9f5bb; }
     .rg-whats-working-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--success); margin-bottom: 0.3rem; }
-
-    /* What's Not Working */
-    .rg-whats-not-working {
-      margin: 1rem 0;
-      background: rgba(251, 192, 45, 0.07);
-      border: 1px solid rgba(251, 192, 45, 0.3);
-      border-radius: var(--radius);
-      padding: 1.1rem 1.25rem;
-      display: flex; gap: 0.75rem; align-items: flex-start;
-    }
-    .rg-whats-not-working-icon { font-size: 1.25rem; flex-shrink: 0; margin-top: 1px; }
-    .rg-whats-not-working-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--warn); margin-bottom: 0.3rem; }
-    .rg-whats-not-working-text { font-size: 14px; line-height: 1.6; color: #fff3b0; }
-
-    /* Style Report — Pro locked */
-    .rg-style-report {
-      margin: 1rem 0 1.5rem;
-      background: linear-gradient(135deg, rgba(240,165,0,0.07), rgba(255,107,53,0.05));
-      border: 1px solid rgba(240,165,0,0.3);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-      position: relative; overflow: hidden;
-    }
-    .rg-style-report-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gold); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
-    .rg-style-report-text { font-size: 14px; line-height: 1.7; color: var(--muted); filter: blur(4px); user-select: none; pointer-events: none; }
-    .rg-style-report-overlay {
-      position: absolute; inset: 0;
-      background: rgba(10,10,10,0.55);
-      backdrop-filter: blur(1px);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 0.4rem; border-radius: var(--radius);
-    }
-    .rg-style-report-overlay-title { font-size: 15px; font-weight: 800; color: var(--text); }
-    .rg-style-report-overlay-sub { font-size: 12px; color: var(--muted); margin-bottom: 0.25rem; }
-    .rg-style-report-overlay-btn {
-      background: var(--grad); color: #0a0a0a; font-weight: 800;
-      padding: 0.6rem 1.4rem; border-radius: var(--pill); border: none; cursor: pointer; font-size: 13px;
-    }
 
     /* Style description */
     .rg-style-desc {
@@ -799,32 +773,65 @@
         <div class="rg-grain"></div>
       </div>
       <div class="rg-hero-inner">
-        <div class="rg-badge">✨ AI-Powered Room Analysis — Trusted by 10,000+ users</div>
+        <div class="rg-badge">✨ AI-Powered Room Analysis — Free to Try</div>
         <h1>What Score Does Your Room Deserve? 🏠</h1>
-        <p class="rg-hero-sub">Discover your Room's Aesthetic Score in 30 seconds — then get AI-powered tips and shoppable products to transform your space</p>
+        <p class="rg-hero-sub">Upload a photo and get an honest AI aesthetic score, personalized tips, and shoppable products — in 30 seconds. No account needed.</p>
         <div class="rg-hero-ctas">
-          <button type="button" class="rg-btn-primary" id="rgHeroAnalyze">Get My Room Score Free →</button>
-          <button type="button" class="rg-btn-outline" id="rgHeroExamples">See Real Examples 🔥</button>
+          <button type="button" class="rg-btn-primary" id="rgHeroAnalyze">Score My Room Free →</button>
+          <button type="button" class="rg-btn-outline" id="rgHeroExamples">See Example Results</button>
         </div>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:1rem;">No sign-up · No credit card · Results in 30 seconds</p>
         <p class="rg-live-counter" id="rgLiveCounterLine">🔥 <span id="rgLiveNum">100</span> rooms analyzed today</p>
         <div class="rg-hero-mockup" aria-hidden="true">
           <div class="rg-mockup-glow"></div>
           <div class="rg-mockup-card">
-            <div class="rg-mockup-score">
-              <span class="rg-mockup-num">73<span class="rg-mockup-den">/100</span></span>
+            <div class="rg-mockup-top">
+              <div class="rg-mockup-score">
+                <span class="rg-mockup-num">73<span class="rg-mockup-den">/100</span></span>
+              </div>
+              <div class="rg-mockup-meta">
+                <div class="rg-mockup-pill">✨ Warm Minimalist</div>
+                <div class="rg-mockup-room">Bedroom · Analyzed just now</div>
+              </div>
             </div>
-            <div class="rg-mockup-pill">✨ Warm Minimalist</div>
+            <div class="rg-mockup-bars">
+              <div class="rg-mockup-bar-row">
+                <span class="rg-mockup-bar-label">💡 Lighting</span>
+                <div class="rg-mockup-bar-track"><div class="rg-mockup-bar-fill" style="width:70%"></div></div>
+                <span class="rg-mockup-bar-val">14</span>
+              </div>
+              <div class="rg-mockup-bar-row">
+                <span class="rg-mockup-bar-label">🎨 Color</span>
+                <div class="rg-mockup-bar-track"><div class="rg-mockup-bar-fill" style="width:80%"></div></div>
+                <span class="rg-mockup-bar-val">16</span>
+              </div>
+              <div class="rg-mockup-bar-row">
+                <span class="rg-mockup-bar-label">🛋️ Furniture</span>
+                <div class="rg-mockup-bar-track"><div class="rg-mockup-bar-fill" style="width:65%"></div></div>
+                <span class="rg-mockup-bar-val">13</span>
+              </div>
+            </div>
             <div class="rg-mockup-tips">
-              <div class="rg-mockup-tip">💡 Add warm accent lighting for instant coziness</div>
-              <div class="rg-mockup-tip">🪴 Layer textures — a plant softens hard edges</div>
+              <div class="rg-mockup-tip">
+                <span>💡 Swap overhead light for a warm floor lamp</span>
+                <span class="rg-mockup-tip-badge">+8 pts</span>
+              </div>
+              <div class="rg-mockup-tip">
+                <span>🪴 A plant softens the hard edges by the window</span>
+                <span class="rg-mockup-tip-badge">+5 pts</span>
+              </div>
             </div>
           </div>
         </div>
         <div class="rg-social-proof">
           <div class="rg-avatars">
-            <span class="rg-avatar"></span><span class="rg-avatar"></span><span class="rg-avatar"></span><span class="rg-avatar"></span><span class="rg-avatar"></span>
+            <span class="rg-avatar" style="background:linear-gradient(135deg,#f093fb,#f5576c);">SK</span>
+            <span class="rg-avatar" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">MT</span>
+            <span class="rg-avatar" style="background:linear-gradient(135deg,#43e97b,#38f9d7);">PM</span>
+            <span class="rg-avatar" style="background:linear-gradient(135deg,#fa709a,#fee140);">JR</span>
+            <span class="rg-avatar" style="background:linear-gradient(135deg,#f0a500,#ff6b35);">EL</span>
           </div>
-          <span>Join 10,000+ home enthusiasts transforming their spaces</span>
+          <span>⭐⭐⭐⭐⭐ Loved by 10,000+ home enthusiasts</span>
         </div>
       </div>
       <div class="rg-scroll-hint" aria-hidden="true">↓</div>
@@ -834,7 +841,7 @@
     <div class="rg-trust">
       <div class="rg-trust-shimmer"></div>
       <div class="rg-trust-row container">
-        <div class="rg-trust-item">⚡ Instant AI Analysis</div>
+        <div class="rg-trust-item">⚡ Results in 30 Seconds</div>
         <span class="rg-trust-div"></span>
         <div class="rg-trust-item">🔒 Photos Never Stored</div>
         <span class="rg-trust-div"></span>
@@ -842,7 +849,7 @@
         <span class="rg-trust-div"></span>
         <div class="rg-trust-item">🏠 10,000+ Rooms Analyzed</div>
         <span class="rg-trust-div"></span>
-        <div class="rg-trust-item">🏆 Featured on Product Hunt</div>
+        <div class="rg-trust-item">🛍️ Amazon Picks for Every Tip</div>
       </div>
     </div>
 
@@ -969,26 +976,6 @@
               <p class="rg-whats-working-text" id="rgWhatsWorkingText"></p>
             </div>
           </div>
-
-          <div class="rg-whats-not-working" id="rgWhatsNotWorking" style="display:none;">
-            <span class="rg-whats-not-working-icon">⚠️</span>
-            <div>
-              <div class="rg-whats-not-working-label">What Needs Work</div>
-              <p class="rg-whats-not-working-text" id="rgWhatsNotWorkingText"></p>
-            </div>
-          </div>
-
-          <div class="rg-style-report" id="rgStyleReport" style="display:none;">
-            <div class="rg-style-report-label">🔮 Full Style Report</div>
-            <p class="rg-style-report-text" id="rgStyleReportText"></p>
-            <div class="rg-style-report-overlay">
-              <span style="font-size:1.5rem;">🔒</span>
-              <span class="rg-style-report-overlay-title">Your Personal Style Report</span>
-              <span class="rg-style-report-overlay-sub">What your room says about you — and its full potential</span>
-              <button type="button" class="rg-style-report-overlay-btn rg-pro-trigger">Unlock with Pro →</button>
-            </div>
-          </div>
-
           <div class="rg-tip-list" id="rgTipList"></div>
 
           <div class="rg-share-card">
@@ -1713,26 +1700,6 @@
             whatsWorkingEl.style.display = "none";
           }
 
-          // What's not working
-          const whatsNotWorkingEl = $("rgWhatsNotWorking");
-          const whatsNotWorkingText = $("rgWhatsNotWorkingText");
-          if (data.whats_not_working && whatsNotWorkingEl && whatsNotWorkingText) {
-            whatsNotWorkingText.textContent = data.whats_not_working;
-            whatsNotWorkingEl.style.display = "";
-          } else if (whatsNotWorkingEl) {
-            whatsNotWorkingEl.style.display = "none";
-          }
-
-          // Style report (Pro locked)
-          const styleReportEl = $("rgStyleReport");
-          const styleReportText = $("rgStyleReportText");
-          if (data.style_report && styleReportEl && styleReportText) {
-            styleReportText.textContent = data.style_report;
-            styleReportEl.style.display = "";
-          } else if (styleReportEl) {
-            styleReportEl.style.display = "none";
-          }
-
           if (shareSummary) shareSummary.textContent = "Score " + lastScore + "/100 · " + lastStyle;
           results.classList.add("visible");
           animateScore(lastScore);
@@ -1763,10 +1730,6 @@
         if (bd) bd.style.display = "none";
         const ww = $("rgWhatsWorking");
         if (ww) ww.style.display = "none";
-        const wnw = $("rgWhatsNotWorking");
-        if (wnw) wnw.style.display = "none";
-        const sr = $("rgStyleReport");
-        if (sr) sr.style.display = "none";
         const sd = $("rgStyleDesc");
         if (sd) sd.textContent = "";
         scrollToAnalyze();
@@ -1933,9 +1896,6 @@
       $("rgUpgradePro")?.addEventListener("click", openPro);
       $("rgProModalClose")?.addEventListener("click", closePro);
       $("rgProModalBackdrop")?.addEventListener("click", closePro);
-      document.querySelectorAll(".rg-pro-trigger").forEach((btn) => {
-        btn.addEventListener("click", openPro);
-      });
       $("rgProForm")?.addEventListener("submit", (ev) => {
         ev.preventDefault();
         const thanks = $("rgProThanks");
