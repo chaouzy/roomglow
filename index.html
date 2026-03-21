@@ -616,37 +616,26 @@
     @media (max-width: 900px) { .rg-ex-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 520px) { .rg-ex-grid { grid-template-columns: 1fr; } }
     .rg-ex-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      position: relative;
-    }
-    .rg-ex-card.rg-hidden { display: none !important; }
-    .rg-ex-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; box-shadow: var(--shadow); position: relative;
       transition: opacity 0.35s ease, transform 0.35s ease, box-shadow 0.2s ease;
     }
-    .rg-ex-card.rg-ex-hiding {
-      opacity: 0; transform: scale(0.96); pointer-events: none;
-    }
-    .rg-ex-icon {
-      position: absolute; inset: 0; display: grid; place-items: center;
-      font-size: 2.5rem; opacity: 0.35; pointer-events: none;
-    }
-    .rg-prod-emoji {
-      height: 140px; display: grid; place-items: center; font-size: 3rem;
-    }
-    .rg-ex-img { height: 160px; position: relative; }
+    .rg-ex-card.rg-hidden { display: none !important; }
+    .rg-ex-card.rg-ex-hiding { opacity: 0; transform: scale(0.96); pointer-events: none; }
+    .rg-ex-img { height: 200px; position: relative; overflow: hidden; background: #1a1a1a; }
+    .rg-ex-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+    .rg-ex-card:hover .rg-ex-img img { transform: scale(1.04); }
     .rg-ex-overlay {
-      position: absolute; inset: 0; background: rgba(0,0,0,0.55);
-      display: grid; place-items: center; opacity: 0; transition: opacity 0.2s ease;
-      font-weight: 800; color: var(--text);
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.35) 55%, transparent 100%);
+      opacity: 0; transition: opacity 0.3s ease;
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 1rem;
     }
     .rg-ex-card:hover .rg-ex-overlay { opacity: 1; }
-    .rg-ex-meta { padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: flex-end; gap: 0.5rem; flex-wrap: wrap; }
-    .rg-badge-score { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.75); padding: 0.35rem 0.65rem; border-radius: var(--pill); font-size: 12px; font-weight: 800; color: var(--gold); border: 1px solid rgba(240,165,0,0.4); }
+    .rg-ex-overlay-tip { font-size: 11px; color: rgba(245,245,245,0.9); line-height: 1.5; margin-bottom: 0.25rem; display: flex; align-items: flex-start; gap: 0.35rem; }
+    .rg-ex-meta { padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .rg-badge-score { background: rgba(240,165,0,0.15); border: 1px solid rgba(240,165,0,0.4); padding: 0.3rem 0.65rem; border-radius: var(--pill); font-size: 12px; font-weight: 800; color: var(--gold); white-space: nowrap; }
+    .rg-ex-score-badge { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); padding: 0.3rem 0.65rem; border-radius: var(--pill); font-size: 12px; font-weight: 800; color: var(--gold); border: 1px solid rgba(240,165,0,0.35); z-index: 2; }
 
     /* Products */
     .rg-prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
@@ -1169,72 +1158,109 @@
           <button type="button" class="rg-filter-pill" data-filter="Closet">Closet 👗</button>
         </div>
         <div class="rg-ex-grid" id="rgExGrid" style="position:relative;">
+
+          <!-- Bedroom 1 — Scandinavian Minimal -->
           <article class="rg-ex-card rg-reveal" data-reveal data-room="Bedroom">
-            <div class="rg-ex-img" style="background:linear-gradient(135deg,#667eea,#764ba2);position:relative;">
-              <span class="rg-ex-icon" aria-hidden="true">🛏️</span>
+            <div class="rg-ex-img">
+              <span class="rg-ex-score-badge">82/100</span>
+              <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80" alt="Scandinavian minimal bedroom" loading="lazy" />
+              <div class="rg-ex-overlay">
+                <div class="rg-ex-overlay-tip">💡 The warm bedside lamp adds excellent coziness — keep it</div>
+                <div class="rg-ex-overlay-tip">🎨 Swap the grey throw for a terracotta tone to add warmth +6pts</div>
+                <div class="rg-ex-overlay-tip">🪴 A small plant on the nightstand would soften the minimalism +4pts</div>
+              </div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.6rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Scandinavian Minimal</span>
               <span class="rg-badge-score">82/100</span>
-              <div class="rg-ex-overlay">See Tips</div>
-            </div>
-            <div class="rg-ex-meta">
-              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Scandinavian Minimal</span>
-              <span style="font-size:12px;color:var(--muted);">Bedroom</span>
             </div>
           </article>
+
+          <!-- Living Room — Boho Chic -->
           <article class="rg-ex-card rg-reveal" data-reveal data-room="Living Room">
-            <div class="rg-ex-img" style="background:linear-gradient(135deg,#f093fb,#f5576c);position:relative;">
-              <span class="rg-ex-icon" aria-hidden="true">🛋️</span>
+            <div class="rg-ex-img">
+              <span class="rg-ex-score-badge">71/100</span>
+              <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80" alt="Boho chic living room" loading="lazy" />
+              <div class="rg-ex-overlay">
+                <div class="rg-ex-overlay-tip">🛋️ Great layering of textures with the rug and cushions</div>
+                <div class="rg-ex-overlay-tip">💡 Harsh overhead light is killing the mood — add a floor lamp +8pts</div>
+                <div class="rg-ex-overlay-tip">📚 The empty wall above the sofa needs a focal point +5pts</div>
+              </div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.6rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Boho Chic</span>
               <span class="rg-badge-score">71/100</span>
-              <div class="rg-ex-overlay">See Tips</div>
-            </div>
-            <div class="rg-ex-meta">
-              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Boho Chic</span>
-              <span style="font-size:12px;color:var(--muted);">Living Room</span>
             </div>
           </article>
+
+          <!-- Desk Setup — Dark Academia -->
           <article class="rg-ex-card rg-reveal" data-reveal data-room="Desk Setup">
-            <div class="rg-ex-img" style="background:linear-gradient(135deg,#4facfe,#00f2fe);position:relative;">
-              <span class="rg-ex-icon" aria-hidden="true">💻</span>
+            <div class="rg-ex-img">
+              <span class="rg-ex-score-badge">91/100</span>
+              <img src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=600&q=80" alt="Dark academia desk setup" loading="lazy" />
+              <div class="rg-ex-overlay">
+                <div class="rg-ex-overlay-tip">✨ Exceptional cable management and cohesive dark aesthetic</div>
+                <div class="rg-ex-overlay-tip">💡 Monitor bias lighting would elevate this to near-perfect +5pts</div>
+                <div class="rg-ex-overlay-tip">🪴 One small succulent to break up the tech coldness +3pts</div>
+              </div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.6rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Dark Academia</span>
               <span class="rg-badge-score">91/100</span>
-              <div class="rg-ex-overlay">See Tips</div>
-            </div>
-            <div class="rg-ex-meta">
-              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Dark Academia</span>
-              <span style="font-size:12px;color:var(--muted);">Desk Setup</span>
             </div>
           </article>
-          <article class="rg-ex-card rg-reveal" data-reveal data-room="Closet">
-            <div class="rg-ex-img" style="background:linear-gradient(135deg,#43e97b,#38f9d7);position:relative;">
-              <span class="rg-ex-icon" aria-hidden="true">👗</span>
-              <span class="rg-badge-score">65/100</span>
-              <div class="rg-ex-overlay">See Tips</div>
-            </div>
-            <div class="rg-ex-meta">
-              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Clean Aesthetic</span>
-              <span style="font-size:12px;color:var(--muted);">Closet</span>
-            </div>
-          </article>
+
+          <!-- Bedroom 2 — Cottagecore -->
           <article class="rg-ex-card rg-reveal" data-reveal data-room="Bedroom">
-            <div class="rg-ex-img" style="background:linear-gradient(135deg,#fa709a,#fee140);position:relative;">
-              <span class="rg-ex-icon" aria-hidden="true">🛏️</span>
+            <div class="rg-ex-img">
+              <span class="rg-ex-score-badge">88/100</span>
+              <img src="https://images.unsplash.com/photo-1588046130717-0eb0c9a3ba15?w=600&q=80" alt="Cottagecore bedroom" loading="lazy" />
+              <div class="rg-ex-overlay">
+                <div class="rg-ex-overlay-tip">🌿 The natural linen and botanical prints are perfectly on-brand</div>
+                <div class="rg-ex-overlay-tip">🕯️ Adding candles to the dresser would complete the cottagecore feel +4pts</div>
+                <div class="rg-ex-overlay-tip">🎨 The white walls are too stark — a warm cream would unify it +5pts</div>
+              </div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.6rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Cottagecore</span>
               <span class="rg-badge-score">88/100</span>
-              <div class="rg-ex-overlay">See Tips</div>
-            </div>
-            <div class="rg-ex-meta">
-              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Cottagecore</span>
-              <span style="font-size:12px;color:var(--muted);">Bedroom</span>
             </div>
           </article>
+
+          <!-- Living Room 2 — Modern Industrial -->
           <article class="rg-ex-card rg-reveal" data-reveal data-room="Living Room">
-            <div class="rg-ex-img" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb);position:relative;">
-              <span class="rg-ex-icon" aria-hidden="true">🛋️</span>
-              <span class="rg-badge-score">77/100</span>
-              <div class="rg-ex-overlay">See Tips</div>
+            <div class="rg-ex-img">
+              <span class="rg-ex-score-badge">77/100</span>
+              <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80" alt="Modern industrial living room" loading="lazy" />
+              <div class="rg-ex-overlay">
+                <div class="rg-ex-overlay-tip">🏗️ Exposed brick and concrete create a strong industrial identity</div>
+                <div class="rg-ex-overlay-tip">🛋️ The sofa placement blocks natural flow — rotate 15° +6pts</div>
+                <div class="rg-ex-overlay-tip">💡 Edison bulb pendants over the coffee table would complete the look +7pts</div>
+              </div>
             </div>
             <div class="rg-ex-meta">
-              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Modern Industrial</span>
-              <span style="font-size:12px;color:var(--muted);">Living Room</span>
+              <span style="font-size:12px;padding:0.25rem 0.6rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Modern Industrial</span>
+              <span class="rg-badge-score">77/100</span>
             </div>
           </article>
+
+          <!-- Closet — Clean Aesthetic -->
+          <article class="rg-ex-card rg-reveal" data-reveal data-room="Closet">
+            <div class="rg-ex-img">
+              <span class="rg-ex-score-badge">65/100</span>
+              <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=600&q=80" alt="Clean aesthetic closet" loading="lazy" />
+              <div class="rg-ex-overlay">
+                <div class="rg-ex-overlay-tip">🧹 Color-coded hanging section is a great start</div>
+                <div class="rg-ex-overlay-tip">📦 Mismatched boxes on the top shelf break the visual rhythm +8pts</div>
+                <div class="rg-ex-overlay-tip">💡 A small LED strip inside would make this look premium +6pts</div>
+              </div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.6rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Clean Aesthetic</span>
+              <span class="rg-badge-score">65/100</span>
+            </div>
+          </article>
+
         </div>
       </div>
     </section>
