@@ -258,35 +258,41 @@
       box-shadow: 0 8px 40px rgba(240,165,0,0.12), var(--shadow);
     }
     .rg-mockup-score {
-      position: relative;
-      isolation: isolate;
-      width: 100px; height: 100px; margin: 0 auto;
+      position: relative; isolation: isolate;
+      width: 72px; height: 72px; flex-shrink: 0;
       border-radius: 50%;
       background: conic-gradient(var(--gold) 73%, #2a2a2a 0);
-      display: grid; place-items: center;
-      padding: 7px;
+      display: grid; place-items: center; padding: 5px;
     }
     .rg-mockup-score::after {
-      content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--surface);
+      content: ""; position: absolute; inset: 5px; border-radius: 50%; background: var(--surface);
     }
     .rg-mockup-score .rg-mockup-num {
-      position: relative; z-index: 1;
-      font-size: 20px; font-weight: 800;
+      position: relative; z-index: 1; font-size: 16px; font-weight: 800;
       background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .rg-mockup-score .rg-mockup-den { font-size: 0.55em; opacity: 0.85; }
+    .rg-mockup-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.85rem; }
+    .rg-mockup-meta { flex: 1; min-width: 0; }
     .rg-mockup-pill {
-      text-align: center; margin-top: 0.75rem;
-      display: inline-block; width: 100%;
-      padding: 0.4rem 0.75rem; border-radius: var(--pill);
-      background: rgba(240, 165, 0, 0.12); border: 1px solid rgba(240, 165, 0, 0.35);
-      color: var(--gold); font-weight: 700; font-size: 13px;
+      display: inline-block; padding: 0.3rem 0.65rem; border-radius: var(--pill);
+      background: rgba(240,165,0,0.12); border: 1px solid rgba(240,165,0,0.35);
+      color: var(--gold); font-weight: 700; font-size: 11px; margin-bottom: 0.3rem;
     }
-    .rg-mockup-tips { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .rg-mockup-room { font-size: 11px; color: var(--muted); }
+    .rg-mockup-bars { margin-bottom: 0.85rem; display: flex; flex-direction: column; gap: 0.35rem; }
+    .rg-mockup-bar-row { display: flex; align-items: center; gap: 0.5rem; }
+    .rg-mockup-bar-label { font-size: 10px; color: var(--muted); width: 80px; flex-shrink: 0; }
+    .rg-mockup-bar-track { flex: 1; background: #1a1a1a; border-radius: 100px; height: 5px; overflow: hidden; }
+    .rg-mockup-bar-fill { height: 100%; border-radius: 100px; background: var(--grad); }
+    .rg-mockup-bar-val { font-size: 10px; font-weight: 700; color: var(--gold); width: 18px; text-align: right; flex-shrink: 0; }
+    .rg-mockup-tips { display: flex; flex-direction: column; gap: 0.4rem; }
     .rg-mockup-tip {
-      background: #1a1a1a; border: 1px solid var(--border); border-radius: 10px;
-      padding: 0.5rem 0.65rem; font-size: 12px; color: var(--muted); text-align: left;
+      background: #1a1a1a; border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.45rem 0.65rem; font-size: 11px; color: var(--muted);
+      display: flex; align-items: center; justify-content: space-between; gap: 0.4rem;
     }
+    .rg-mockup-tip-badge { font-size: 10px; font-weight: 700; padding: 0.15rem 0.4rem; border-radius: 100px; background: rgba(76,175,80,0.15); color: #4caf50; flex-shrink: 0; }
     /* mockup visibility handled by .rg-hero-visual media query */
     .rg-btn-primary {
       background: var(--grad);
