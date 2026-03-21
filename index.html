@@ -26,227 +26,390 @@
 
   <!-- Microsoft Clarity — replace XXXXXXXXXX with your ID from clarity.microsoft.com -->
   <!-- <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","XXXXXXXXXX");</script> -->
-
   <style>
-    /* ── Design tokens ─────────────────────────────────────── */
     :root {
-      --bg: #0a0a0a; --surface: #111111; --border: #222222;
-      --gold: #f0a500; --amber: #ff6b35; --text: #f5f5f5; --muted: #888888;
-      --success: #4caf50; --danger: #e53935; --warn: #fbc02d;
-      --grad: linear-gradient(135deg,#f0a500,#ff6b35);
-      --shadow: 0 4px 24px rgba(240,165,0,0.08);
-      --shadow-hover: 0 12px 40px rgba(240,165,0,0.15);
-      --radius: 16px; --pill: 100px;
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --border: #222222;
+      --gold: #f0a500;
+      --amber: #ff6b35;
+      --text: #f5f5f5;
+      --muted: #9a9a9a;
+      --success: #4caf50;
+      --danger: #e53935;
+      --warn: #fbc02d;
+      --grad: linear-gradient(135deg, #f0a500, #ff6b35);
+      --shadow: 0 4px 24px rgba(240, 165, 0, 0.08);
+      --shadow-hover: 0 12px 40px rgba(240, 165, 0, 0.15);
+      --radius: 16px;
+      --pill: 100px;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
       font-family: Inter, system-ui, sans-serif;
-      background: var(--bg); color: var(--text);
-      overflow-x: hidden; line-height: 1.5;
-      opacity: 0; animation: pageIn 0.5s ease forwards;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.5;
+      opacity: 0;
+      animation: pageIn 0.6s ease forwards;
     }
     @keyframes pageIn { to { opacity: 1; } }
+
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
-    button, input, select, textarea { font-family: inherit; }
+
     .container { width: min(1180px, 100% - 40px); margin: 0 auto; }
-    .section-alt { background: #111; } .section-muted { background: #0d0d0d; }
+    .section-alt { background: #111111; }
+    .section-muted { background: #0d0d0d; }
 
-    /* ── Transitions & hover ───────────────────────────────── */
-    button, .rg-btn, .rg-navlink, .rg-room-pill, .rg-filter-pill, .rg-faq-q {
-      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    /* Gold glow on interactive hover */
+    button, .rg-btn, .rg-navlink, .rg-pill, .rg-room-pill, .rg-filter-pill, .rg-faq-q, summary, a.rg-link {
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
     }
-    .rg-interactive { cursor: pointer; will-change: box-shadow; }
-    .rg-interactive:hover { box-shadow: 0 0 0 1px rgba(240,165,0,0.25), 0 0 24px rgba(240,165,0,0.08); }
-    .rg-card-hover:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+    button:hover, .rg-btn:hover:not(:disabled), .rg-navlink:hover { transform: scale(1.02); }
+    .rg-card:hover, .rg-step-card:hover, .rg-ex-card:hover, .rg-prod-card:hover, .rg-testi-card:hover, .rg-pricing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
 
-    /* ── Nav ───────────────────────────────────────────────── */
+    /* --- Nav --- */
     .rg-nav {
-      position: sticky; top: 0; z-index: 1000;
-      background: rgba(10,10,10,0.85);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid transparent;
-      border-image: linear-gradient(90deg,transparent,var(--gold),var(--amber),transparent) 1;
+      border-image: linear-gradient(90deg, transparent, var(--gold), var(--amber), transparent) 1;
       transition: padding 0.25s ease;
     }
-    .rg-nav.compact { padding-top: 6px; padding-bottom: 6px; }
+    .rg-nav.rg-nav--compact { padding-top: 8px; padding-bottom: 8px; }
     .rg-nav-inner {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0.85rem 0; max-width: 1180px; margin: 0 auto; width: calc(100% - 40px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 0;
+      max-width: 1180px;
+      margin: 0 auto;
+      width: calc(100% - 40px);
     }
-    .rg-logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 800; font-size: 22px; }
-    .rg-nav-links { display: flex; gap: 1.75rem; flex: 1; justify-content: center; }
+    .rg-logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 800; font-size: 22px; color: var(--text); }
+    .rg-nav-links { display: flex; gap: 1.75rem; flex-wrap: wrap; justify-content: center; flex: 1; }
     .rg-navlink { font-size: 14px; font-weight: 500; color: var(--muted); padding: 0.35rem 0; }
     .rg-navlink:hover { color: var(--text); }
     .rg-nav-cta {
-      background: var(--grad); color: #0a0a0a; font-weight: 700;
-      padding: 0.65rem 1.25rem; border-radius: var(--pill); border: none; cursor: pointer; font-size: 14px;
+      background: var(--grad);
+      color: #0a0a0a;
+      font-weight: 700;
+      padding: 0.65rem 1.25rem;
+      border-radius: var(--pill);
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
     }
     .rg-hamburger {
-      display: none; background: var(--surface); border: 1px solid var(--border);
-      color: var(--text); width: 44px; height: 44px; border-radius: var(--radius);
-      cursor: pointer; font-size: 22px; place-items: center;
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 44px; height: 44px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 22px;
     }
-    @media (max-width: 900px) { .rg-nav-links { display: none; } .rg-hamburger { display: grid; } }
     .rg-menu-overlay {
-      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-      z-index: 2000; flex-direction: column; padding: 2rem; gap: 1.5rem;
-      opacity: 0; transition: opacity 0.3s ease;
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 2000;
+      flex-direction: column;
+      padding: 2rem;
+      gap: 1.5rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
     .rg-menu-overlay.open { display: flex; opacity: 1; }
-    .rg-menu-overlay a { font-size: 1.25rem; font-weight: 600; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+    .rg-menu-overlay a { font-size: 1.25rem; font-weight: 600; color: var(--text); padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
     .rg-menu-close { align-self: flex-end; background: none; border: none; color: var(--text); font-size: 2rem; cursor: pointer; }
 
-    /* ── Hero ──────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .rg-nav-links { display: none; }
+      .rg-hamburger { display: grid; place-items: center; }
+    }
+
+    /* --- Hero --- */
     .rg-hero {
-      min-height: 100vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      position: relative; padding: 6rem 1.25rem 4rem; overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 6rem 1.25rem 4rem;
+      overflow: hidden;
     }
     .rg-hero-bg { position: absolute; inset: 0; pointer-events: none; }
-    .rg-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: floatOrb 18s ease-in-out infinite; }
-    .rg-orb1 { width: 420px; height: 420px; background: radial-gradient(circle,#f0a50088,transparent 70%); top: -10%; left: -5%; }
-    .rg-orb2 { width: 380px; height: 380px; background: radial-gradient(circle,#ff6b3588,transparent 70%); top: 30%; right: -8%; animation-delay: -6s; }
-    .rg-orb3 { width: 320px; height: 320px; background: radial-gradient(circle,#d8431588,transparent 70%); bottom: 5%; left: 25%; animation-delay: -12s; }
-    @keyframes floatOrb { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(20px,-25px) scale(1.05); } }
+    .rg-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.52; animation: floatOrb 18s ease-in-out infinite; }
+    .rg-orb1 { width: 420px; height: 420px; background: radial-gradient(circle, #f0a50088, transparent 70%); top: -10%; left: -5%; }
+    .rg-orb2 { width: 380px; height: 380px; background: radial-gradient(circle, #ff6b3588, transparent 70%); top: 30%; right: -8%; animation-delay: -6s; }
+    .rg-orb3 { width: 320px; height: 320px; background: radial-gradient(circle, #d8431588, transparent 70%); bottom: 5%; left: 25%; animation-delay: -12s; }
+    @keyframes floatOrb { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(20px, -25px) scale(1.05); } }
     .rg-grain {
-      position: absolute; inset: 0; opacity: 0.06; pointer-events: none;
+      position: absolute; inset: 0; opacity: 0.07; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
-    .rg-hero-inner { position: relative; z-index: 2; text-align: center; max-width: 860px; width: 100%; }
+    .rg-hero-inner {
+      position: relative; z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      max-width: 1100px;
+      width: 100%;
+      text-align: left;
+    }
+    .rg-hero-text { display: flex; flex-direction: column; align-items: flex-start; }
+    .rg-hero-visual { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    @media (max-width: 860px) {
+      .rg-hero-inner { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+      .rg-hero-text { align-items: center; }
+      .rg-hero-visual { display: none; }
+    }
     .rg-badge {
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.5rem 1rem; border-radius: var(--pill);
-      background: rgba(240,165,0,0.12); border: 1px solid rgba(240,165,0,0.35);
+      background: rgba(240, 165, 0, 0.12); border: 1px solid rgba(240, 165, 0, 0.35);
       color: var(--gold); font-size: 13px; font-weight: 600; margin-bottom: 1.5rem;
       animation: badgePulse 3s ease-in-out infinite;
     }
-    @keyframes badgePulse { 0%,100% { box-shadow: 0 0 0 0 rgba(240,165,0,0.2); } 50% { box-shadow: 0 0 20px 2px rgba(240,165,0,0.15); } }
+    @keyframes badgePulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(240,165,0,0.2); } 50% { box-shadow: 0 0 20px 2px rgba(240,165,0,0.15); } }
     .rg-hero h1 {
-      font-size: clamp(38px,6vw,68px); font-weight: 800;
-      letter-spacing: -0.03em; line-height: 1.08; margin-bottom: 1rem;
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      margin-bottom: 1rem;
     }
-    .rg-hero-sub {
-      font-size: clamp(16px,2vw,19px); color: var(--muted);
-      max-width: 580px; margin: 0 auto 2rem; line-height: 1.65;
-    }
-    .rg-hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 0.5rem; }
+    .rg-hero-sub { font-size: clamp(16px, 2vw, 18px); color: var(--muted); max-width: 480px; margin: 0 0 2rem; line-height: 1.7; }
+    .rg-hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
     .rg-hero-micro { font-size: 12px; color: var(--muted); margin-bottom: 1.25rem; letter-spacing: 0.01em; }
-    .rg-live-counter { font-size: 13px; color: var(--muted); margin-bottom: 1.75rem; }
+    .rg-live-counter { font-size: 13px; color: var(--muted); margin-bottom: 0; }
     .rg-live-counter span { font-weight: 700; color: var(--gold); }
 
-    /* Mockup card */
-    .rg-hero-mockup { position: relative; margin: 0 auto 2rem; max-width: 320px; animation: mockFloat 4s ease-in-out infinite; }
-    @keyframes mockFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-    @media (max-width: 479px) { .rg-hero-mockup { display: none; } }
+    /* Step connectors */
+    .rg-steps-wrap { position: relative; }
+    .rg-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+      position: relative;
+    }
+    .rg-steps::before {
+      content: '';
+      position: absolute;
+      top: 38px;
+      left: calc(12.5% + 12px);
+      right: calc(12.5% + 12px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--amber));
+      opacity: 0.35;
+      z-index: 0;
+    }
+    @media (max-width: 900px) {
+      .rg-steps { grid-template-columns: repeat(2, 1fr); }
+      .rg-steps::before { display: none; }
+    }
+    @media (max-width: 520px) {
+      .rg-steps { grid-template-columns: 1fr; }
+    }
+    .rg-step-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative; z-index: 1; margin: 0 0.5rem;
+    }
+    .rg-step-card:first-child { margin-left: 0; }
+    .rg-step-card:last-child { margin-right: 0; }
+    @media (max-width: 900px) { .rg-step-card { margin: 0; } }
+
+    /* Line length fix for body text blocks */
+    .rg-faq-a-inner, .rg-sec-sub { max-width: 70ch; }
+    .rg-sec-sub { margin-bottom: 2rem; }
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      animation: mockFloat 4s ease-in-out infinite;
+    }
+    @keyframes mockFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     .rg-mockup-glow {
       position: absolute; inset: -20px -30px -10px -30px;
-      background: radial-gradient(ellipse at center,rgba(240,165,0,0.22),transparent 65%);
+      background: radial-gradient(ellipse at center, rgba(240,165,0,0.22), transparent 65%);
       pointer-events: none; z-index: 0;
     }
     .rg-mockup-card {
-      position: relative; z-index: 1; background: var(--surface);
-      border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 1.25rem 1.5rem; box-shadow: 0 8px 40px rgba(240,165,0,0.12);
+      position: relative; z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 8px 40px rgba(240,165,0,0.12), var(--shadow);
     }
-    .rg-mockup-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.85rem; }
     .rg-mockup-score {
-      position: relative; isolation: isolate; width: 72px; height: 72px;
-      border-radius: 50%; background: conic-gradient(var(--gold) 73%,#2a2a2a 0);
-      display: grid; place-items: center; padding: 5px; flex-shrink: 0;
+      position: relative;
+      isolation: isolate;
+      width: 100px; height: 100px; margin: 0 auto;
+      border-radius: 50%;
+      background: conic-gradient(var(--gold) 73%, #2a2a2a 0);
+      display: grid; place-items: center;
+      padding: 7px;
     }
-    .rg-mockup-score::after { content:""; position:absolute; inset:5px; border-radius:50%; background:var(--surface); }
-    .rg-mockup-num {
-      position: relative; z-index: 1; font-size: 16px; font-weight: 800;
+    .rg-mockup-score::after {
+      content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--surface);
+    }
+    .rg-mockup-score .rg-mockup-num {
+      position: relative; z-index: 1;
+      font-size: 20px; font-weight: 800;
       background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .rg-mockup-den { font-size: 0.55em; opacity: 0.85; }
-    .rg-mockup-meta { flex: 1; min-width: 0; }
+    .rg-mockup-score .rg-mockup-den { font-size: 0.55em; opacity: 0.85; }
     .rg-mockup-pill {
-      display: inline-block; padding: 0.3rem 0.65rem; border-radius: var(--pill);
-      background: rgba(240,165,0,0.12); border: 1px solid rgba(240,165,0,0.35);
-      color: var(--gold); font-weight: 700; font-size: 11px; margin-bottom: 0.3rem;
+      text-align: center; margin-top: 0.75rem;
+      display: inline-block; width: 100%;
+      padding: 0.4rem 0.75rem; border-radius: var(--pill);
+      background: rgba(240, 165, 0, 0.12); border: 1px solid rgba(240, 165, 0, 0.35);
+      color: var(--gold); font-weight: 700; font-size: 13px;
     }
-    .rg-mockup-room { font-size: 11px; color: var(--muted); }
-    .rg-mockup-bars { margin-bottom: 0.85rem; display: flex; flex-direction: column; gap: 0.35rem; }
-    .rg-mockup-bar-row { display: flex; align-items: center; gap: 0.5rem; }
-    .rg-mockup-bar-label { font-size: 10px; color: var(--muted); width: 80px; flex-shrink: 0; }
-    .rg-mockup-bar-track { flex: 1; background: #1a1a1a; border-radius: 100px; height: 5px; overflow: hidden; }
-    .rg-mockup-bar-fill { height: 100%; border-radius: 100px; background: var(--grad); }
-    .rg-mockup-bar-val { font-size: 10px; font-weight: 700; color: var(--gold); width: 18px; text-align: right; flex-shrink: 0; }
-    .rg-mockup-tips { display: flex; flex-direction: column; gap: 0.4rem; }
+    .rg-mockup-tips { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
     .rg-mockup-tip {
-      background: #1a1a1a; border: 1px solid var(--border); border-radius: 8px;
-      padding: 0.45rem 0.65rem; font-size: 11px; color: var(--muted);
-      display: flex; align-items: center; gap: 0.4rem;
+      background: #1a1a1a; border: 1px solid var(--border); border-radius: 10px;
+      padding: 0.5rem 0.65rem; font-size: 12px; color: var(--muted); text-align: left;
     }
-    .rg-mockup-tip-badge { font-size: 10px; font-weight: 700; padding: 0.15rem 0.4rem; border-radius: 100px; background: rgba(76,175,80,0.15); color: #4caf50; flex-shrink: 0; }
-
-    /* Social proof */
-    .rg-social-proof { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; color: var(--muted); font-size: 14px; }
+    /* mockup visibility handled by .rg-hero-visual media query */
+    .rg-btn-primary {
+      background: var(--grad);
+      color: #0a0a0a;
+      font-weight: 800;
+      padding: 1rem 1.75rem;
+      border-radius: var(--pill);
+      border: none;
+      cursor: pointer;
+      font-size: 17px;
+    }
+    .rg-btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 2px solid var(--border);
+      font-weight: 700;
+      padding: 1rem 1.75rem;
+      border-radius: var(--pill);
+      cursor: pointer;
+      font-size: 17px;
+    }
+    .rg-social-proof { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; color: var(--muted); font-size: 13px; margin-top: 1.5rem; }
+    @media (max-width: 860px) { .rg-social-proof { justify-content: center; } }
     .rg-avatars { display: flex; }
-    .rg-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--bg); margin-left: -12px; display: grid; place-items: center; font-size: 12px; font-weight: 800; color: #fff; flex-shrink: 0; }
+    .rg-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, #333, #555);
+      border: 2px solid var(--bg);
+      margin-left: -12px;
+    }
     .rg-avatar:first-child { margin-left: 0; }
-    .rg-scroll-hint { position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); font-size: 1.25rem; color: var(--gold); opacity: 0.6; animation: bounce 2s ease infinite; }
+    .rg-scroll-hint {
+      position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+      font-size: 1.25rem; color: var(--gold); opacity: 0.6; animation: bounce 2s ease infinite;
+    }
     @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
 
-    /* ── Buttons ────────────────────────────────────────────── */
-    .rg-btn-primary {
-      background: var(--grad); color: #0a0a0a; font-weight: 800;
-      padding: 1rem 1.75rem; border-radius: var(--pill); border: none; cursor: pointer; font-size: 17px;
+    /* Urgency counter near analyzer */
+    .rg-urgency-bar {
+      display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+      background: rgba(240,165,0,0.07); border: 1px solid rgba(240,165,0,0.2);
+      border-radius: var(--pill); padding: 0.5rem 1.25rem;
+      font-size: 13px; color: var(--muted); margin-bottom: 1.5rem;
+      width: fit-content;
     }
-    .rg-btn-primary:hover { transform: scale(1.02); }
-    .rg-btn-outline {
-      background: transparent; color: var(--text); border: 2px solid var(--border);
-      font-weight: 700; padding: 1rem 1.75rem; border-radius: var(--pill); cursor: pointer; font-size: 17px;
-    }
-    .rg-btn-white { background: var(--text); color: #0a0a0a; font-weight: 800; padding: 0.85rem 1.5rem; border-radius: var(--pill); border: none; cursor: pointer; }
-    .rg-btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); font-weight: 700; padding: 0.85rem 1.5rem; border-radius: var(--pill); cursor: pointer; }
-    @media (max-width: 520px) {
-      .rg-btn-primary, .rg-btn-outline, .rg-nav-cta, .rg-analyze-btn, .rg-btn-white, .rg-btn-ghost { width: 100%; justify-content: center; }
-      .rg-hero-ctas { flex-direction: column; width: 100%; max-width: 360px; margin-left: auto; margin-right: auto; }
-    }
+    .rg-urgency-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: urgPulse 2s ease-in-out infinite; flex-shrink: 0; }
+    @keyframes urgPulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.85); } }
+    .rg-urgency-bar strong { color: var(--gold); }
 
-    /* ── Trust bar ──────────────────────────────────────────── */
-    .rg-trust { position: relative; overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1rem 0; background: #0a0a0a; }
-    .rg-trust-shimmer { position: absolute; inset: 0; background: linear-gradient(90deg,transparent,rgba(240,165,0,0.06),transparent); background-size: 200% 100%; animation: shimmer 4s linear infinite; pointer-events: none; }
+    /* Trust bar */
+    .rg-trust {
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0;
+      background: #0a0a0a;
+    }
+    .rg-trust-shimmer {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(240,165,0,0.06), transparent);
+      background-size: 200% 100%;
+      animation: shimmer 4s linear infinite;
+      pointer-events: none;
+    }
     @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     .rg-trust-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0; position: relative; z-index: 1; }
     .rg-trust-item { padding: 0.5rem 1.5rem; font-size: 14px; font-weight: 600; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; }
     .rg-trust-div { width: 1px; height: 24px; background: var(--border); }
     @media (max-width: 768px) { .rg-trust-div { display: none; } .rg-trust-row { flex-direction: column; gap: 0.75rem; } }
 
-    /* ── Section titles ─────────────────────────────────────── */
+    /* Section titles */
     .rg-section { padding: 5rem 1.25rem; }
-    .rg-pill-label { display: inline-block; padding: 0.4rem 1rem; border-radius: var(--pill); background: rgba(240,165,0,0.1); border: 1px solid rgba(240,165,0,0.25); color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1rem; }
-    .rg-sec-title { font-size: clamp(26px,4vw,42px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
-    .rg-sec-sub { color: var(--muted); font-size: 17px; line-height: 1.6; max-width: 560px; margin-bottom: 2rem; }
+    .rg-pill-label {
+      display: inline-block; padding: 0.4rem 1rem; border-radius: var(--pill);
+      background: rgba(240, 165, 0, 0.1); border: 1px solid rgba(240, 165, 0, 0.25);
+      color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+    }
+    .rg-sec-title { font-size: clamp(28px, 4vw, 42px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+    .rg-sec-sub { color: var(--muted); font-size: 18px; max-width: 560px; margin-bottom: 2rem; }
 
-    /* ── How it works ───────────────────────────────────────── */
-    .rg-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.25rem; }
-    @media (max-width: 900px) { .rg-steps { grid-template-columns: repeat(2,1fr); } }
+    /* How it works */
+    .rg-steps-wrap { position: relative; }
+    .rg-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;
+    }
+    @media (max-width: 900px) { .rg-steps { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 520px) { .rg-steps { grid-template-columns: 1fr; } }
-    .rg-step-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
+    .rg-step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
     .rg-step-num { font-size: 48px; font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
     .rg-step-icon { font-size: 28px; margin: 0.5rem 0; }
     .rg-step-card h3 { font-size: 17px; margin-bottom: 0.5rem; }
     .rg-step-card p { font-size: 14px; color: var(--muted); }
-
-    /* ── Reveal animation ───────────────────────────────────── */
-    .rg-reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .rg-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .rg-reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* ── Analyzer ───────────────────────────────────────────── */
+    /* Analyzer */
     .rg-room-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; justify-content: center; }
-    @media (max-width: 600px) {
-      .rg-room-row { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding-bottom: 0.5rem; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-      .rg-room-row::-webkit-scrollbar { display: none; }
-      .rg-room-pill { flex-shrink: 0; }
+    .rg-room-pill {
+      padding: 0.55rem 1rem; border-radius: var(--pill);
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer;
     }
-    .rg-room-pill { padding: 0.55rem 1rem; border-radius: var(--pill); background: var(--surface); border: 1px solid var(--border); color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer; }
     .rg-room-pill.is-active { background: var(--grad); color: #0a0a0a; border-color: transparent; }
-    .rg-upload-card { background: var(--surface); border: 2px dashed rgba(240,165,0,0.45); border-radius: var(--radius); padding: 2rem; min-height: 280px; position: relative; box-shadow: var(--shadow); transition: border-color 0.2s ease; }
+
+    .rg-upload-card {
+      background: var(--surface);
+      border: 2px dashed rgba(240, 165, 0, 0.45);
+      border-radius: var(--radius);
+      padding: 2rem;
+      min-height: 280px;
+      position: relative;
+      box-shadow: var(--shadow);
+      transition: border-color 0.2s ease;
+    }
     .rg-upload-card.rg-drag { border-color: var(--gold); }
     .rg-upload-card-inner { text-align: center; cursor: pointer; }
     .rg-upload-placeholder { padding: 2rem 0; }
@@ -255,34 +418,332 @@
     .rg-preview-wrap.visible { display: block; animation: fadeIn 0.4s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
     .rg-preview-wrap img { width: 100%; max-height: 420px; object-fit: cover; }
-    .rg-change-photo { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.75); color: var(--text); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: var(--pill); font-size: 13px; font-weight: 600; cursor: pointer; }
-    .rg-skeleton { display: none; position: absolute; inset: 0; border-radius: var(--radius); background: linear-gradient(90deg,#1a1a1a 25%,#252525 50%,#1a1a1a 75%); background-size: 200% 100%; animation: skel 1.2s ease infinite; }
+    .rg-change-photo {
+      position: absolute; top: 12px; right: 12px;
+      background: rgba(0,0,0,0.75); color: var(--text);
+      border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: var(--pill);
+      font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .rg-skeleton { display: none; position: absolute; inset: 0; border-radius: var(--radius); background: linear-gradient(90deg, #1a1a1a 25%, #252525 50%, #1a1a1a 75%); background-size: 200% 100%; animation: skel 1.2s ease infinite; }
     .rg-skeleton.active { display: block; }
     @keyframes skel { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-    /* Mobile camera */
-    .rg-camera-row { display: none; gap: 0.75rem; margin-top: 1rem; justify-content: center; }
-    @media (max-width: 768px) { .rg-camera-row { display: flex; } }
-    .rg-camera-btn { flex: 1; max-width: 200px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: 14px; font-weight: 600; padding: 0.75rem 1rem; border-radius: var(--pill); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
-
-    /* Analyze button */
     .rg-analyze-btn {
-      width: 100%; margin-top: 1.25rem; background: var(--grad); color: #0a0a0a;
-      font-weight: 800; font-size: 18px; padding: 1.1rem; border: none;
-      border-radius: var(--pill); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 56px;
+      width: 100%; margin-top: 1.25rem;
+      background: var(--grad);
+      color: #0a0a0a;
+      font-weight: 800;
+      font-size: 18px;
+      padding: 1.1rem;
+      border: none;
+      border-radius: var(--pill);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      min-height: 56px;
     }
-    .rg-analyze-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
-    .rg-analyze-btn.loading { animation: btnPulse 1.2s ease-in-out infinite; }
-    @keyframes btnPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(240,165,0,0.25); } 50% { box-shadow: 0 0 24px 4px rgba(240,165,0,0.15); } }
+    .rg-analyze-btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+    .rg-analyze-btn.loading {
+      animation: btnPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes btnPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(240,165,0,0.25); } 50% { box-shadow: 0 0 24px 4px rgba(240,165,0,0.15); } }
     .rg-analyze-btn .rg-load-inner { display: none; align-items: center; gap: 0.75rem; }
     .rg-analyze-btn.loading .rg-btn-text { display: none; }
     .rg-analyze-btn.loading .rg-load-inner { display: flex; }
     .rg-spinner { width: 22px; height: 22px; border: 3px solid rgba(10,10,10,0.2); border-top-color: #0a0a0a; border-radius: 50%; animation: spin 0.7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .rg-pulse-text { animation: pulseOp 1.2s ease-in-out infinite; }
-    @keyframes pulseOp { 0%,100% { opacity: 0.9; } 50% { opacity: 0.5; } }
-    .rg-cold-start { display: none; margin-top: 0.75rem; font-size: 13px; color: var(--muted); text-align: center; }
-    .rg-cold-start.visible { display: block; }
+    @keyframes pulseOp { 0%, 100% { opacity: 0.9; } 50% { opacity: 0.5; } }
+
+    /* Results */
+    .rg-results { display: none; margin-top: 3rem; }
+    .rg-results.visible { display: block; }
+    .rg-score-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: 2rem; }
+    .rg-score-ring {
+      width: 180px; height: 180px; border-radius: 50%;
+      display: grid; place-items: center;
+      position: relative;
+      background: conic-gradient(var(--ring-color, var(--success)) calc(var(--pct, 0) * 1%), #222 0);
+      padding: 8px;
+    }
+    .rg-score-ring::before {
+      content: ""; position: absolute; inset: 8px; border-radius: 50%; background: var(--surface);
+    }
+    .rg-score-ring span { position: relative; z-index: 1; font-size: 42px; font-weight: 800; }
+    .rg-style-pill {
+      margin-top: 1rem; padding: 0.5rem 1.25rem; border-radius: var(--pill);
+      background: rgba(240, 165, 0, 0.15); border: 1px solid rgba(240, 165, 0, 0.4);
+      color: var(--gold); font-weight: 700; font-size: 15px;
+    }
+    .rg-hint { color: var(--muted); margin-top: 0.75rem; font-size: 15px; }
+
+    /* Score breakdown bars */
+    .rg-score-breakdown {
+      width: 100%; max-width: 480px; margin: 1.5rem auto 0;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    .rg-breakdown-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 1rem; }
+    .rg-breakdown-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.65rem; }
+    .rg-breakdown-row:last-child { margin-bottom: 0; }
+    .rg-breakdown-label { font-size: 12px; color: var(--muted); width: 130px; flex-shrink: 0; }
+    .rg-breakdown-bar-wrap { flex: 1; background: #1a1a1a; border-radius: 100px; height: 7px; overflow: hidden; }
+    .rg-breakdown-bar { height: 100%; border-radius: 100px; background: var(--grad); width: 0%; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
+    .rg-breakdown-val { font-size: 12px; font-weight: 700; color: var(--gold); width: 28px; text-align: right; flex-shrink: 0; }
+
+    /* What's working */
+    .rg-whats-working {
+      margin: 1.5rem 0;
+      background: rgba(76, 175, 80, 0.08);
+      border: 1px solid rgba(76, 175, 80, 0.3);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+      display: flex; gap: 0.75rem; align-items: flex-start;
+    }
+    .rg-whats-working-icon { font-size: 1.25rem; flex-shrink: 0; margin-top: 1px; }
+    .rg-whats-working-text { font-size: 14px; line-height: 1.6; color: #b9f5bb; }
+    .rg-whats-working-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--success); margin-bottom: 0.3rem; }
+
+    /* Style description */
+    .rg-style-desc {
+      font-size: 14px; color: var(--muted); text-align: center;
+      max-width: 480px; margin: 0.5rem auto 0; line-height: 1.6;
+    }
+
+    .rg-tip-list { display: flex; flex-direction: column; gap: 1rem; }
+    .rg-tip-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: start;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: tipIn 0.45s ease forwards;
+      position: relative;
+    }
+    @keyframes tipIn { to { opacity: 1; transform: translateY(0); } }
+    .rg-tip-card .rg-cat { grid-column: 1 / -1; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .rg-tip-title { font-size: 15px; font-weight: 700; margin-bottom: 0.35rem; }
+    .rg-tip-icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(240, 165, 0, 0.12); border: 1px solid rgba(240, 165, 0, 0.35);
+      display: grid; place-items: center; font-size: 24px;
+    }
+    .rg-cat-pill { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); background: #1a1a1a; padding: 0.25rem 0.6rem; border-radius: var(--pill); border: 1px solid var(--border); }
+    .rg-diff-pill {
+      display: inline-block; font-size: 11px; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: var(--pill);
+    }
+    .rg-diff-pill.easy { background: rgba(76,175,80,0.15); color: #4caf50; border: 1px solid rgba(76,175,80,0.3); }
+    .rg-diff-pill.medium { background: rgba(251,192,45,0.15); color: #fbc02d; border: 1px solid rgba(251,192,45,0.3); }
+    .rg-diff-pill.hard { background: rgba(229,57,53,0.15); color: #e53935; border: 1px solid rgba(229,57,53,0.3); }
+    .rg-boost-pill {
+      display: inline-block; font-size: 11px; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: var(--pill);
+      background: rgba(240,165,0,0.12); color: var(--gold); border: 1px solid rgba(240,165,0,0.3);
+    }
+    .rg-tip-text { font-size: 14px; line-height: 1.6; color: var(--muted); }
+    .rg-product-box {
+      margin-top: 0.75rem;
+      background: #161616;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;
+    }
+    .rg-product-info { flex: 1; min-width: 0; }
+    .rg-product-name { font-size: 13px; font-weight: 700; margin-bottom: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .rg-product-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
+    .rg-product-price { font-size: 13px; font-weight: 700; color: var(--gold); white-space: nowrap; }
+    .rg-shop-btn {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      background: transparent; color: var(--gold); border: 1px solid rgba(240, 165, 0, 0.5);
+      padding: 0.45rem 0.9rem; border-radius: var(--pill); font-weight: 700; font-size: 13px; cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* Pro blur lock on tips 4 & 5 */
+    .rg-tip-card.rg-pro-locked {
+      position: relative; overflow: hidden; user-select: none;
+    }
+    .rg-tip-card.rg-pro-locked > *:not(.rg-pro-overlay) {
+      filter: blur(5px); pointer-events: none;
+    }
+    .rg-pro-overlay {
+      position: absolute; inset: 0;
+      background: rgba(10,10,10,0.65);
+      backdrop-filter: blur(2px);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.5rem; z-index: 10; border-radius: var(--radius);
+    }
+    .rg-pro-overlay-icon { font-size: 1.75rem; }
+    .rg-pro-overlay-text { font-size: 14px; font-weight: 700; color: var(--text); }
+    .rg-pro-overlay-sub { font-size: 12px; color: var(--muted); }
+    .rg-pro-overlay-btn {
+      margin-top: 0.25rem;
+      background: var(--grad); color: #0a0a0a; font-weight: 800;
+      padding: 0.55rem 1.25rem; border-radius: var(--pill); border: none; cursor: pointer; font-size: 13px;
+    }
+
+    .rg-share-card {
+      margin-top: 2rem;
+      background: linear-gradient(145deg, #1a1a1a, #111);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .rg-share-card .rg-logo-small { font-size: 20px; font-weight: 800; margin-bottom: 0.5rem; }
+    .rg-share-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 1.25rem; }
+    .rg-btn-white { background: var(--text); color: #0a0a0a; font-weight: 800; padding: 0.85rem 1.5rem; border-radius: var(--pill); border: none; cursor: pointer; }
+    .rg-btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); font-weight: 700; padding: 0.85rem 1.5rem; border-radius: var(--pill); cursor: pointer; }
+
+    /* Examples */
+    .rg-filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .rg-filter-pill { padding: 0.45rem 0.9rem; border-radius: var(--pill); font-size: 13px; font-weight: 600; background: var(--surface); border: 1px solid var(--border); color: var(--muted); cursor: pointer; }
+    .rg-filter-pill.is-active { background: var(--grad); color: #0a0a0a; border-color: transparent; }
+    .rg-ex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    @media (max-width: 900px) { .rg-ex-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .rg-ex-grid { grid-template-columns: 1fr; } }
+    .rg-ex-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+    .rg-ex-card.rg-hidden { display: none !important; }
+    .rg-ex-card {
+      transition: opacity 0.35s ease, transform 0.35s ease, box-shadow 0.2s ease;
+    }
+    .rg-ex-card.rg-ex-hiding {
+      opacity: 0; transform: scale(0.96); pointer-events: none;
+    }
+    .rg-ex-icon {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      font-size: 2.5rem; opacity: 0.35; pointer-events: none;
+    }
+    .rg-prod-emoji {
+      height: 140px; display: grid; place-items: center; font-size: 3rem;
+    }
+    .rg-ex-img { height: 160px; position: relative; }
+    .rg-ex-overlay {
+      position: absolute; inset: 0; background: rgba(0,0,0,0.55);
+      display: grid; place-items: center; opacity: 0; transition: opacity 0.2s ease;
+      font-weight: 800; color: var(--text);
+    }
+    .rg-ex-card:hover .rg-ex-overlay { opacity: 1; }
+    .rg-ex-meta { padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: flex-end; gap: 0.5rem; flex-wrap: wrap; }
+    .rg-badge-score { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.75); padding: 0.35rem 0.65rem; border-radius: var(--pill); font-size: 12px; font-weight: 800; color: var(--gold); border: 1px solid rgba(240,165,0,0.4); }
+
+    /* Products */
+    .rg-prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    @media (max-width: 900px) { .rg-prod-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .rg-prod-grid { grid-template-columns: 1fr; } }
+    .rg-prod-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .rg-prod-img { height: 140px; }
+    .rg-prod-body { padding: 1rem; }
+    .rg-prod-body h4 { font-size: 16px; margin-bottom: 0.35rem; }
+    .rg-prod-body p { font-size: 13px; color: var(--muted); margin-bottom: 0.75rem; }
+    .rg-prod-body a { margin-top: 0.5rem; display: inline-block; }
+
+    /* Stats */
+    .rg-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; text-align: center; }
+    @media (max-width: 768px) { .rg-stats-row { grid-template-columns: repeat(2, 1fr); } }
+    .rg-stat-num { font-size: clamp(32px, 5vw, 48px); font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .rg-stat-label { font-size: 14px; color: var(--muted); margin-top: 0.35rem; }
+
+    /* Testimonials carousel */
+    .rg-carousel-wrap { overflow: hidden; position: relative; padding: 0.5rem 0; }
+    .rg-carousel-wrap:hover .rg-carousel-track { animation-play-state: paused; }
+    .rg-carousel-track {
+      display: flex; gap: 1.25rem;
+      width: max-content;
+      animation: scrollX 40s linear infinite;
+    }
+    @keyframes scrollX { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .rg-testi-card {
+      flex: 0 0 320px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    .rg-stars { color: var(--gold); margin-bottom: 0.75rem; }
+    .rg-testi-card blockquote { font-style: italic; color: var(--text); font-size: 14px; margin-bottom: 1rem; line-height: 1.55; }
+    .rg-testi-card .rg-author { display: flex; align-items: center; gap: 0.75rem; }
+    .rg-av { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #333, #555); }
+
+    /* Pricing */
+    .rg-pricing-row { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; align-items: stretch; }
+    .rg-pricing-card {
+      flex: 1 1 320px; max-width: 400px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .rg-pricing-card.rg-popular {
+      border: 2px solid var(--gold);
+      transform: scale(1.03);
+      position: relative;
+    }
+    .rg-pop-badge {
+      position: absolute; top: -12px; right: 1rem;
+      background: var(--grad); color: #0a0a0a; font-size: 11px; font-weight: 800; padding: 0.35rem 0.75rem; border-radius: var(--pill);
+    }
+    .rg-price { font-size: 36px; font-weight: 800; margin: 0.5rem 0; }
+    .rg-features { list-style: none; margin: 1.25rem 0; }
+    .rg-features li { padding: 0.4rem 0; font-size: 14px; color: var(--muted); }
+
+    /* FAQ */
+    .rg-faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 0.75rem; overflow: hidden; background: var(--surface); }
+    .rg-faq-q { width: 100%; text-align: left; padding: 1.1rem 1.25rem; background: transparent; color: var(--text); font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; border: none; }
+    .rg-faq-a {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.4s ease;
+    }
+    .rg-faq-item.open .rg-faq-a { grid-template-rows: 1fr; }
+    .rg-faq-a-inner { overflow: hidden; min-height: 0; padding: 0 1.25rem 1.1rem; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+    /* Final CTA */
+    .rg-final-cta {
+      padding: 5rem 1.25rem;
+      background: linear-gradient(135deg, #c77a00, #ff6b35, #f0a500);
+      background-size: 200% 200%;
+      animation: gradMove 8s ease infinite;
+      text-align: center;
+    }
+    @keyframes gradMove { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+    .rg-final-cta h2 { font-size: clamp(28px, 4vw, 44px); color: #0a0a0a; font-weight: 800; margin-bottom: 0.75rem; }
+    .rg-final-cta p { color: rgba(10,10,10,0.85); margin-bottom: 1.5rem; font-weight: 600; }
+    .rg-final-cta .rg-btn-white { font-size: 17px; margin-bottom: 0.75rem; }
+
+    /* Footer */
+    footer.rg-footer {
+      border-top: 2px solid transparent;
+      border-image: linear-gradient(90deg, transparent, var(--gold), var(--amber), transparent) 1;
+      padding: 3rem 1.25rem 2rem;
+      background: #0a0a0a;
+    }
+    .rg-footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1.5rem; align-items: center; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+    .rg-footer-top nav { display: flex; gap: 1.25rem; flex-wrap: wrap; justify-content: center; flex: 1; }
+    .rg-footer-top nav a { color: var(--muted); font-size: 14px; }
+    .rg-footer-top nav a:hover { color: var(--text); }
+    .rg-tagline { color: var(--muted); font-size: 14px; max-width: 220px; text-align: right; }
+    .rg-footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; padding-top: 1.5rem; font-size: 13px; color: var(--muted); }
+    @media (max-width: 768px) { .rg-footer-top { flex-direction: column; text-align: center; } .rg-tagline { text-align: center; } .rg-footer-bottom { flex-direction: column; text-align: center; } }
+
     .rg-error { color: #ff8a80; margin-top: 1rem; font-size: 14px; display: none; }
     .rg-error.visible { display: block; }
 
@@ -293,29 +754,14 @@
     .rg-limit-banner p { font-size: 14px; color: var(--muted); margin-bottom: 1rem; }
     .rg-limit-resets { font-size: 12px; color: var(--muted); margin-top: 0.5rem; }
 
-    /* ── Results ────────────────────────────────────────────── */
-    .rg-results { display: none; margin-top: 3rem; }
-    .rg-results.visible { display: block; }
-    .rg-score-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: 2rem; }
-    .rg-score-ring {
-      width: 180px; height: 180px; border-radius: 50%; display: grid; place-items: center;
-      position: relative; background: conic-gradient(var(--ring-color,var(--success)) calc(var(--pct,0)*1%),#222 0); padding: 8px;
-    }
-    .rg-score-ring::before { content:""; position:absolute; inset:8px; border-radius:50%; background:var(--surface); }
-    .rg-score-ring span { position: relative; z-index: 1; font-size: 42px; font-weight: 800; }
-    .rg-style-pill { margin-top: 1rem; padding: 0.5rem 1.25rem; border-radius: var(--pill); background: rgba(240,165,0,0.15); border: 1px solid rgba(240,165,0,0.4); color: var(--gold); font-weight: 700; font-size: 15px; }
-    .rg-style-desc { font-size: 14px; color: var(--muted); text-align: center; max-width: 480px; margin: 0.5rem auto 0; line-height: 1.6; }
-    .rg-hint { color: var(--muted); margin-top: 0.75rem; font-size: 15px; }
+    /* Cold start */
+    .rg-cold-start { display: none; margin-top: 0.75rem; font-size: 13px; color: var(--muted); text-align: center; }
+    .rg-cold-start.visible { display: block; }
 
-    /* Score breakdown */
-    .rg-score-breakdown { width: 100%; max-width: 480px; margin: 1.5rem auto 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; box-shadow: var(--shadow); }
-    .rg-breakdown-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 1rem; }
-    .rg-breakdown-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.65rem; }
-    .rg-breakdown-row:last-child { margin-bottom: 0; }
-    .rg-breakdown-label { font-size: 12px; color: var(--muted); width: 130px; flex-shrink: 0; }
-    .rg-breakdown-bar-wrap { flex: 1; background: #1a1a1a; border-radius: 100px; height: 7px; overflow: hidden; }
-    .rg-breakdown-bar { height: 100%; border-radius: 100px; background: var(--grad); width: 0%; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
-    .rg-breakdown-val { font-size: 12px; font-weight: 700; color: var(--gold); width: 28px; text-align: right; flex-shrink: 0; }
+    /* Mobile camera */
+    .rg-camera-row { display: none; gap: 0.75rem; margin-top: 1rem; justify-content: center; }
+    @media (max-width: 768px) { .rg-camera-row { display: flex; } }
+    .rg-camera-btn { flex: 1; max-width: 200px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: 14px; font-weight: 600; padding: 0.75rem 1rem; border-radius: var(--pill); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-family: inherit; }
 
     /* What's working / not working */
     .rg-feedback-box { margin: 1rem 0; border-radius: var(--radius); padding: 1.1rem 1.25rem; display: flex; gap: 0.75rem; align-items: flex-start; }
@@ -336,47 +782,7 @@
     .rg-style-report-overlay { position: absolute; inset: 0; background: rgba(10,10,10,0.55); backdrop-filter: blur(1px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.4rem; border-radius: var(--radius); }
     .rg-style-report-overlay-title { font-size: 15px; font-weight: 800; }
     .rg-style-report-overlay-sub { font-size: 12px; color: var(--muted); margin-bottom: 0.25rem; }
-    .rg-style-report-overlay-btn { background: var(--grad); color: #0a0a0a; font-weight: 800; padding: 0.6rem 1.4rem; border-radius: var(--pill); border: none; cursor: pointer; font-size: 13px; }
-
-    /* Tip cards */
-    .rg-tip-list { display: flex; flex-direction: column; gap: 1rem; }
-    .rg-tip-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 1.25rem; box-shadow: var(--shadow); display: grid; grid-template-columns: auto 1fr;
-      gap: 1rem; align-items: start; opacity: 0; transform: translateY(18px);
-      animation: tipIn 0.45s ease forwards; position: relative;
-    }
-    @keyframes tipIn { to { opacity: 1; transform: translateY(0); } }
-    .rg-tip-card .rg-cat { grid-column: 1/-1; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-    .rg-tip-icon { width: 52px; height: 52px; border-radius: 50%; background: rgba(240,165,0,0.12); border: 1px solid rgba(240,165,0,0.35); display: grid; place-items: center; font-size: 24px; }
-    .rg-cat-pill { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); background: #1a1a1a; padding: 0.25rem 0.6rem; border-radius: var(--pill); border: 1px solid var(--border); }
-    .rg-diff-pill { font-size: 11px; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: var(--pill); }
-    .rg-diff-pill.easy { background: rgba(76,175,80,0.15); color: #4caf50; border: 1px solid rgba(76,175,80,0.3); }
-    .rg-diff-pill.medium { background: rgba(251,192,45,0.15); color: #fbc02d; border: 1px solid rgba(251,192,45,0.3); }
-    .rg-diff-pill.hard { background: rgba(229,57,53,0.15); color: #e53935; border: 1px solid rgba(229,57,53,0.3); }
-    .rg-boost-pill { font-size: 11px; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: var(--pill); background: rgba(240,165,0,0.12); color: var(--gold); border: 1px solid rgba(240,165,0,0.3); }
-    .rg-tip-title { font-size: 15px; font-weight: 700; margin-bottom: 0.35rem; }
-    .rg-tip-text { font-size: 14px; line-height: 1.6; color: var(--muted); }
-    .rg-product-box { margin-top: 0.75rem; background: #161616; border: 1px solid var(--border); border-radius: 10px; padding: 0.75rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
-    .rg-product-info { flex: 1; min-width: 0; }
-    .rg-product-name { font-size: 13px; font-weight: 700; margin-bottom: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .rg-product-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
-    .rg-product-price { font-size: 13px; font-weight: 700; color: var(--gold); white-space: nowrap; }
-    .rg-shop-btn { display: inline-flex; align-items: center; gap: 0.35rem; background: transparent; color: var(--gold); border: 1px solid rgba(240,165,0,0.5); padding: 0.45rem 0.9rem; border-radius: var(--pill); font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; }
-
-    /* Pro lock overlay on tips */
-    .rg-tip-card.rg-pro-locked { overflow: hidden; user-select: none; }
-    .rg-tip-card.rg-pro-locked > *:not(.rg-pro-overlay) { filter: blur(5px); pointer-events: none; }
-    .rg-pro-overlay { position: absolute; inset: 0; background: rgba(10,10,10,0.65); backdrop-filter: blur(2px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; z-index: 10; border-radius: var(--radius); }
-    .rg-pro-overlay-icon { font-size: 1.75rem; }
-    .rg-pro-overlay-text { font-size: 14px; font-weight: 700; }
-    .rg-pro-overlay-sub { font-size: 12px; color: var(--muted); }
-    .rg-pro-overlay-btn { margin-top: 0.25rem; background: var(--grad); color: #0a0a0a; font-weight: 800; padding: 0.55rem 1.25rem; border-radius: var(--pill); border: none; cursor: pointer; font-size: 13px; }
-
-    /* Share card */
-    .rg-share-card { margin-top: 2rem; background: linear-gradient(145deg,#1a1a1a,#111); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; text-align: center; box-shadow: var(--shadow); }
-    .rg-share-card .rg-logo-small { font-size: 20px; font-weight: 800; margin-bottom: 0.5rem; }
-    .rg-share-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 1.25rem; }
+    .rg-style-report-overlay-btn { background: var(--grad); color: #0a0a0a; font-weight: 800; padding: 0.6rem 1.4rem; border-radius: var(--pill); border: none; cursor: pointer; font-size: 13px; font-family: inherit; }
 
     /* Email capture */
     .rg-email-capture { display: none; margin-top: 1.5rem; background: linear-gradient(135deg,rgba(240,165,0,0.07),rgba(255,107,53,0.04)); border: 1px solid rgba(240,165,0,0.22); border-radius: var(--radius); padding: 1.5rem; text-align: center; }
@@ -384,1139 +790,1118 @@
     .rg-email-capture h4 { font-size: 16px; font-weight: 800; margin-bottom: 0.35rem; }
     .rg-email-capture p { font-size: 13px; color: var(--muted); margin-bottom: 1rem; }
     .rg-email-row { display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; flex-wrap: wrap; }
-    .rg-email-input { flex: 1; min-width: 0; padding: 0.75rem 1rem; border-radius: var(--pill); border: 1px solid var(--border); background: #0a0a0a; color: var(--text); font-size: 14px; }
-    .rg-email-submit { background: var(--grad); color: #0a0a0a; font-weight: 800; padding: 0.75rem 1.25rem; border-radius: var(--pill); border: none; cursor: pointer; font-size: 14px; white-space: nowrap; }
+    .rg-email-input { flex: 1; min-width: 0; padding: 0.75rem 1rem; border-radius: var(--pill); border: 1px solid var(--border); background: #0a0a0a; color: var(--text); font-size: 14px; font-family: inherit; }
+    .rg-email-submit { background: var(--grad); color: #0a0a0a; font-weight: 800; padding: 0.75rem 1.25rem; border-radius: var(--pill); border: none; cursor: pointer; font-size: 14px; white-space: nowrap; font-family: inherit; }
     .rg-email-thanks { display: none; color: var(--success); font-weight: 700; font-size: 14px; margin-top: 0.5rem; }
 
-    /* ── Examples ───────────────────────────────────────────── */
-    .rg-filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
-    .rg-filter-pill { padding: 0.45rem 0.9rem; border-radius: var(--pill); font-size: 13px; font-weight: 600; background: var(--surface); border: 1px solid var(--border); color: var(--muted); cursor: pointer; }
-    .rg-filter-pill.is-active { background: var(--grad); color: #0a0a0a; border-color: transparent; }
-    .rg-ex-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
-    @media (max-width: 900px) { .rg-ex-grid { grid-template-columns: repeat(2,1fr); } }
-    @media (max-width: 520px) { .rg-ex-grid { grid-template-columns: 1fr; } }
-    .rg-ex-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); position: relative; transition: opacity 0.35s ease, transform 0.35s ease, box-shadow 0.2s ease; }
-    .rg-ex-card.rg-hidden { display: none !important; }
-    .rg-ex-card.rg-ex-hiding { opacity: 0; transform: scale(0.96); pointer-events: none; }
-    .rg-ex-icon { position: absolute; inset: 0; display: grid; place-items: center; font-size: 2.5rem; opacity: 0.3; pointer-events: none; }
-    .rg-ex-img { height: 160px; position: relative; }
-    .rg-ex-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.55); display: grid; place-items: center; opacity: 0; transition: opacity 0.2s ease; font-weight: 800; }
-    .rg-ex-card:hover .rg-ex-overlay { opacity: 1; }
-    .rg-ex-meta { padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: flex-end; gap: 0.5rem; flex-wrap: wrap; }
-    .rg-badge-score { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.75); padding: 0.35rem 0.65rem; border-radius: var(--pill); font-size: 12px; font-weight: 800; color: var(--gold); border: 1px solid rgba(240,165,0,0.4); }
+    /* Cursor glow on interactive */
+    .rg-interactive { cursor: pointer; }
+    .rg-interactive:hover { box-shadow: 0 0 0 1px rgba(240,165,0,0.25), 0 0 24px rgba(240,165,0,0.08); }
 
-    /* ── Products ───────────────────────────────────────────── */
-    .rg-prod-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
-    @media (max-width: 900px) { .rg-prod-grid { grid-template-columns: repeat(2,1fr); } }
-    @media (max-width: 520px) { .rg-prod-grid { grid-template-columns: 1fr; } }
-    .rg-prod-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
-    .rg-prod-emoji { height: 140px; display: grid; place-items: center; font-size: 3rem; }
-    .rg-prod-body { padding: 1rem; }
-    .rg-prod-body h4 { font-size: 16px; margin-bottom: 0.35rem; }
-    .rg-prod-body p { font-size: 13px; color: var(--muted); margin-bottom: 0.75rem; }
-
-    /* ── Stats ──────────────────────────────────────────────── */
-    .rg-stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; text-align: center; }
-    @media (max-width: 768px) { .rg-stats-row { grid-template-columns: repeat(2,1fr); } }
-    .rg-stat-num { font-size: clamp(32px,5vw,48px); font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .rg-stat-label { font-size: 14px; color: var(--muted); margin-top: 0.35rem; }
-
-    /* ── Carousel ───────────────────────────────────────────── */
-    .rg-carousel-wrap { overflow: hidden; position: relative; padding: 0.5rem 0; }
-    .rg-carousel-wrap:hover .rg-carousel-track { animation-play-state: paused; }
-    .rg-carousel-track { display: flex; gap: 1.25rem; width: max-content; animation: scrollX 65s linear infinite; }
-    @keyframes scrollX { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-    .rg-testi-card { flex: 0 0 320px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
-    .rg-stars { color: var(--gold); margin-bottom: 0.75rem; }
-    .rg-testi-card blockquote { font-style: italic; font-size: 14px; margin-bottom: 1rem; line-height: 1.6; }
-    .rg-testi-card .rg-author { display: flex; align-items: center; gap: 0.75rem; }
-    .rg-testi-av { width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center; font-weight: 800; font-size: 14px; color: #fff; }
-
-    /* ── Pricing ────────────────────────────────────────────── */
-    .rg-pricing-row { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; align-items: stretch; }
-    .rg-pricing-card { flex: 1 1 320px; max-width: 400px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); }
-    .rg-pricing-card.rg-popular { border: 2px solid var(--gold); transform: scale(1.03); position: relative; }
-    .rg-pop-badge { position: absolute; top: -12px; right: 1rem; background: var(--grad); color: #0a0a0a; font-size: 11px; font-weight: 800; padding: 0.35rem 0.75rem; border-radius: var(--pill); }
-    .rg-price { font-size: 36px; font-weight: 800; margin: 0.5rem 0; }
-    .rg-features { list-style: none; margin: 1.25rem 0; }
-    .rg-features li { padding: 0.4rem 0; font-size: 14px; color: var(--muted); }
-
-    /* ── FAQ ────────────────────────────────────────────────── */
-    .rg-faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 0.75rem; overflow: hidden; background: var(--surface); }
-    .rg-faq-q { width: 100%; text-align: left; padding: 1.1rem 1.25rem; background: transparent; color: var(--text); font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; border: none; }
-    .rg-faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s ease; }
-    .rg-faq-item.open .rg-faq-a { grid-template-rows: 1fr; }
-    .rg-faq-a-inner { overflow: hidden; min-height: 0; padding: 0 1.25rem 1.1rem; color: var(--muted); font-size: 14px; line-height: 1.65; }
-
-    /* ── Final CTA ──────────────────────────────────────────── */
-    .rg-final-cta { padding: 5rem 1.25rem; background: linear-gradient(135deg,#c77a00,#ff6b35,#f0a500); background-size: 200% 200%; animation: gradMove 8s ease infinite; text-align: center; }
-    @keyframes gradMove { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-    .rg-final-cta h2 { font-size: clamp(26px,4vw,44px); color: #0a0a0a; font-weight: 800; margin-bottom: 0.75rem; }
-    .rg-final-cta p { color: rgba(10,10,10,0.85); margin-bottom: 1.5rem; font-weight: 600; }
-
-    /* ── Footer ─────────────────────────────────────────────── */
-    footer.rg-footer { border-top: 2px solid transparent; border-image: linear-gradient(90deg,transparent,var(--gold),var(--amber),transparent) 1; padding: 3rem 1.25rem 2rem; background: #0a0a0a; }
-    .rg-footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1.5rem; align-items: center; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
-    .rg-footer-top nav { display: flex; gap: 1.25rem; flex-wrap: wrap; justify-content: center; flex: 1; }
-    .rg-footer-top nav a { color: var(--muted); font-size: 14px; }
-    .rg-footer-top nav a:hover { color: var(--text); }
-    .rg-tagline { color: var(--muted); font-size: 14px; max-width: 220px; text-align: right; }
-    .rg-footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; padding-top: 1.5rem; font-size: 13px; color: var(--muted); }
-    @media (max-width: 768px) { .rg-footer-top { flex-direction: column; text-align: center; } .rg-tagline { text-align: center; } .rg-footer-bottom { flex-direction: column; text-align: center; } }
-
-    /* ── Modal ──────────────────────────────────────────────── */
-    .rg-modal { position: fixed; inset: 0; z-index: 5000; display: grid; place-items: center; padding: 1.5rem; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, visibility 0.3s; }
+    /* Pro modal */
+    .rg-modal {
+      position: fixed; inset: 0; z-index: 5000;
+      display: grid; place-items: center;
+      padding: 1.5rem;
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity 0.3s ease, visibility 0.3s;
+    }
     .rg-modal.open { opacity: 1; visibility: visible; pointer-events: auto; }
     .rg-modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); }
-    .rg-modal-card { position: relative; z-index: 1; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; max-width: 420px; width: 100%; box-shadow: var(--shadow-hover); }
-    .rg-modal-close { position: absolute; top: 12px; right: 12px; background: transparent; border: none; color: var(--muted); font-size: 1.5rem; cursor: pointer; line-height: 1; }
+    .rg-modal-card {
+      position: relative; z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      max-width: 420px; width: 100%;
+      box-shadow: var(--shadow-hover);
+    }
+    .rg-modal-close {
+      position: absolute; top: 12px; right: 12px;
+      background: transparent; border: none; color: var(--muted); font-size: 1.5rem; cursor: pointer; line-height: 1;
+    }
     .rg-modal-card h3 { font-size: 1.35rem; margin-bottom: 0.5rem; }
     .rg-modal-card p { color: var(--muted); font-size: 14px; margin-bottom: 1rem; }
-    .rg-modal-card input { width: 100%; padding: 0.85rem 1rem; border-radius: var(--radius); border: 1px solid var(--border); background: #0a0a0a; color: var(--text); font-size: 15px; margin-bottom: 1rem; font-family: inherit; }
+    .rg-modal-card input {
+      width: 100%; padding: 0.85rem 1rem; border-radius: var(--radius);
+      border: 1px solid var(--border); background: #0a0a0a; color: var(--text);
+      font-size: 15px; margin-bottom: 1rem;
+    }
     .rg-modal-msg { display: none; color: var(--success); font-weight: 700; font-size: 14px; margin-top: 0.75rem; }
 
-    /* ── Toast ──────────────────────────────────────────────── */
-    .rg-toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface); border: 1px solid var(--gold); color: var(--gold); padding: 0.65rem 1.25rem; border-radius: var(--pill); font-weight: 700; font-size: 14px; z-index: 6000; opacity: 0; transition: transform 0.35s ease, opacity 0.35s ease; pointer-events: none; }
+    /* Toast */
+    .rg-toast {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--surface); border: 1px solid var(--gold); color: var(--gold);
+      padding: 0.65rem 1.25rem; border-radius: var(--pill); font-weight: 700; font-size: 14px;
+      z-index: 6000; opacity: 0; transition: transform 0.35s ease, opacity 0.35s ease;
+      pointer-events: none;
+    }
     .rg-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-    /* ── Scroll margin ──────────────────────────────────────── */
-    #home,#how,#analyze,#examples,#shop,#stats,#reviews,#pricing,#faq,#final-cta,#privacy,#terms { scroll-margin-top: 88px; }
+    .rg-testi-av {
+      width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+      display: grid; place-items: center; font-weight: 800; font-size: 14px; color: #fff;
+    }
+
+    @media (max-width: 520px) {
+      .rg-btn-primary, .rg-btn-outline, .rg-nav-cta, .rg-analyze-btn, .rg-btn-white, .rg-btn-ghost, .rg-pricing-row .rg-btn-outline, .rg-pricing-row .rg-nav-cta {
+        width: 100%; justify-content: center;
+      }
+      .rg-hero-ctas { flex-direction: column; width: 100%; max-width: 360px; margin-left: auto; margin-right: auto; }
+    }
+
+    #home, #how, #analyze, #examples, #shop, #stats, #reviews, #pricing, #faq, #final-cta, #privacy, #terms {
+      scroll-margin-top: 88px;
+    }
   </style>
 </head>
 <body>
-<div id="rg-root">
+  <div id="rg-root">
+    <!-- NAV -->
+    <header class="rg-nav" id="rgNav">
+      <div class="rg-nav-inner">
+        <a href="#home" class="rg-logo">🔥 RoomGlow</a>
+        <nav class="rg-nav-links">
+          <a class="rg-navlink rg-anchor" href="#home">Home</a>
+          <a class="rg-navlink rg-anchor" href="#how">How It Works</a>
+          <a class="rg-navlink rg-anchor" href="#examples">Examples</a>
+          <a class="rg-navlink rg-anchor" href="#pricing">Pricing</a>
+          <a class="rg-navlink rg-anchor" href="#reviews">Reviews</a>
+        </nav>
+        <button type="button" class="rg-nav-cta" id="rgNavCta">Start Free →</button>
+        <button type="button" class="rg-hamburger" id="rgMenuOpen" aria-label="Menu">☰</button>
+      </div>
+    </header>
 
-  <!-- NAV -->
-  <header class="rg-nav" id="rgNav">
-    <div class="rg-nav-inner">
-      <a href="#home" class="rg-logo">🔥 RoomGlow</a>
-      <nav class="rg-nav-links">
-        <a class="rg-navlink" href="#home">Home</a>
-        <a class="rg-navlink" href="#how">How It Works</a>
-        <a class="rg-navlink" href="#examples">Examples</a>
-        <a class="rg-navlink" href="#pricing">Pricing</a>
-        <a class="rg-navlink" href="#reviews">Reviews</a>
-      </nav>
-      <button type="button" class="rg-nav-cta" id="rgNavCta">Start Free →</button>
-      <button type="button" class="rg-hamburger" id="rgMenuOpen" aria-label="Open menu">☰</button>
+    <div class="rg-menu-overlay" id="rgMenuOverlay">
+      <button type="button" class="rg-menu-close" id="rgMenuClose">&times;</button>
+      <a href="#home" class="rg-anchor">Home</a>
+      <a href="#how" class="rg-anchor">How It Works</a>
+      <a href="#examples" class="rg-anchor">Examples</a>
+      <a href="#pricing" class="rg-anchor">Pricing</a>
+      <a href="#reviews" class="rg-anchor">Reviews</a>
+      <button type="button" class="rg-nav-cta" id="rgMenuCta" style="margin-top:1rem;">Start Free →</button>
     </div>
-  </header>
 
-  <div class="rg-menu-overlay" id="rgMenuOverlay" role="dialog" aria-label="Navigation">
-    <button type="button" class="rg-menu-close" id="rgMenuClose" aria-label="Close menu">&times;</button>
-    <a href="#home">Home</a>
-    <a href="#how">How It Works</a>
-    <a href="#examples">Examples</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#reviews">Reviews</a>
-    <button type="button" class="rg-nav-cta" id="rgMenuCta" style="margin-top:1rem;">Start Free →</button>
+    <!-- HERO -->
+    <section class="rg-hero" id="home">
+      <div class="rg-hero-bg">
+        <div class="rg-orb rg-orb1"></div>
+        <div class="rg-orb rg-orb2"></div>
+        <div class="rg-orb rg-orb3"></div>
+        <div class="rg-grain"></div>
+      </div>
+      <div class="rg-hero-inner">
+        <!-- LEFT: Copy + CTAs -->
+        <div class="rg-hero-text">
+          <div class="rg-badge">✨ AI-Powered Room Analysis — Free to Try</div>
+          <h1>What Score Does Your Room Deserve?</h1>
+          <p class="rg-hero-sub">Upload a photo and get an honest AI aesthetic score, a full room review, and shoppable tips to transform your space — in 30 seconds.</p>
+          <div class="rg-hero-ctas">
+            <button type="button" class="rg-btn-primary" id="rgHeroAnalyze">Show Me My Room Score →</button>
+            <a href="#examples" class="rg-anchor" style="font-size:15px;font-weight:600;color:var(--muted);display:flex;align-items:center;padding:0.5rem 0;">See examples ↓</a>
+          </div>
+          <p class="rg-hero-micro">No sign-up &nbsp;·&nbsp; No credit card &nbsp;·&nbsp; Results in 30 seconds</p>
+          <div class="rg-social-proof">
+            <div class="rg-avatars">
+              <span class="rg-avatar" style="background:linear-gradient(135deg,#ff9a56,#ff6a88)">SK</span>
+              <span class="rg-avatar" style="background:linear-gradient(135deg,#f7971e,#ffd200)">MT</span>
+              <span class="rg-avatar" style="background:linear-gradient(135deg,#f093fb,#f5576c)">PM</span>
+              <span class="rg-avatar" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">JR</span>
+              <span class="rg-avatar" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">EL</span>
+            </div>
+            <span>⭐⭐⭐⭐⭐ &nbsp;Loved by 10,000+ home enthusiasts</span>
+          </div>
+          <p class="rg-live-counter" style="margin-top:0.75rem;">🔥 <span id="rgLiveNum">114</span> rooms analyzed today</p>
+        </div>
+
+        <!-- RIGHT: Product visual -->
+        <div class="rg-hero-visual">
+          <div class="rg-hero-mockup" aria-hidden="true">
+            <div class="rg-mockup-glow"></div>
+            <div class="rg-mockup-card">
+              <div class="rg-mockup-top">
+                <div class="rg-mockup-score">
+                  <span class="rg-mockup-num">73<span class="rg-mockup-den">/100</span></span>
+                </div>
+                <div class="rg-mockup-meta">
+                  <div class="rg-mockup-pill">✨ Warm Minimalist</div>
+                  <div class="rg-mockup-room">Bedroom · Analyzed just now</div>
+                </div>
+              </div>
+              <div class="rg-mockup-bars">
+                <div class="rg-mockup-bar-row"><span class="rg-mockup-bar-label">💡 Lighting</span><div class="rg-mockup-bar-track"><div class="rg-mockup-bar-fill" style="width:70%"></div></div><span class="rg-mockup-bar-val">14</span></div>
+                <div class="rg-mockup-bar-row"><span class="rg-mockup-bar-label">🎨 Color</span><div class="rg-mockup-bar-track"><div class="rg-mockup-bar-fill" style="width:80%"></div></div><span class="rg-mockup-bar-val">16</span></div>
+                <div class="rg-mockup-bar-row"><span class="rg-mockup-bar-label">🛋️ Furniture</span><div class="rg-mockup-bar-track"><div class="rg-mockup-bar-fill" style="width:65%"></div></div><span class="rg-mockup-bar-val">13</span></div>
+                <div class="rg-mockup-bar-row"><span class="rg-mockup-bar-label">✨ Decor</span><div class="rg-mockup-bar-track"><div class="rg-mockup-bar-fill" style="width:55%"></div></div><span class="rg-mockup-bar-val">11</span></div>
+              </div>
+              <!-- What's working preview -->
+              <div style="background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.25);border-radius:10px;padding:0.6rem 0.75rem;margin-bottom:0.6rem;">
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#4caf50;margin-bottom:0.2rem;">✅ What's Working</div>
+                <div style="font-size:11px;color:#b9f5bb;line-height:1.5;">The neutral wall tones and natural wood furniture create a calming, cohesive base.</div>
+              </div>
+              <div class="rg-mockup-tips">
+                <div class="rg-mockup-tip"><span>💡 Swap overhead light for a warm floor lamp</span><span class="rg-mockup-tip-badge">+8 pts</span></div>
+                <div class="rg-mockup-tip"><span>🪴 A plant softens the hard window edges</span><span class="rg-mockup-tip-badge">+5 pts</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="rg-scroll-hint" aria-hidden="true">↓</div>
+    </section>
+
+    <!-- TRUST -->
+    <div class="rg-trust">
+      <div class="rg-trust-shimmer"></div>
+      <div class="rg-trust-row container">
+        <div class="rg-trust-item">⚡ Results in 30 Seconds</div>
+        <span class="rg-trust-div"></span>
+        <div class="rg-trust-item">🔒 Photos Never Stored</div>
+        <span class="rg-trust-div"></span>
+        <div class="rg-trust-item">⭐ 4.9/5 Average Rating</div>
+        <span class="rg-trust-div"></span>
+        <div class="rg-trust-item">🏠 10,000+ Rooms Analyzed</div>
+        <span class="rg-trust-div"></span>
+        <div class="rg-trust-item">🛍️ Amazon Picks for Every Tip</div>
+      </div>
+    </div>
+
+    <!-- HOW -->
+    <section class="rg-section section-alt" id="how">
+      <div class="container">
+        <span class="rg-pill-label">Simple Process</span>
+        <h2 class="rg-sec-title">From Photo to Perfect Room in Seconds</h2>
+        <p class="rg-sec-sub">Four quick steps from upload to your personalized score and shopping list.</p>
+        <div class="rg-steps-wrap">
+          <div class="rg-steps">
+            <div class="rg-step-card rg-reveal" data-reveal>
+              <div class="rg-step-num">01</div><div class="rg-step-icon">🛋️</div>
+              <h3>Choose Room Type</h3><p>Select bedroom, desk, living room or any space for a more accurate analysis</p>
+            </div>
+            <div class="rg-step-card rg-reveal" data-reveal>
+              <div class="rg-step-num">02</div><div class="rg-step-icon">📸</div>
+              <h3>Upload Your Photo</h3><p>Drag & drop or take a photo directly — any angle, any lighting works</p>
+            </div>
+            <div class="rg-step-card rg-reveal" data-reveal>
+              <div class="rg-step-num">03</div><div class="rg-step-icon">🧠</div>
+              <h3>AI Analyzes Everything</h3><p>Our AI examines lighting, layout, color harmony, furniture and style</p>
+            </div>
+            <div class="rg-step-card rg-reveal" data-reveal>
+              <div class="rg-step-num">04</div><div class="rg-step-icon">✨</div>
+              <h3>Get Your Score & Shop</h3><p>Receive your Aesthetic Score, full room review, and hand-picked Amazon links</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALYZER -->
+    <section class="rg-section" id="analyze">
+      <div class="container">
+        <span class="rg-pill-label">Try It Free</span>
+        <h2 class="rg-sec-title">Analyze Your Room Now</h2>
+        <p class="rg-sec-sub">Get your score, full room review, and first 3 tips free. No account required.</p>
+
+        <!-- Urgency bar -->
+        <div class="rg-urgency-bar">
+          <span class="rg-urgency-dot"></span>
+          <span><strong id="rgUrgencyNum">47</strong> rooms analyzed in the last hour</span>
+        </div>
+
+        <div class="rg-room-row" id="rgRoomPills" role="group" aria-label="Room type">
+          <button type="button" class="rg-room-pill is-active" data-room="Bedroom">🛏️ Bedroom</button>
+          <button type="button" class="rg-room-pill" data-room="Living Room">🛋️ Living Room</button>
+          <button type="button" class="rg-room-pill" data-room="Desk Setup">💻 Desk Setup</button>
+          <button type="button" class="rg-room-pill" data-room="Closet">👗 Closet</button>
+          <button type="button" class="rg-room-pill" data-room="Kitchen">🍳 Kitchen</button>
+          <button type="button" class="rg-room-pill" data-room="Bathroom">🚿 Bathroom</button>
+        </div>
+
+        <div class="rg-upload-card" id="rgUploadCard">
+          <div class="rg-skeleton" id="rgSkeleton"></div>
+          <input type="file" id="rgFileInput" accept="image/*" hidden />
+          <input type="file" id="rgCameraInput" accept="image/*" capture="environment" hidden />
+          <input type="file" id="rgLibraryInput" accept="image/*" hidden />
+          <div class="rg-upload-card-inner" id="rgDropZone">
+            <div class="rg-upload-placeholder" id="rgPlaceholder">
+              <div style="font-size:3rem;margin-bottom:0.5rem;">📷</div>
+              <p style="font-weight:700;font-size:18px;margin-bottom:0.5rem;">Drag & drop your photo here</p>
+              <p style="color:var(--muted);font-size:14px;">or click to browse</p>
+              <p style="color:var(--muted);font-size:12px;margin-top:1rem;">JPG, PNG, WEBP — up to 20MB</p>
+            </div>
+            <div class="rg-preview-wrap" id="rgPreviewWrap">
+              <img id="rgPreviewImg" alt="Preview" />
+              <button type="button" class="rg-change-photo" id="rgChangePhoto">Change Photo</button>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="rg-analyze-btn rg-interactive" id="rgAnalyzeBtn" disabled>
+          <span class="rg-btn-text">Analyze My Room ✨</span>
+          <span class="rg-load-inner">
+            <span class="rg-spinner"></span>
+            <span class="rg-pulse-text">Analyzing your space...</span>
+          </span>
+        </button>
+
+        <div class="rg-camera-row">
+          <button type="button" class="rg-camera-btn" id="rgCameraBtn">📷 Take Photo</button>
+          <button type="button" class="rg-camera-btn" id="rgLibraryBtn">🖼️ Choose from Library</button>
+        </div>
+
+        <p class="rg-cold-start" id="rgColdStart">⏳ Our AI is warming up — this first request may take 20-30 seconds. Hang tight!</p>
+
+        <div class="rg-limit-banner" id="rgLimitBanner">
+          <h3>🔥 You've used your 2 free analyses today</h3>
+          <p>Upgrade to Pro for unlimited daily analyses, deeper tips, and your full style report.</p>
+          <button type="button" class="rg-nav-cta rg-pro-trigger" style="border:none;">Upgrade to Pro — $7.99/mo →</button>
+          <p class="rg-limit-resets" id="rgLimitResets"></p>
+        </div>
+
+        <p class="rg-error" id="rgError"></p>
+
+        <div class="rg-results" id="rgResults">
+          <div class="rg-score-wrap">
+            <div class="rg-score-ring" id="rgScoreRing" style="--pct:0%;--ring-color:#4caf50;">
+              <span id="rgScoreNum">0</span>
+            </div>
+            <div class="rg-style-pill" id="rgStylePill">✨ Style</div>
+            <p class="rg-style-desc" id="rgStyleDesc"></p>
+            <div class="rg-score-breakdown" id="rgScoreBreakdown" style="display:none;">
+              <div class="rg-breakdown-title">Score Breakdown</div>
+              <div class="rg-breakdown-row">
+                <span class="rg-breakdown-label">💡 Lighting</span>
+                <div class="rg-breakdown-bar-wrap"><div class="rg-breakdown-bar" id="rgBarLighting"></div></div>
+                <span class="rg-breakdown-val" id="rgValLighting">0</span>
+              </div>
+              <div class="rg-breakdown-row">
+                <span class="rg-breakdown-label">🎨 Color Harmony</span>
+                <div class="rg-breakdown-bar-wrap"><div class="rg-breakdown-bar" id="rgBarColor"></div></div>
+                <span class="rg-breakdown-val" id="rgValColor">0</span>
+              </div>
+              <div class="rg-breakdown-row">
+                <span class="rg-breakdown-label">🛋️ Furniture Layout</span>
+                <div class="rg-breakdown-bar-wrap"><div class="rg-breakdown-bar" id="rgBarFurniture"></div></div>
+                <span class="rg-breakdown-val" id="rgValFurniture">0</span>
+              </div>
+              <div class="rg-breakdown-row">
+                <span class="rg-breakdown-label">✨ Decor &amp; Personality</span>
+                <div class="rg-breakdown-bar-wrap"><div class="rg-breakdown-bar" id="rgBarDecor"></div></div>
+                <span class="rg-breakdown-val" id="rgValDecor">0</span>
+              </div>
+              <div class="rg-breakdown-row">
+                <span class="rg-breakdown-label">🧹 Organization</span>
+                <div class="rg-breakdown-bar-wrap"><div class="rg-breakdown-bar" id="rgBarOrg"></div></div>
+                <span class="rg-breakdown-val" id="rgValOrg">0</span>
+              </div>
+            </div>
+            <p class="rg-hint">Here's how to improve your space:</p>
+          </div>
+          <div class="rg-whats-working" id="rgWhatsWorking" style="display:none;">
+            <span class="rg-whats-working-icon">✅</span>
+            <div>
+              <div class="rg-whats-working-label">What's Already Working</div>
+              <p class="rg-whats-working-text" id="rgWhatsWorkingText"></p>
+            </div>
+          </div>
+          <div class="rg-feedback-box warn" id="rgWhatsNotWorking" style="display:none;">
+            <span class="rg-feedback-icon">⚠️</span>
+            <div>
+              <div class="rg-feedback-label">What Needs Work</div>
+              <p class="rg-feedback-text" id="rgWhatsNotWorkingText"></p>
+            </div>
+          </div>
+          <div class="rg-style-report" id="rgStyleReport" style="display:none;">
+            <div class="rg-style-report-label">🔮 Full Style Report</div>
+            <p class="rg-style-report-text" id="rgStyleReportText"></p>
+            <div class="rg-style-report-overlay">
+              <span style="font-size:1.5rem;">🔒</span>
+              <span class="rg-style-report-overlay-title">Your Personal Style Report</span>
+              <span class="rg-style-report-overlay-sub">What your room says about you — and its full potential</span>
+              <button type="button" class="rg-style-report-overlay-btn rg-pro-trigger">Unlock with Pro →</button>
+            </div>
+          </div>
+          <div class="rg-tip-list" id="rgTipList"></div>
+
+          <div class="rg-share-card">
+            <div class="rg-logo-small">✨ RoomGlow</div>
+            <p style="color:var(--muted);font-size:14px;">Analyzed by RoomGlow AI</p>
+            <p id="rgShareSummary" style="margin-top:0.75rem;font-weight:600;"></p>
+            <div class="rg-share-actions">
+              <button type="button" class="rg-btn-white" id="rgShareBtn">Share Your Score 📤</button>
+              <button type="button" class="rg-btn-ghost" id="rgAnotherBtn">Analyze Another Room 🔄</button>
+            </div>
+          </div>
+
+          <div class="rg-email-capture" id="rgEmailCapture">
+            <h4>🏠 Want weekly room inspo & design tips?</h4>
+            <p>Join 10,000+ home enthusiasts. No spam, just ideas that actually improve your space.</p>
+            <div class="rg-email-row">
+              <input type="email" class="rg-email-input" id="rgEmailInput" placeholder="you@email.com" autocomplete="email" />
+              <button type="button" class="rg-email-submit" id="rgEmailSubmit">Subscribe →</button>
+            </div>
+            <p class="rg-email-thanks" id="rgEmailThanks">🎉 You're in! Check your inbox.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXAMPLES -->
+    <section class="rg-section section-alt" id="examples">
+      <div class="container">
+        <span class="rg-pill-label">Real Results</span>
+        <h2 class="rg-sec-title">See What RoomGlow Discovers</h2>
+        <p class="rg-sec-sub">Real rooms analyzed by our AI — see the scores, styles, and tips</p>
+        <div class="rg-filters" id="rgExFilters">
+          <button type="button" class="rg-filter-pill is-active" data-filter="all">All 🏠</button>
+          <button type="button" class="rg-filter-pill" data-filter="Bedroom">Bedroom 🛏️</button>
+          <button type="button" class="rg-filter-pill" data-filter="Living Room">Living Room 🛋️</button>
+          <button type="button" class="rg-filter-pill" data-filter="Desk Setup">Desk 💻</button>
+          <button type="button" class="rg-filter-pill" data-filter="Closet">Closet 👗</button>
+        </div>
+        <div class="rg-ex-grid" id="rgExGrid" style="position:relative;">
+          <article class="rg-ex-card rg-reveal" data-reveal data-room="Bedroom">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#667eea,#764ba2);position:relative;">
+              <span class="rg-ex-icon" aria-hidden="true">🛏️</span>
+              <span class="rg-badge-score">82/100</span>
+              <div class="rg-ex-overlay">See Tips</div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Scandinavian Minimal</span>
+              <span style="font-size:12px;color:var(--muted);">Bedroom</span>
+            </div>
+          </article>
+          <article class="rg-ex-card rg-reveal" data-reveal data-room="Living Room">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#f093fb,#f5576c);position:relative;">
+              <span class="rg-ex-icon" aria-hidden="true">🛋️</span>
+              <span class="rg-badge-score">71/100</span>
+              <div class="rg-ex-overlay">See Tips</div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Boho Chic</span>
+              <span style="font-size:12px;color:var(--muted);">Living Room</span>
+            </div>
+          </article>
+          <article class="rg-ex-card rg-reveal" data-reveal data-room="Desk Setup">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#4facfe,#00f2fe);position:relative;">
+              <span class="rg-ex-icon" aria-hidden="true">💻</span>
+              <span class="rg-badge-score">91/100</span>
+              <div class="rg-ex-overlay">See Tips</div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Dark Academia</span>
+              <span style="font-size:12px;color:var(--muted);">Desk Setup</span>
+            </div>
+          </article>
+          <article class="rg-ex-card rg-reveal" data-reveal data-room="Closet">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#43e97b,#38f9d7);position:relative;">
+              <span class="rg-ex-icon" aria-hidden="true">👗</span>
+              <span class="rg-badge-score">65/100</span>
+              <div class="rg-ex-overlay">See Tips</div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Clean Aesthetic</span>
+              <span style="font-size:12px;color:var(--muted);">Closet</span>
+            </div>
+          </article>
+          <article class="rg-ex-card rg-reveal" data-reveal data-room="Bedroom">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#fa709a,#fee140);position:relative;">
+              <span class="rg-ex-icon" aria-hidden="true">🛏️</span>
+              <span class="rg-badge-score">88/100</span>
+              <div class="rg-ex-overlay">See Tips</div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Cottagecore</span>
+              <span style="font-size:12px;color:var(--muted);">Bedroom</span>
+            </div>
+          </article>
+          <article class="rg-ex-card rg-reveal" data-reveal data-room="Living Room">
+            <div class="rg-ex-img" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb);position:relative;">
+              <span class="rg-ex-icon" aria-hidden="true">🛋️</span>
+              <span class="rg-badge-score">77/100</span>
+              <div class="rg-ex-overlay">See Tips</div>
+            </div>
+            <div class="rg-ex-meta">
+              <span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Modern Industrial</span>
+              <span style="font-size:12px;color:var(--muted);">Living Room</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="rg-section" id="shop">
+      <div class="container">
+        <span class="rg-pill-label">Shop The Look</span>
+        <h2 class="rg-sec-title">Products Our AI Recommends Most</h2>
+        <p class="rg-sec-sub">After analyzing 10,000+ rooms, these are the upgrades that move the needle most. Click to shop on Amazon.</p>
+        <div class="rg-prod-grid">
+          <article class="rg-prod-card rg-interactive rg-reveal" data-reveal>
+            <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#f7971e,#ffd200);">💡</div>
+            <div class="rg-prod-body">
+              <h4>Floor Lamp</h4>
+              <p>Perfect for cozy bedroom lighting</p>
+              <a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=warm+led+floor+lamp&amp;tag=technova050-20" target="_blank" rel="noopener">Shop This →</a>
+            </div>
+          </article>
+          <article class="rg-prod-card rg-interactive rg-reveal" data-reveal>
+            <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#56ab2f,#a8e063);">🌿</div>
+            <div class="rg-prod-body">
+              <h4>Desk Plant</h4>
+              <p>Adds life and freshness to any desk</p>
+              <a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=minimalist+desk+plant&amp;tag=technova050-20" target="_blank" rel="noopener">Shop This →</a>
+            </div>
+          </article>
+          <article class="rg-prod-card rg-interactive rg-reveal" data-reveal>
+            <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#ee9ca7,#ffdde1);">🛋️</div>
+            <div class="rg-prod-body">
+              <h4>Throw Blanket</h4>
+              <p>Instant texture and warmth to sofas</p>
+              <a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=aesthetic+throw+blanket&amp;tag=technova050-20" target="_blank" rel="noopener">Shop This →</a>
+            </div>
+          </article>
+          <article class="rg-prod-card rg-interactive rg-reveal" data-reveal>
+            <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#c94b4b,#4b134f);">📚</div>
+            <div class="rg-prod-body">
+              <h4>Wall Shelves</h4>
+              <p>Clean storage that looks beautiful</p>
+              <a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=floating+wall+shelves&amp;tag=technova050-20" target="_blank" rel="noopener">Shop This →</a>
+            </div>
+          </article>
+          <article class="rg-prod-card rg-interactive rg-reveal" data-reveal>
+            <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#f6d365,#fda085);">🕯️</div>
+            <div class="rg-prod-body">
+              <h4>Candle Set</h4>
+              <p>Sets the mood in any room instantly</p>
+              <a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=scented+candle+set&amp;tag=technova050-20" target="_blank" rel="noopener">Shop This →</a>
+            </div>
+          </article>
+          <article class="rg-prod-card rg-interactive rg-reveal" data-reveal>
+            <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#89f7fe,#66a6ff);">🧺</div>
+            <div class="rg-prod-body">
+              <h4>Storage Basket</h4>
+              <p>Organizes clutter stylishly</p>
+              <a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;" href="https://www.amazon.com/s?k=woven+storage+basket&amp;tag=technova050-20" target="_blank" rel="noopener">Shop This →</a>
+            </div>
+          </article>
+        </div>
+        <p style="text-align:center;color:var(--muted);margin-top:2rem;font-size:14px;">💡 RoomGlow recommends products based on your specific room analysis</p>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="rg-section section-muted" id="stats">
+      <div class="container">
+        <div style="text-align:center;margin-bottom:2.5rem;">
+          <span class="rg-pill-label">By The Numbers</span>
+          <h2 class="rg-sec-title">The Results Speak for Themselves</h2>
+        </div>
+        <div class="rg-stats-row">
+          <div class="rg-reveal" data-reveal>
+            <div class="rg-stat-num" data-target="10000" data-suffix="+">0</div>
+            <div class="rg-stat-label">🏠 Rooms Analyzed</div>
+          </div>
+          <div class="rg-reveal" data-reveal>
+            <div class="rg-stat-num" data-target="4.9" data-decimal="1">0</div>
+            <div class="rg-stat-label">⭐ Average Rating</div>
+          </div>
+          <div class="rg-reveal" data-reveal>
+            <div class="rg-stat-num" data-target="50000" data-suffix="+">0</div>
+            <div class="rg-stat-label">🛍️ Products Recommended</div>
+          </div>
+          <div class="rg-reveal" data-reveal>
+            <div class="rg-stat-num" data-target="95" data-suffix="%">0</div>
+            <div class="rg-stat-label">✨ Say Their Room Improved</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="rg-section section-alt" id="reviews">
+      <div class="container">
+        <span class="rg-pill-label">Love Stories</span>
+        <h2 class="rg-sec-title">People Are Obsessed</h2>
+        <p class="rg-sec-sub">Real people who transformed their spaces with RoomGlow</p>
+      </div>
+      <div class="rg-carousel-wrap">
+        <div class="rg-carousel-track" id="rgCarouselTrack">
+          <!-- duplicated for infinite loop -->
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:2.5rem;">
+        <button type="button" class="rg-btn-primary" id="rgReviewsCta" style="font-size:16px;">Score My Room Free →</button>
+        <p style="font-size:12px;color:var(--muted);margin-top:0.6rem;">No sign-up · No credit card</p>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="rg-section" id="pricing">
+      <div class="container">
+        <span class="rg-pill-label">Simple Pricing</span>
+        <h2 class="rg-sec-title">Start Free, Upgrade When Ready</h2>
+        <p class="rg-sec-sub">No credit card required to get started.</p>
+        <div class="rg-pricing-row">
+          <div class="rg-pricing-card rg-interactive rg-reveal" data-reveal>
+            <div style="font-weight:800;color:var(--gold);">Free</div>
+            <div class="rg-price">$0</div>
+            <p style="color:var(--muted);font-size:14px;">Everything you need to get started</p>
+            <ul class="rg-features">
+              <li>✅ 2 room analyses per day</li>
+              <li>✅ Aesthetic score + breakdown</li>
+              <li>✅ Full room review</li>
+              <li>✅ 3 detailed AI tips</li>
+              <li>✅ Amazon product recommendations</li>
+              <li>✅ Shareable score card</li>
+            </ul>
+            <button type="button" class="rg-btn-outline" style="width:100%;" id="rgPricingFree">Start Analyzing Free</button>
+          </div>
+          <div class="rg-pricing-card rg-popular rg-interactive rg-reveal" data-reveal>
+            <span class="rg-pop-badge">Best Value</span>
+            <div style="font-weight:800;color:var(--gold);">Pro</div>
+            <div class="rg-price">$7.99<span style="font-size:16px;font-weight:600;">/month</span></div>
+            <p style="color:var(--muted);font-size:14px;">Cancel anytime, no questions asked</p>
+            <ul class="rg-features">
+              <li>✅ Unlimited daily analyses</li>
+              <li>✅ Advanced aesthetic score</li>
+              <li>✅ 5 detailed tips per analysis</li>
+              <li>✅ Full Style Report unlocked</li>
+              <li>✅ Progress tracking over time</li>
+              <li>✅ Priority AI processing</li>
+              <li>✅ Early access to new features</li>
+            </ul>
+            <button type="button" class="rg-nav-cta rg-pro-trigger" style="width:100%;border:none;">Upgrade to Pro →</button>
+            <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:0.75rem;">🔒 Secure payment via Stripe</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="rg-section section-alt" id="faq">
+      <div class="container">
+        <span class="rg-pill-label">FAQ</span>
+        <h2 class="rg-sec-title">Everything You Need to Know</h2>
+        <div class="rg-faq-list">
+          <div class="rg-faq-item">
+            <button type="button" class="rg-faq-q">How accurate is the AI room analysis? <span>+</span></button>
+            <div class="rg-faq-a"><div class="rg-faq-a-inner">Our AI is powered by GPT-4o Vision, one of the most advanced image understanding models in the world. It analyzes lighting quality, color harmony, furniture placement, clutter, decor personality, and style consistency — the same things a professional interior designer would notice. It references specific objects it can actually see in your photo, not generic advice. Results vary by photo quality, but the more natural light and detail in your image, the more accurate and specific the feedback.</div></div>
+          </div>
+          <div class="rg-faq-item">
+            <button type="button" class="rg-faq-q">Is my photo stored or shared anywhere? <span>+</span></button>
+            <div class="rg-faq-a"><div class="rg-faq-a-inner">Never. Your photo is sent directly to the AI for analysis and immediately discarded — it is not saved to any database, shared with third parties, or used to train any model. We don't log the image on our servers at all. Your home is private and we take that seriously. You can verify this in our privacy policy below.</div></div>
+          </div>
+          <div class="rg-faq-item">
+            <button type="button" class="rg-faq-q">How many free analyses do I get? <span>+</span></button>
+            <div class="rg-faq-a"><div class="rg-faq-a-inner">Every visitor gets 2 free analyses per day — no account, no email, no credit card required. This resets every 24 hours. If you want to analyze multiple rooms, track your progress over time, or unlock the full style report, upgrade to Pro for unlimited daily analyses and the complete feature set.</div></div>
+          </div>
+          <div class="rg-faq-item">
+            <button type="button" class="rg-faq-q">What rooms work best? <span>+</span></button>
+            <div class="rg-faq-a"><div class="rg-faq-a-inner">RoomGlow works on any indoor space — bedrooms, living rooms, desk setups, closets, kitchens, and bathrooms. The best photos are well-lit, taken from a corner or doorway to show as much of the room as possible, and in landscape orientation. Avoid very dark photos or shots with heavy filters applied, as these reduce the AI's ability to accurately read colors and lighting.</div></div>
+          </div>
+          <div class="rg-faq-item">
+            <button type="button" class="rg-faq-q">How do the product recommendations work? <span>+</span></button>
+            <div class="rg-faq-a"><div class="rg-faq-a-inner">After analyzing your room, the AI recommends specific product types that would improve your score — like a warm floor lamp for a room with harsh overhead lighting, or a woven rug to add texture to a bare floor. Each tip links directly to an Amazon search for that exact product type so you can browse real options instantly. RoomGlow earns a small commission on purchases at no extra cost to you — this is what keeps the free tier free.</div></div>
+          </div>
+          <div class="rg-faq-item">
+            <button type="button" class="rg-faq-q">Can I track my room's improvement over time? <span>+</span></button>
+            <div class="rg-faq-a"><div class="rg-faq-a-inner">Progress tracking is a Pro feature — it lets you re-analyze the same room after making changes and see your score climb over time. It's genuinely satisfying to watch your room go from a 58 to an 81 after following the tips. Pro users also get a full personalized style report, deeper tips, and unlimited daily analyses — all for $7.99/month, cancel anytime.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="rg-final-cta" id="final-cta">
+      <h2>What Score Does Your Room Deserve?</h2>
+      <p>Find out in 30 seconds. No account needed.</p>
+      <button type="button" class="rg-btn-white" id="rgFinalCta">Show Me My Room Score →</button>
+      <p style="font-size:14px;margin-top:0.75rem;color:rgba(10,10,10,0.75);">✨ Join 10,000+ people who already discovered their room's potential</p>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="rg-footer">
+      <div class="rg-footer-top container">
+        <div class="rg-logo">🔥 RoomGlow</div>
+        <nav>
+          <a href="#home" class="rg-anchor">Home</a>
+          <a href="#how" class="rg-anchor">How It Works</a>
+          <a href="#examples" class="rg-anchor">Examples</a>
+          <a href="#pricing" class="rg-anchor">Pricing</a>
+          <a href="#reviews" class="rg-anchor">Reviews</a>
+        </nav>
+        <p class="rg-tagline">Built to make your space feel like you.</p>
+      </div>
+      <div class="rg-footer-bottom container">
+        <span>© <span id="rgYear"></span> RoomGlow. All rights reserved.</span>
+        <span>Powered by GPT-4o Vision 🧠</span>
+        <span><a href="#privacy" class="rg-link">Privacy Policy</a> · <a href="#terms" class="rg-link">Terms</a></span>
+      </div>
+    </footer>
+
+    <section id="privacy" class="rg-section section-muted" style="padding-top:3rem;padding-bottom:3rem;">
+      <div class="container">
+        <h2 class="rg-sec-title" style="font-size:1.5rem;">Privacy</h2>
+        <p class="rg-sec-sub" style="margin-bottom:0;">Photos are analyzed in real time and not stored. We only use your image to generate your score and tips.</p>
+      </div>
+    </section>
+    <section id="terms" class="rg-section section-alt" style="padding-top:3rem;padding-bottom:4rem;">
+      <div class="container">
+        <h2 class="rg-sec-title" style="font-size:1.5rem;">Terms</h2>
+        <p class="rg-sec-sub" style="margin-bottom:0;">RoomGlow is provided as-is for personal use. Product links may be affiliate links (tag=technova050-20).</p>
+      </div>
+    </section>
+
+    <div class="rg-modal" id="rgProModal" role="dialog" aria-modal="true" aria-labelledby="rgProModalTitle" aria-hidden="true">
+      <div class="rg-modal-backdrop" id="rgProModalBackdrop"></div>
+      <div class="rg-modal-card">
+        <button type="button" class="rg-modal-close" id="rgProModalClose" aria-label="Close">&times;</button>
+        <h3 id="rgProModalTitle">Pro Plan Coming Soon 🚀</h3>
+        <p>Coming Soon — Pro plan launching soon! Enter your email to be notified.</p>
+        <p style="margin-top:0.5rem;">Be the first to know when Pro launches and get 50% off your first month</p>
+        <form id="rgProForm" action="javascript:void(0)">
+          <input type="email" id="rgProEmail" name="email" placeholder="you@email.com" autocomplete="email" required />
+          <button type="submit" class="rg-nav-cta" style="width:100%;border:none;" id="rgProNotify">Notify Me →</button>
+        </form>
+        <p class="rg-modal-msg" id="rgProThanks">Thanks! We'll notify you 🎉</p>
+      </div>
+    </div>
+
+    <div class="rg-toast" id="rgToast" role="status" aria-live="polite">Copied!</div>
   </div>
 
-  <!-- HERO -->
-  <section class="rg-hero" id="home">
-    <div class="rg-hero-bg">
-      <div class="rg-orb rg-orb1"></div>
-      <div class="rg-orb rg-orb2"></div>
-      <div class="rg-orb rg-orb3"></div>
-      <div class="rg-grain"></div>
-    </div>
-    <div class="rg-hero-inner">
-      <div class="rg-badge">✨ AI-Powered Room Analysis — Free to Try</div>
-      <h1>What Score Does Your Room Deserve?</h1>
-      <p class="rg-hero-sub">Upload a photo and get an honest AI aesthetic score, a full room review, and shoppable tips to transform your space — in 30 seconds.</p>
-      <div class="rg-hero-ctas">
-        <button type="button" class="rg-btn-primary" id="rgHeroAnalyze">Show Me My Room Score →</button>
-        <a href="#examples" class="rg-anchor" style="font-size:15px;font-weight:600;color:var(--muted);display:flex;align-items:center;padding:0.5rem 0;">See example results</a>
-      </div>
-      <p class="rg-hero-micro">No sign-up &nbsp;·&nbsp; No credit card &nbsp;·&nbsp; Results in 30 seconds</p>
-      <p class="rg-live-counter">🔥 <span id="rgLiveNum">114</span> rooms analyzed today</p>
-      <div class="rg-hero-mockup" aria-hidden="true">
-        <div class="rg-mockup-glow"></div>
-        <div class="rg-mockup-card">
-          <div class="rg-mockup-top">
-            <div class="rg-mockup-score">
-              <span class="rg-mockup-num">73<span class="rg-mockup-den">/100</span></span>
-            </div>
-            <div class="rg-mockup-meta">
-              <div class="rg-mockup-pill">✨ Warm Minimalist</div>
-              <div class="rg-mockup-room">Bedroom · Analyzed just now</div>
-            </div>
-          </div>
-          <div class="rg-mockup-bars">
-            <div class="rg-mockup-bar-row"><span class="rg-mockup-bar-label">💡 Lighting</span><div class="rg-mockup-bar-track"><div class="rg-mockup-bar-fill" style="width:70%"></div></div><span class="rg-mockup-bar-val">14</span></div>
-            <div class="rg-mockup-bar-row"><span class="rg-mockup-bar-label">🎨 Color</span><div class="rg-mockup-bar-track"><div class="rg-mockup-bar-fill" style="width:80%"></div></div><span class="rg-mockup-bar-val">16</span></div>
-            <div class="rg-mockup-bar-row"><span class="rg-mockup-bar-label">🛋️ Furniture</span><div class="rg-mockup-bar-track"><div class="rg-mockup-bar-fill" style="width:65%"></div></div><span class="rg-mockup-bar-val">13</span></div>
-          </div>
-          <div class="rg-mockup-tips">
-            <div class="rg-mockup-tip"><span>💡 Swap overhead for a warm floor lamp</span><span class="rg-mockup-tip-badge">+8 pts</span></div>
-            <div class="rg-mockup-tip"><span>🪴 A plant softens the hard edges</span><span class="rg-mockup-tip-badge">+5 pts</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="rg-social-proof">
-        <div class="rg-avatars">
-          <span class="rg-avatar" style="background:linear-gradient(135deg,#ff9a56,#ff6a88)">SK</span>
-          <span class="rg-avatar" style="background:linear-gradient(135deg,#f7971e,#ffd200)">MT</span>
-          <span class="rg-avatar" style="background:linear-gradient(135deg,#f093fb,#f5576c)">PM</span>
-          <span class="rg-avatar" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">JR</span>
-          <span class="rg-avatar" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">EL</span>
-        </div>
-        <span>⭐⭐⭐⭐⭐ &nbsp;Loved by 10,000+ home enthusiasts</span>
-      </div>
-    </div>
-    <div class="rg-scroll-hint" aria-hidden="true">↓</div>
-  </section>
+  <script>
+  (function () {
+    'use strict';
 
-  <!-- TRUST -->
-  <div class="rg-trust">
-    <div class="rg-trust-shimmer"></div>
-    <div class="rg-trust-row container">
-      <div class="rg-trust-item">⚡ Results in 30 Seconds</div>
-      <span class="rg-trust-div"></span>
-      <div class="rg-trust-item">🔒 Photos Never Stored</div>
-      <span class="rg-trust-div"></span>
-      <div class="rg-trust-item">⭐ 4.9/5 Average Rating</div>
-      <span class="rg-trust-div"></span>
-      <div class="rg-trust-item">🏠 10,000+ Rooms Analyzed</div>
-      <span class="rg-trust-div"></span>
-      <div class="rg-trust-item">🛍️ Amazon Picks for Every Tip</div>
-    </div>
-  </div>
+    /* ── Constants ───────────────────────────────────────── */
+    const BACKEND_URL   = 'https://roomglow-backend.onrender.com/analyze';
+    const AFFILIATE_TAG = 'technova050-20';
+    const MAX_BYTES     = 20 * 1024 * 1024;
+    const MAX_IMG_PX    = 1200;
+    const NAV_OFFSET    = 76;
+    const FREE_LIMIT    = 2;
 
-  <!-- HOW IT WORKS -->
-  <section class="rg-section section-alt" id="how">
-    <div class="container">
-      <span class="rg-pill-label">Simple Process</span>
-      <h2 class="rg-sec-title">From Photo to Perfect Room in Seconds</h2>
-      <p class="rg-sec-sub">Four quick steps from upload to your personalized score and shopping list.</p>
-      <div class="rg-steps">
-        <div class="rg-step-card rg-reveal rg-card-hover" data-reveal>
-          <div class="rg-step-num">01</div><div class="rg-step-icon">🛋️</div>
-          <h3>Choose Room Type</h3><p>Select bedroom, desk, living room or any space for a more accurate analysis</p>
-        </div>
-        <div class="rg-step-card rg-reveal rg-card-hover" data-reveal>
-          <div class="rg-step-num">02</div><div class="rg-step-icon">📸</div>
-          <h3>Upload Your Photo</h3><p>Take a photo and drag & drop it — any angle, any lighting works</p>
-        </div>
-        <div class="rg-step-card rg-reveal rg-card-hover" data-reveal>
-          <div class="rg-step-num">03</div><div class="rg-step-icon">🧠</div>
-          <h3>AI Analyzes Everything</h3><p>Our AI examines lighting, layout, color harmony, furniture and style</p>
-        </div>
-        <div class="rg-step-card rg-reveal rg-card-hover" data-reveal>
-          <div class="rg-step-num">04</div><div class="rg-step-icon">✨</div>
-          <h3>Get Your Score & Shop</h3><p>Receive your Aesthetic Score, full room review, and hand-picked Amazon links</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    /* ── DOM refs ────────────────────────────────────────── */
+    const $ = id => document.getElementById(id);
+    const fileInput    = $('rgFileInput');
+    const cameraInput  = $('rgCameraInput');
+    const libraryInput = $('rgLibraryInput');
+    const dropZone     = $('rgDropZone');
+    const uploadCard   = $('rgUploadCard');
+    const placeholder  = $('rgPlaceholder');
+    const previewWrap  = $('rgPreviewWrap');
+    const previewImg   = $('rgPreviewImg');
+    const analyzeBtn   = $('rgAnalyzeBtn');
+    const errorEl      = $('rgError');
+    const results      = $('rgResults');
+    const tipList      = $('rgTipList');
+    const skeleton     = $('rgSkeleton');
+    const scoreRing    = $('rgScoreRing');
+    const scoreNum     = $('rgScoreNum');
+    const stylePill    = $('rgStylePill');
+    const shareSummary = $('rgShareSummary');
+    const nav          = $('rgNav');
+    const toast        = $('rgToast');
+    const liveNumEl    = $('rgLiveNum');
+    const proModal     = $('rgProModal');
 
-  <!-- ANALYZER -->
-  <section class="rg-section" id="analyze">
-    <div class="container">
-      <span class="rg-pill-label">Try It Free</span>
-      <h2 class="rg-sec-title">Analyze Your Room Now</h2>
-      <p class="rg-sec-sub">Get your score, full room review, and first 3 tips free. No account required.</p>
+    /* ── State ───────────────────────────────────────────── */
+    let currentBase64 = null;
+    let currentMime   = 'image/jpeg';
+    let selectedRoom  = 'Bedroom';
+    let lastScore     = 0;
+    let lastStyle     = '';
 
-      <div class="rg-room-row" id="rgRoomPills" role="group" aria-label="Room type">
-        <button type="button" class="rg-room-pill is-active" data-room="Bedroom">🛏️ Bedroom</button>
-        <button type="button" class="rg-room-pill" data-room="Living Room">🛋️ Living Room</button>
-        <button type="button" class="rg-room-pill" data-room="Desk Setup">💻 Desk Setup</button>
-        <button type="button" class="rg-room-pill" data-room="Closet">👗 Closet</button>
-        <button type="button" class="rg-room-pill" data-room="Kitchen">🍳 Kitchen</button>
-        <button type="button" class="rg-room-pill" data-room="Bathroom">🚿 Bathroom</button>
-      </div>
-
-      <div class="rg-upload-card" id="rgUploadCard">
-        <div class="rg-skeleton" id="rgSkeleton"></div>
-        <input type="file" id="rgFileInput" accept="image/*" hidden />
-        <input type="file" id="rgCameraInput" accept="image/*" capture="environment" hidden />
-        <input type="file" id="rgLibraryInput" accept="image/*" hidden />
-        <div class="rg-upload-card-inner" id="rgDropZone">
-          <div class="rg-upload-placeholder" id="rgPlaceholder">
-            <div style="font-size:3rem;margin-bottom:0.5rem;">📷</div>
-            <p style="font-weight:700;font-size:18px;margin-bottom:0.5rem;">Drag & drop your photo here</p>
-            <p style="color:var(--muted);font-size:14px;">or click to browse</p>
-            <p style="color:var(--muted);font-size:12px;margin-top:1rem;">JPG, PNG, WEBP — up to 20MB</p>
-          </div>
-          <div class="rg-preview-wrap" id="rgPreviewWrap">
-            <img id="rgPreviewImg" alt="Room preview" loading="lazy" />
-            <button type="button" class="rg-change-photo" id="rgChangePhoto">Change Photo</button>
-          </div>
-        </div>
-      </div>
-
-      <button type="button" class="rg-analyze-btn rg-interactive" id="rgAnalyzeBtn" disabled>
-        <span class="rg-btn-text">Analyze My Room ✨</span>
-        <span class="rg-load-inner"><span class="rg-spinner"></span><span class="rg-pulse-text">Analyzing your space...</span></span>
-      </button>
-
-      <div class="rg-camera-row">
-        <button type="button" class="rg-camera-btn" id="rgCameraBtn">📷 Take Photo</button>
-        <button type="button" class="rg-camera-btn" id="rgLibraryBtn">🖼️ Choose from Library</button>
-      </div>
-
-      <p class="rg-cold-start" id="rgColdStart">⏳ Our AI is warming up — this first request may take 20-30 seconds. Hang tight!</p>
-
-      <div class="rg-limit-banner" id="rgLimitBanner">
-        <h3>🔥 You've used your 2 free analyses today</h3>
-        <p>Upgrade to Pro for unlimited daily analyses, deeper tips, and your full style report.</p>
-        <button type="button" class="rg-nav-cta rg-pro-trigger" style="border:none;">Upgrade to Pro — $7.99/mo →</button>
-        <p class="rg-limit-resets" id="rgLimitResets"></p>
-      </div>
-
-      <p class="rg-error" id="rgError"></p>
-
-      <!-- RESULTS -->
-      <div class="rg-results" id="rgResults">
-        <div class="rg-score-wrap">
-          <div class="rg-score-ring" id="rgScoreRing" style="--pct:0%;--ring-color:#4caf50;">
-            <span id="rgScoreNum">0</span>
-          </div>
-          <div class="rg-style-pill" id="rgStylePill">✨ Style</div>
-          <p class="rg-style-desc" id="rgStyleDesc"></p>
-          <div class="rg-score-breakdown" id="rgScoreBreakdown" style="display:none;">
-            <div class="rg-breakdown-title">Score Breakdown</div>
-            <div class="rg-breakdown-row"><span class="rg-breakdown-label">💡 Lighting</span><div class="rg-breakdown-bar-wrap"><div class="rg-breakdown-bar" id="rgBarLighting"></div></div><span class="rg-breakdown-val" id="rgValLighting">0</span></div>
-            <div class="rg-breakdown-row"><span class="rg-breakdown-label">🎨 Color Harmony</span><div class="rg-breakdown-bar-wrap"><div class="rg-breakdown-bar" id="rgBarColor"></div></div><span class="rg-breakdown-val" id="rgValColor">0</span></div>
-            <div class="rg-breakdown-row"><span class="rg-breakdown-label">🛋️ Furniture Layout</span><div class="rg-breakdown-bar-wrap"><div class="rg-breakdown-bar" id="rgBarFurniture"></div></div><span class="rg-breakdown-val" id="rgValFurniture">0</span></div>
-            <div class="rg-breakdown-row"><span class="rg-breakdown-label">✨ Decor &amp; Personality</span><div class="rg-breakdown-bar-wrap"><div class="rg-breakdown-bar" id="rgBarDecor"></div></div><span class="rg-breakdown-val" id="rgValDecor">0</span></div>
-            <div class="rg-breakdown-row"><span class="rg-breakdown-label">🧹 Organization</span><div class="rg-breakdown-bar-wrap"><div class="rg-breakdown-bar" id="rgBarOrg"></div></div><span class="rg-breakdown-val" id="rgValOrg">0</span></div>
-          </div>
-          <p class="rg-hint">Here's how to improve your space:</p>
-        </div>
-
-        <div class="rg-feedback-box good" id="rgWhatsWorking" style="display:none;">
-          <span class="rg-feedback-icon">✅</span>
-          <div><div class="rg-feedback-label">What's Already Working</div><p class="rg-feedback-text" id="rgWhatsWorkingText"></p></div>
-        </div>
-        <div class="rg-feedback-box warn" id="rgWhatsNotWorking" style="display:none;">
-          <span class="rg-feedback-icon">⚠️</span>
-          <div><div class="rg-feedback-label">What Needs Work</div><p class="rg-feedback-text" id="rgWhatsNotWorkingText"></p></div>
-        </div>
-        <div class="rg-style-report" id="rgStyleReport" style="display:none;">
-          <div class="rg-style-report-label">🔮 Full Style Report</div>
-          <p class="rg-style-report-text" id="rgStyleReportText"></p>
-          <div class="rg-style-report-overlay">
-            <span style="font-size:1.5rem;">🔒</span>
-            <span class="rg-style-report-overlay-title">Your Personal Style Report</span>
-            <span class="rg-style-report-overlay-sub">What your room says about you — and its full potential</span>
-            <button type="button" class="rg-style-report-overlay-btn rg-pro-trigger">Unlock with Pro →</button>
-          </div>
-        </div>
-
-        <div class="rg-tip-list" id="rgTipList"></div>
-
-        <div class="rg-share-card">
-          <div class="rg-logo-small">✨ RoomGlow</div>
-          <p style="color:var(--muted);font-size:14px;">Analyzed by RoomGlow AI</p>
-          <p id="rgShareSummary" style="margin-top:0.75rem;font-weight:600;"></p>
-          <div class="rg-share-actions">
-            <button type="button" class="rg-btn-white" id="rgShareBtn">Share Your Score 📤</button>
-            <button type="button" class="rg-btn-ghost" id="rgAnotherBtn">Analyze Another Room 🔄</button>
-          </div>
-        </div>
-
-        <div class="rg-email-capture" id="rgEmailCapture">
-          <h4>🏠 Want weekly room inspo & design tips?</h4>
-          <p>Join 10,000+ home enthusiasts. No spam, just ideas that actually improve your space.</p>
-          <div class="rg-email-row">
-            <input type="email" class="rg-email-input" id="rgEmailInput" placeholder="you@email.com" autocomplete="email" />
-            <button type="button" class="rg-email-submit" id="rgEmailSubmit">Subscribe →</button>
-          </div>
-          <p class="rg-email-thanks" id="rgEmailThanks">🎉 You're in! Check your inbox.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EXAMPLES -->
-  <section class="rg-section section-alt" id="examples">
-    <div class="container">
-      <span class="rg-pill-label">Real Results</span>
-      <h2 class="rg-sec-title">See What RoomGlow Discovers</h2>
-      <p class="rg-sec-sub">Real rooms analyzed by our AI — see the scores and tips</p>
-      <div class="rg-filters" id="rgExFilters">
-        <button type="button" class="rg-filter-pill is-active" data-filter="all">All 🏠</button>
-        <button type="button" class="rg-filter-pill" data-filter="Bedroom">Bedroom 🛏️</button>
-        <button type="button" class="rg-filter-pill" data-filter="Living Room">Living Room 🛋️</button>
-        <button type="button" class="rg-filter-pill" data-filter="Desk Setup">Desk 💻</button>
-        <button type="button" class="rg-filter-pill" data-filter="Closet">Closet 👗</button>
-      </div>
-      <div class="rg-ex-grid" id="rgExGrid">
-        <article class="rg-ex-card rg-reveal rg-card-hover" data-reveal data-room="Bedroom">
-          <div class="rg-ex-img" style="background:linear-gradient(135deg,#667eea,#764ba2);position:relative;"><span class="rg-ex-icon" aria-hidden="true">🛏️</span><span class="rg-badge-score">82/100</span><div class="rg-ex-overlay">See Tips</div></div>
-          <div class="rg-ex-meta"><span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Scandinavian Minimal</span><span style="font-size:12px;color:var(--muted);">Bedroom</span></div>
-        </article>
-        <article class="rg-ex-card rg-reveal rg-card-hover" data-reveal data-room="Living Room">
-          <div class="rg-ex-img" style="background:linear-gradient(135deg,#f093fb,#f5576c);position:relative;"><span class="rg-ex-icon" aria-hidden="true">🛋️</span><span class="rg-badge-score">71/100</span><div class="rg-ex-overlay">See Tips</div></div>
-          <div class="rg-ex-meta"><span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Boho Chic</span><span style="font-size:12px;color:var(--muted);">Living Room</span></div>
-        </article>
-        <article class="rg-ex-card rg-reveal rg-card-hover" data-reveal data-room="Desk Setup">
-          <div class="rg-ex-img" style="background:linear-gradient(135deg,#4facfe,#00f2fe);position:relative;"><span class="rg-ex-icon" aria-hidden="true">💻</span><span class="rg-badge-score">91/100</span><div class="rg-ex-overlay">See Tips</div></div>
-          <div class="rg-ex-meta"><span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Dark Academia</span><span style="font-size:12px;color:var(--muted);">Desk Setup</span></div>
-        </article>
-        <article class="rg-ex-card rg-reveal rg-card-hover" data-reveal data-room="Closet">
-          <div class="rg-ex-img" style="background:linear-gradient(135deg,#43e97b,#38f9d7);position:relative;"><span class="rg-ex-icon" aria-hidden="true">👗</span><span class="rg-badge-score">65/100</span><div class="rg-ex-overlay">See Tips</div></div>
-          <div class="rg-ex-meta"><span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Clean Aesthetic</span><span style="font-size:12px;color:var(--muted);">Closet</span></div>
-        </article>
-        <article class="rg-ex-card rg-reveal rg-card-hover" data-reveal data-room="Bedroom">
-          <div class="rg-ex-img" style="background:linear-gradient(135deg,#fa709a,#fee140);position:relative;"><span class="rg-ex-icon" aria-hidden="true">🛏️</span><span class="rg-badge-score">88/100</span><div class="rg-ex-overlay">See Tips</div></div>
-          <div class="rg-ex-meta"><span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Cottagecore</span><span style="font-size:12px;color:var(--muted);">Bedroom</span></div>
-        </article>
-        <article class="rg-ex-card rg-reveal rg-card-hover" data-reveal data-room="Living Room">
-          <div class="rg-ex-img" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb);position:relative;"><span class="rg-ex-icon" aria-hidden="true">🛋️</span><span class="rg-badge-score">77/100</span><div class="rg-ex-overlay">See Tips</div></div>
-          <div class="rg-ex-meta"><span style="font-size:12px;padding:0.25rem 0.5rem;border-radius:var(--pill);background:#1a1a1a;border:1px solid var(--border);">Modern Industrial</span><span style="font-size:12px;color:var(--muted);">Living Room</span></div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRODUCTS -->
-  <section class="rg-section" id="shop">
-    <div class="container">
-      <span class="rg-pill-label">Shop The Look</span>
-      <h2 class="rg-sec-title">Products Our AI Recommends</h2>
-      <p class="rg-sec-sub">Hand picked items that transform real rooms — click to shop on Amazon</p>
-      <div class="rg-prod-grid">
-        <article class="rg-prod-card rg-interactive rg-card-hover rg-reveal" data-reveal>
-          <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#f7971e,#ffd200);">💡</div>
-          <div class="rg-prod-body"><h4>Floor Lamp</h4><p>Perfect for cozy bedroom lighting</p><a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;display:inline-block;" href="https://www.amazon.com/s?k=warm+led+floor+lamp&tag=technova050-20" target="_blank" rel="noopener noreferrer">Shop This →</a></div>
-        </article>
-        <article class="rg-prod-card rg-interactive rg-card-hover rg-reveal" data-reveal>
-          <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#56ab2f,#a8e063);">🌿</div>
-          <div class="rg-prod-body"><h4>Desk Plant</h4><p>Adds life and freshness to any desk</p><a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;display:inline-block;" href="https://www.amazon.com/s?k=minimalist+desk+plant&tag=technova050-20" target="_blank" rel="noopener noreferrer">Shop This →</a></div>
-        </article>
-        <article class="rg-prod-card rg-interactive rg-card-hover rg-reveal" data-reveal>
-          <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#ee9ca7,#ffdde1);">🛋️</div>
-          <div class="rg-prod-body"><h4>Throw Blanket</h4><p>Instant texture and warmth to sofas</p><a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;display:inline-block;" href="https://www.amazon.com/s?k=aesthetic+throw+blanket&tag=technova050-20" target="_blank" rel="noopener noreferrer">Shop This →</a></div>
-        </article>
-        <article class="rg-prod-card rg-interactive rg-card-hover rg-reveal" data-reveal>
-          <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#c94b4b,#4b134f);">📚</div>
-          <div class="rg-prod-body"><h4>Wall Shelves</h4><p>Clean storage that looks beautiful</p><a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;display:inline-block;" href="https://www.amazon.com/s?k=floating+wall+shelves&tag=technova050-20" target="_blank" rel="noopener noreferrer">Shop This →</a></div>
-        </article>
-        <article class="rg-prod-card rg-interactive rg-card-hover rg-reveal" data-reveal>
-          <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#f6d365,#fda085);">🕯️</div>
-          <div class="rg-prod-body"><h4>Candle Set</h4><p>Sets the mood in any room instantly</p><a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;display:inline-block;" href="https://www.amazon.com/s?k=scented+candle+set&tag=technova050-20" target="_blank" rel="noopener noreferrer">Shop This →</a></div>
-        </article>
-        <article class="rg-prod-card rg-interactive rg-card-hover rg-reveal" data-reveal>
-          <div class="rg-prod-emoji" style="background:linear-gradient(135deg,#89f7fe,#66a6ff);">🧺</div>
-          <div class="rg-prod-body"><h4>Storage Basket</h4><p>Organizes clutter stylishly</p><a class="rg-btn-primary rg-amazon-link" style="padding:0.5rem 1rem;font-size:13px;display:inline-block;" href="https://www.amazon.com/s?k=woven+storage+basket&tag=technova050-20" target="_blank" rel="noopener noreferrer">Shop This →</a></div>
-        </article>
-      </div>
-      <p style="text-align:center;color:var(--muted);margin-top:2rem;font-size:14px;">💡 RoomGlow recommends products based on your specific room analysis</p>
-    </div>
-  </section>
-
-  <!-- STATS -->
-  <section class="rg-section section-muted" id="stats">
-    <div class="container">
-      <div class="rg-stats-row">
-        <div class="rg-reveal" data-reveal><div class="rg-stat-num" data-target="10000" data-suffix="+">0</div><div class="rg-stat-label">🏠 Rooms Analyzed</div></div>
-        <div class="rg-reveal" data-reveal><div class="rg-stat-num" data-target="4.9" data-decimal="1">0</div><div class="rg-stat-label">⭐ Average Rating</div></div>
-        <div class="rg-reveal" data-reveal><div class="rg-stat-num" data-target="50000" data-suffix="+">0</div><div class="rg-stat-label">🛍️ Products Recommended</div></div>
-        <div class="rg-reveal" data-reveal><div class="rg-stat-num" data-target="95" data-suffix="%">0</div><div class="rg-stat-label">✨ Say Their Room Improved</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section class="rg-section section-alt" id="reviews">
-    <div class="container">
-      <span class="rg-pill-label">Love Stories</span>
-      <h2 class="rg-sec-title">People Are Obsessed</h2>
-      <p class="rg-sec-sub">Real people who transformed their spaces with RoomGlow</p>
-    </div>
-    <div class="rg-carousel-wrap">
-      <div class="rg-carousel-track" id="rgCarouselTrack"></div>
-    </div>
-    <div style="text-align:center;margin-top:2.5rem;">
-      <button type="button" class="rg-btn-primary" id="rgReviewsCta" style="font-size:16px;">Score My Room Free →</button>
-      <p style="font-size:12px;color:var(--muted);margin-top:0.6rem;">No sign-up · No credit card</p>
-    </div>
-  </section>
-
-  <!-- PRICING -->
-  <section class="rg-section" id="pricing">
-    <div class="container">
-      <span class="rg-pill-label">Simple Pricing</span>
-      <h2 class="rg-sec-title">Start Free, Upgrade When Ready</h2>
-      <p class="rg-sec-sub">No credit card required to start</p>
-      <div class="rg-pricing-row">
-        <div class="rg-pricing-card rg-interactive rg-card-hover rg-reveal" data-reveal>
-          <div style="font-weight:800;color:var(--gold);">Free</div>
-          <div class="rg-price">$0</div>
-          <p style="color:var(--muted);font-size:14px;">Forever free</p>
-          <ul class="rg-features">
-            <li>✅ 2 room analyses per day</li>
-            <li>✅ Aesthetic score + breakdown</li>
-            <li>✅ Full room review</li>
-            <li>✅ 3 AI tips per analysis</li>
-            <li>✅ Product recommendations</li>
-            <li>✅ Shareable score card</li>
-          </ul>
-          <button type="button" class="rg-btn-outline" style="width:100%;" id="rgPricingFree">Start Analyzing Free</button>
-        </div>
-        <div class="rg-pricing-card rg-popular rg-interactive rg-card-hover rg-reveal" data-reveal>
-          <span class="rg-pop-badge">Best Value</span>
-          <div style="font-weight:800;color:var(--gold);">Pro</div>
-          <div class="rg-price">$7.99<span style="font-size:16px;font-weight:600;">/month</span></div>
-          <p style="color:var(--muted);font-size:14px;">Cancel anytime</p>
-          <ul class="rg-features">
-            <li>✅ Unlimited analyses</li>
-            <li>✅ Advanced aesthetic score</li>
-            <li>✅ 5 detailed tips per analysis</li>
-            <li>✅ Full Style Report unlocked</li>
-            <li>✅ Progress tracking over time</li>
-            <li>✅ Priority AI processing</li>
-            <li>✅ Early access to new features</li>
-          </ul>
-          <button type="button" class="rg-nav-cta rg-pro-trigger" style="width:100%;border:none;">Upgrade to Pro →</button>
-          <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:0.75rem;">🔒 Secure payment via Stripe</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="rg-section section-alt" id="faq">
-    <div class="container">
-      <span class="rg-pill-label">FAQ</span>
-      <h2 class="rg-sec-title">Questions? We Got Answers</h2>
-      <div class="rg-faq-list">
-        <div class="rg-faq-item">
-          <button type="button" class="rg-faq-q">How accurate is the AI room analysis? <span>+</span></button>
-          <div class="rg-faq-a"><div class="rg-faq-a-inner">Our AI is powered by GPT-4o Vision, one of the most advanced image understanding models in the world. It analyzes lighting quality, color harmony, furniture placement, clutter, decor personality, and style consistency — the same things a professional interior designer would notice. It references specific objects it can actually see in your photo, not generic advice. Results vary by photo quality, but the more natural light and detail in your image, the more accurate and specific the feedback.</div></div>
-        </div>
-        <div class="rg-faq-item">
-          <button type="button" class="rg-faq-q">Is my photo stored or shared anywhere? <span>+</span></button>
-          <div class="rg-faq-a"><div class="rg-faq-a-inner">Never. Your photo is sent directly to the AI for analysis and immediately discarded — it is not saved to any database, shared with third parties, or used to train any model. We don't even log the image on our servers. Your home is private and we take that seriously. You can verify this in our privacy policy below.</div></div>
-        </div>
-        <div class="rg-faq-item">
-          <button type="button" class="rg-faq-q">How many free analyses do I get? <span>+</span></button>
-          <div class="rg-faq-a"><div class="rg-faq-a-inner">Every visitor gets 2 free analyses per day — no account, no email, no credit card required. This resets every 24 hours. If you want to analyze multiple rooms, track your progress over time, or get deeper tips, upgrade to Pro for unlimited daily analyses and the full feature set.</div></div>
-        </div>
-        <div class="rg-faq-item">
-          <button type="button" class="rg-faq-q">What rooms work best? <span>+</span></button>
-          <div class="rg-faq-a"><div class="rg-faq-a-inner">RoomGlow works on any indoor space — bedrooms, living rooms, desk setups, closets, kitchens, and bathrooms. The best photos are well-lit, taken from a corner or doorway to show as much of the room as possible, and in landscape orientation. Avoid very dark photos or shots with heavy filters applied, as these reduce the AI's ability to accurately read colors and lighting.</div></div>
-        </div>
-        <div class="rg-faq-item">
-          <button type="button" class="rg-faq-q">How do the product recommendations work? <span>+</span></button>
-          <div class="rg-faq-a"><div class="rg-faq-a-inner">After analyzing your room, the AI recommends specific product types that would improve your score — like a warm floor lamp for a room with harsh lighting, or a woven rug to add texture to a bare floor. Each tip links directly to an Amazon search for that exact product type, so you can browse real options instantly. RoomGlow earns a small commission on purchases at no extra cost to you — this is what keeps the free tier free.</div></div>
-        </div>
-        <div class="rg-faq-item">
-          <button type="button" class="rg-faq-q">Can I track my room's improvement over time? <span>+</span></button>
-          <div class="rg-faq-a"><div class="rg-faq-a-inner">Progress tracking is a Pro feature — it lets you re-analyze the same room after making changes and see your score climb over time. It's genuinely satisfying to watch your room go from a 58 to an 81 after following the tips. Pro users also get a full personalized style report, deeper tips, and unlimited daily analyses — all for $7.99/month, cancel anytime.</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FINAL CTA -->
-  <section class="rg-final-cta" id="final-cta">
-    <h2>What Score Does Your Room Deserve?</h2>
-    <p>Find out in 30 seconds. No account needed.</p>
-    <button type="button" class="rg-btn-white" id="rgFinalCta">Show Me My Room Score →</button>
-    <p style="font-size:14px;margin-top:0.75rem;color:rgba(10,10,10,0.75);">✨ Join 10,000+ people who already discovered their room's potential</p>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="rg-footer">
-    <div class="rg-footer-top container">
-      <div class="rg-logo">🔥 RoomGlow</div>
-      <nav><a href="#home">Home</a><a href="#how">How It Works</a><a href="#examples">Examples</a><a href="#pricing">Pricing</a><a href="#reviews">Reviews</a></nav>
-      <p class="rg-tagline">Built to make your space feel like you.</p>
-    </div>
-    <div class="rg-footer-bottom container">
-      <span>© <span id="rgYear"></span> RoomGlow. All rights reserved.</span>
-      <span>Made with ❤️ and AI</span>
-      <span><a href="#privacy" class="rg-link">Privacy</a> · <a href="#terms" class="rg-link">Terms</a></span>
-    </div>
-  </footer>
-
-  <section id="privacy" class="rg-section section-muted" style="padding-top:3rem;padding-bottom:3rem;">
-    <div class="container"><h2 class="rg-sec-title" style="font-size:1.5rem;">Privacy</h2><p style="color:var(--muted);font-size:16px;">Photos are analyzed in real time and immediately discarded. We never store, share, or use your images for any purpose beyond generating your score and tips.</p></div>
-  </section>
-  <section id="terms" class="rg-section section-alt" style="padding-top:3rem;padding-bottom:4rem;">
-    <div class="container"><h2 class="rg-sec-title" style="font-size:1.5rem;">Terms</h2><p style="color:var(--muted);font-size:16px;">RoomGlow is provided as-is for personal use. Product recommendation links may be affiliate links (tag=technova050-20). By using RoomGlow you agree to these terms.</p></div>
-  </section>
-
-  <!-- PRO MODAL -->
-  <div class="rg-modal" id="rgProModal" role="dialog" aria-modal="true" aria-labelledby="rgProModalTitle" aria-hidden="true">
-    <div class="rg-modal-backdrop" id="rgProModalBackdrop"></div>
-    <div class="rg-modal-card">
-      <button type="button" class="rg-modal-close" id="rgProModalClose" aria-label="Close">&times;</button>
-      <h3 id="rgProModalTitle">🚀 Pro Plan — Coming Soon</h3>
-      <p>We're launching Pro very soon. Enter your email to get notified first and receive 50% off your first month.</p>
-      <form id="rgProForm" action="javascript:void(0)">
-        <input type="email" id="rgProEmail" name="email" placeholder="you@email.com" autocomplete="email" required />
-        <button type="submit" class="rg-nav-cta" style="width:100%;border:none;">Notify Me — I Want 50% Off →</button>
-      </form>
-      <p class="rg-modal-msg" id="rgProThanks">🎉 You're on the list! We'll notify you the moment Pro launches.</p>
-    </div>
-  </div>
-
-  <div class="rg-toast" id="rgToast" role="status" aria-live="polite"></div>
-</div>
-
-<script>
-(function () {
-  'use strict';
-
-  /* ── Constants ───────────────────────────────────────────── */
-  const BACKEND_URL    = 'https://roomglow-backend.onrender.com/analyze';
-  const AFFILIATE_TAG  = 'technova050-20';
-  const MAX_BYTES      = 20 * 1024 * 1024;
-  const MAX_IMG_PX     = 1200;   // resize images to max 1200px before upload
-  const NAV_OFFSET     = 76;
-  const FREE_LIMIT     = 2;
-
-  /* ── DOM refs (cached once) ──────────────────────────────── */
-  const $  = id => document.getElementById(id);
-  const fileInput   = $('rgFileInput');
-  const cameraInput = $('rgCameraInput');
-  const libraryInput= $('rgLibraryInput');
-  const dropZone    = $('rgDropZone');
-  const uploadCard  = $('rgUploadCard');
-  const placeholder = $('rgPlaceholder');
-  const previewWrap = $('rgPreviewWrap');
-  const previewImg  = $('rgPreviewImg');
-  const analyzeBtn  = $('rgAnalyzeBtn');
-  const errorEl     = $('rgError');
-  const results     = $('rgResults');
-  const tipList     = $('rgTipList');
-  const skeleton    = $('rgSkeleton');
-  const scoreRing   = $('rgScoreRing');
-  const scoreNum    = $('rgScoreNum');
-  const stylePill   = $('rgStylePill');
-  const shareSummary= $('rgShareSummary');
-  const nav         = $('rgNav');
-  const toast       = $('rgToast');
-  const liveNum     = $('rgLiveNum');
-  const proModal    = $('rgProModal');
-
-  /* ── State ───────────────────────────────────────────────── */
-  let currentBase64 = null;
-  let currentMime   = 'image/jpeg';
-  let selectedRoom  = 'Bedroom';
-  let lastScore     = 0;
-  let lastStyle     = '';
-
-  /* ── Usage limit ─────────────────────────────────────────── */
-  function today() { return new Date().toISOString().slice(0, 10); }
-  function getUsage() {
-    try { const d = JSON.parse(localStorage.getItem('rg_usage') || '{}'); return d.date === today() ? (d.count || 0) : 0; }
-    catch (_) { return 0; }
-  }
-  function bumpUsage() {
-    try { localStorage.setItem('rg_usage', JSON.stringify({ count: getUsage() + 1, date: today() })); } catch (_) {}
-  }
-  function isLimitHit() { return getUsage() >= FREE_LIMIT; }
-  function showLimitUI() {
-    const banner = $('rgLimitBanner');
-    const resets = $('rgLimitResets');
-    if (!banner) return;
-    banner.classList.add('visible');
-    analyzeBtn.disabled = true;
-    if (resets) {
-      const now = new Date(), midnight = new Date(now); midnight.setHours(24,0,0,0);
-      const diff = midnight - now;
-      const h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000);
-      resets.textContent = `⏰ Resets in ${h}h ${m}m`;
+    /* ── Usage limit ─────────────────────────────────────── */
+    function today() { return new Date().toISOString().slice(0, 10); }
+    function getUsage() {
+      try { const d = JSON.parse(localStorage.getItem('rg_usage') || '{}'); return d.date === today() ? (d.count || 0) : 0; }
+      catch (_) { return 0; }
     }
-  }
-  function hideLimitUI() { $('rgLimitBanner')?.classList.remove('visible'); }
-
-  /* Check on load */
-  if (isLimitHit()) showLimitUI();
-
-  /* ── Image compression ───────────────────────────────────── */
-  function compressAndEncode(file) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      const url = URL.createObjectURL(file);
-      img.onload = () => {
-        URL.revokeObjectURL(url);
-        let { width, height } = img;
-        if (width > MAX_IMG_PX || height > MAX_IMG_PX) {
-          if (width > height) { height = Math.round(height * MAX_IMG_PX / width); width = MAX_IMG_PX; }
-          else { width = Math.round(width * MAX_IMG_PX / height); height = MAX_IMG_PX; }
-        }
-        const canvas = document.createElement('canvas');
-        canvas.width = width; canvas.height = height;
-        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-        const mime = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
-        const quality = mime === 'image/jpeg' ? 0.85 : undefined;
-        canvas.toBlob(blob => {
-          if (!blob) { reject(new Error('Canvas toBlob failed')); return; }
-          const reader = new FileReader();
-          reader.onload = () => {
-            const s = String(reader.result);
-            const i = s.indexOf(',');
-            resolve({ b64: i >= 0 ? s.slice(i + 1) : s, mime });
-          };
-          reader.onerror = reject;
-          reader.readAsDataURL(blob);
-        }, mime, quality);
-      };
-      img.onerror = reject;
-      img.src = url;
-    });
-  }
-
-  /* ── File handling (single read for preview + encode) ─────── */
-  function handleFile(file) {
-    clearError();
-    if (!file || !file.type.startsWith('image/')) { showError('Please upload a valid image file.'); return; }
-    if (file.size > MAX_BYTES) { showError('Image too large — max 20MB.'); return; }
-    currentMime = file.type || 'image/jpeg';
-    currentBase64 = null;
-    analyzeBtn.disabled = true;
-    results.classList.remove('visible');
-    tipList.innerHTML = '';
-    resetResultPanels();
-
-    /* Use a single FileReader for the preview — compression handles encoding separately */
-    const reader = new FileReader();
-    reader.onload = e => {
-      previewImg.src = e.target.result;
-      placeholder.classList.add('hidden');
-      previewWrap.classList.add('visible');
-    };
-    reader.readAsDataURL(file);
-
-    /* Compress + encode asynchronously */
-    compressAndEncode(file).then(({ b64, mime }) => {
-      currentBase64 = b64;
-      currentMime   = mime;
-      if (!isLimitHit()) analyzeBtn.disabled = false;
-    }).catch(() => showError('Could not process image. Please try another.'));
-  }
-
-  /* ── UI helpers ──────────────────────────────────────────── */
-  function showError(msg) { errorEl.textContent = msg || 'Something went wrong.'; errorEl.classList.add('visible'); }
-  function clearError()   { errorEl.textContent = ''; errorEl.classList.remove('visible'); }
-
-  function showToast(msg) {
-    if (!toast) return;
-    toast.textContent = msg;
-    toast.classList.add('show');
-    clearTimeout(showToast._t);
-    showToast._t = setTimeout(() => toast.classList.remove('show'), 2500);
-  }
-
-  function scrollTo(id) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET), behavior: 'smooth' });
-  }
-  function scrollToEl(el) {
-    if (!el) return;
-    window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET), behavior: 'smooth' });
-  }
-
-  function escapeHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-  function escapeAttr(s) { return escapeHtml(s).replace(/'/g,'&#39;'); }
-
-  function withAmazonTag(url) {
-    const raw = String(url || '').trim();
-    if (!raw) return 'https://www.amazon.com/s?k=room+decor&tag=' + AFFILIATE_TAG;
-    try {
-      const u = new URL(raw, location.origin);
-      if (!/amazon\./i.test(u.hostname)) return raw;
-      u.searchParams.set('tag', AFFILIATE_TAG);
-      return u.toString();
-    } catch (_) {
-      return raw.includes('tag=') ? raw : raw + (raw.includes('?') ? '&' : '?') + 'tag=' + AFFILIATE_TAG;
+    function bumpUsage() {
+      try { localStorage.setItem('rg_usage', JSON.stringify({ count: getUsage() + 1, date: today() })); } catch (_) {}
     }
-  }
-
-  function scoreColor(s) { return s <= 40 ? '#e53935' : s <= 70 ? '#fbc02d' : '#4caf50'; }
-
-  function resetResultPanels() {
-    ['rgScoreBreakdown','rgWhatsWorking','rgWhatsNotWorking','rgStyleReport'].forEach(id => {
-      const el = $(id); if (el) el.style.display = 'none';
-    });
-    const sd = $('rgStyleDesc'); if (sd) sd.textContent = '';
-    const ec = $('rgEmailCapture'); if (ec) ec.classList.remove('visible');
-    const cs = $('rgColdStart'); if (cs) cs.classList.remove('visible');
-  }
-
-  /* ── Pro modal ───────────────────────────────────────────── */
-  function openPro() {
-    if (!proModal) return;
-    proModal.classList.add('open'); proModal.setAttribute('aria-hidden','false');
-    const th=$('rgProThanks'), fm=$('rgProForm'), em=$('rgProEmail');
-    if (th) th.style.display='none'; if (fm) fm.style.display=''; if (em) em.value='';
-  }
-  function closePro() {
-    if (!proModal) return;
-    proModal.classList.remove('open'); proModal.setAttribute('aria-hidden','true');
-  }
-
-  /* ── Score animation ─────────────────────────────────────── */
-  function animateScore(target) {
-    const dur=1200, start=performance.now();
-    function frame(now) {
-      const t = Math.min(1,(now-start)/dur);
-      const ease = 1 - Math.pow(1-t,3);
-      const val = Math.round(target * ease);
-      scoreNum.textContent = val;
-      scoreRing.style.setProperty('--pct', String(val));
-      if (t < 1) requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-  }
-
-  /* ── Breakdown bars ──────────────────────────────────────── */
-  function renderBreakdown(bd) {
-    if (!bd || typeof bd !== 'object') return;
-    const el = $('rgScoreBreakdown'); if (el) el.style.display = '';
-    [
-      ['rgBarLighting','rgValLighting','lighting'],
-      ['rgBarColor','rgValColor','color_harmony'],
-      ['rgBarFurniture','rgValFurniture','furniture_arrangement'],
-      ['rgBarDecor','rgValDecor','decor_personality'],
-      ['rgBarOrg','rgValOrg','cleanliness_organization'],
-    ].forEach(([barId,valId,key]) => {
-      const v = Math.max(0, Math.min(20, parseInt(bd[key],10) || 0));
-      const barEl=$(barId), valEl=$(valId);
-      if (barEl) setTimeout(() => { barEl.style.width = (v/20*100)+'%'; }, 300);
-      if (valEl) valEl.textContent = v;
-    });
-  }
-
-  /* ── Tip cards ───────────────────────────────────────────── */
-  function renderTips(tips) {
-    tipList.innerHTML = '';
-    const list = Array.isArray(tips) ? tips.slice(0,5) : [];
-    while (list.length < 5) list.push({ title:'Refine Your Space', icon:'✨', category:'Decor', difficulty:'Easy', estimated_score_boost:5, tip:'Keep refining — small changes add up.', product_name:'room decor', product_description:'A simple accent that elevates your space.', product_price_range:'$20-40', product_search_url:'https://www.amazon.com/s?k=room+decor&tag=technova050-20' });
-
-    list.forEach((tip, i) => {
-      const isLocked = i >= 3;
-      const card = document.createElement('div');
-      card.className = 'rg-tip-card rg-interactive' + (isLocked ? ' rg-pro-locked' : '');
-      card.style.animationDelay = (i * 160) + 'ms';
-      const icon     = escapeHtml(tip.icon || '✨');
-      const cat      = escapeHtml(tip.category || 'Decor');
-      const title    = escapeHtml(tip.title || 'Improve Your Space');
-      const txt      = escapeHtml(tip.tip || '');
-      const diff     = escapeHtml(tip.difficulty || 'Medium');
-      const boost    = parseInt(tip.estimated_score_boost,10) || 5;
-      const prodName = escapeHtml(tip.product_name || 'Room Decor');
-      const prodDesc = escapeHtml(tip.product_description || '');
-      const prodPrice= escapeHtml(tip.product_price_range || '$20-40');
-      const tagged   = withAmazonTag(tip.product_search_url || '');
-      card.innerHTML = `
-        <div class="rg-cat">
-          <span class="rg-cat-pill">${cat}</span>
-          <span class="rg-diff-pill ${diff.toLowerCase()}">${diff}</span>
-          <span class="rg-boost-pill">+${boost} pts</span>
-        </div>
-        <div class="rg-tip-icon">${icon}</div>
-        <div>
-          <p class="rg-tip-title">${title}</p>
-          <p class="rg-tip-text">${txt}</p>
-          <div class="rg-product-box">
-            <div class="rg-product-info">
-              <div class="rg-product-name">🛍️ ${prodName}</div>
-              ${prodDesc ? `<div class="rg-product-desc">${prodDesc}</div>` : ''}
-            </div>
-            <span class="rg-product-price">${prodPrice}</span>
-            <button type="button" class="rg-shop-btn" data-url="${escapeAttr(tagged)}">Shop →</button>
-          </div>
-        </div>
-        ${isLocked ? `<div class="rg-pro-overlay"><span class="rg-pro-overlay-icon">🔒</span><span class="rg-pro-overlay-text">Pro Tip ${i+1}</span><span class="rg-pro-overlay-sub">Unlock with Pro plan</span><button type="button" class="rg-pro-overlay-btn">Upgrade to Pro →</button></div>` : ''}
-      `;
-      tipList.appendChild(card);
-    });
-
-    tipList.querySelectorAll('.rg-shop-btn').forEach(btn => {
-      btn.addEventListener('click', () => window.open(withAmazonTag(btn.dataset.url), '_blank', 'noopener,noreferrer'));
-    });
-    tipList.querySelectorAll('.rg-pro-overlay-btn').forEach(btn => btn.addEventListener('click', openPro));
-  }
-
-  /* ── Main analyze function ───────────────────────────────── */
-  async function analyze() {
-    if (!currentBase64) { showError('Please upload a photo first.'); return; }
-    if (isLimitHit()) { showLimitUI(); return; }
-
-    clearError();
-    hideLimitUI();
-    skeleton.classList.add('active');
-    analyzeBtn.disabled = true;
-    analyzeBtn.classList.add('loading');
-    results.classList.remove('visible');
-    resetResultPanels();
-
-    const coldEl = $('rgColdStart');
-    const coldTimer = setTimeout(() => coldEl && coldEl.classList.add('visible'), 5000);
-
-    try {
-      const res = await fetch(BACKEND_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: currentBase64, mime: currentMime, room_type: selectedRoom }),
-      });
-      let data;
-      try { data = await res.json(); } catch (_) { throw new Error('bad_json'); }
-      if (!res.ok || typeof data.score !== 'number' || !Array.isArray(data.tips)) throw new Error('api_fail');
-
-      /* Increment usage on success */
-      bumpUsage();
-
-      lastScore = Math.min(100, Math.max(0, Math.round(Number(data.score) || 0)));
-      lastStyle = String(data.style || 'Your Style').trim() || 'Your Style';
-
-      scoreRing.style.setProperty('--ring-color', scoreColor(lastScore));
-      stylePill.textContent = '✨ ' + lastStyle;
-
-      const sd = $('rgStyleDesc'); if (sd) sd.textContent = data.style_description || '';
-
-      function setFeedback(id, textId, val) {
-        const box=$( id), txt=$(textId);
-        if (val && box && txt) { txt.textContent = val; box.style.display = ''; }
+    function isLimitHit() { return getUsage() >= FREE_LIMIT; }
+    function showLimitUI() {
+      const banner = $('rgLimitBanner'), resets = $('rgLimitResets');
+      if (!banner) return;
+      banner.classList.add('visible');
+      analyzeBtn.disabled = true;
+      if (resets) {
+        const now = new Date(), midnight = new Date(now);
+        midnight.setHours(24, 0, 0, 0);
+        const diff = midnight - now;
+        const h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000);
+        resets.textContent = `⏰ Resets in ${h}h ${m}m`;
       }
-      setFeedback('rgWhatsWorking',   'rgWhatsWorkingText',    data.whats_working);
-      setFeedback('rgWhatsNotWorking','rgWhatsNotWorkingText', data.whats_not_working);
-
-      const sr=$('rgStyleReport'), srt=$('rgStyleReportText');
-      if (data.style_report && sr && srt) { srt.textContent = data.style_report; sr.style.display = ''; }
-
-      if (shareSummary) shareSummary.textContent = `Score ${lastScore}/100 · ${lastStyle}`;
-      results.classList.add('visible');
-      animateScore(lastScore);
-      renderBreakdown(data.score_breakdown);
-      renderTips(data.tips);
-      scrollToEl(results);
-
-      /* Show email capture after a short delay */
-      setTimeout(() => { const ec=$('rgEmailCapture'); if (ec) ec.classList.add('visible'); }, 1400);
-
-      /* Show limit banner if now at limit */
-      if (isLimitHit()) setTimeout(showLimitUI, 600);
-
-    } catch (e) {
-      showError('Something went wrong. Please try again in a moment.');
-    } finally {
-      clearTimeout(coldTimer);
-      const coldEl2 = $('rgColdStart'); if (coldEl2) coldEl2.classList.remove('visible');
-      skeleton.classList.remove('active');
-      analyzeBtn.classList.remove('loading');
-      analyzeBtn.disabled = isLimitHit() || !currentBase64;
     }
-  }
+    function hideLimitUI() { $('rgLimitBanner')?.classList.remove('visible'); }
+    if (isLimitHit()) showLimitUI();
 
-  /* ── Event wiring ────────────────────────────────────────── */
-
-  /* Analyze button */
-  analyzeBtn.addEventListener('click', analyze);
-
-  /* File inputs */
-  fileInput.addEventListener('change', () => { const f=fileInput.files?.[0]; if(f) handleFile(f); });
-  cameraInput.addEventListener('change', () => { const f=cameraInput.files?.[0]; if(f) handleFile(f); });
-  libraryInput.addEventListener('change', () => { const f=libraryInput.files?.[0]; if(f) handleFile(f); });
-
-  /* Drop zone */
-  dropZone.addEventListener('click', e => {
-    if (e.target.closest('#rgChangePhoto') || e.target.tagName === 'IMG' || e.target.closest('button')) return;
-    fileInput.click();
-  });
-  $('rgChangePhoto')?.addEventListener('click', e => { e.stopPropagation(); fileInput.click(); });
-  ['dragenter','dragover'].forEach(ev => uploadCard.addEventListener(ev, e => { e.preventDefault(); uploadCard.classList.add('rg-drag'); }, { passive: false }));
-  ['dragleave','drop'].forEach(ev => uploadCard.addEventListener(ev, e => { e.preventDefault(); uploadCard.classList.remove('rg-drag'); }, { passive: false }));
-  uploadCard.addEventListener('drop', e => { const f=e.dataTransfer?.files?.[0]; if(f) handleFile(f); });
-
-  /* Camera buttons */
-  $('rgCameraBtn')?.addEventListener('click', () => cameraInput.click());
-  $('rgLibraryBtn')?.addEventListener('click', () => libraryInput.click());
-
-  /* Room pills */
-  const roomRow = $('rgRoomPills');
-  if (roomRow) {
-    roomRow.querySelectorAll('.rg-room-pill').forEach(b => b.classList.toggle('is-active', b.dataset.room === selectedRoom));
-    roomRow.addEventListener('click', e => {
-      const btn = e.target.closest('.rg-room-pill');
-      if (!btn) return;
-      selectedRoom = btn.dataset.room || 'Bedroom';
-      roomRow.querySelectorAll('.rg-room-pill').forEach(b => b.classList.toggle('is-active', b.dataset.room === selectedRoom));
-    });
-  }
-
-  /* Analyze Another Room */
-  $('rgAnotherBtn')?.addEventListener('click', () => {
-    results.classList.remove('visible');
-    tipList.innerHTML = '';
-    fileInput.value = ''; cameraInput.value = ''; libraryInput.value = '';
-    currentBase64 = null;
-    previewImg.removeAttribute('src');
-    placeholder.classList.remove('hidden');
-    previewWrap.classList.remove('visible');
-    analyzeBtn.disabled = isLimitHit();
-    resetResultPanels();
-    if (isLimitHit()) showLimitUI(); else hideLimitUI();
-    scrollTo('analyze');
-  });
-
-  /* Share button — viral-friendly copy */
-  $('rgShareBtn')?.addEventListener('click', async () => {
-    const label = lastScore >= 80 ? 'pretty proud of this 🔥' : lastScore >= 60 ? 'room to improve 😅' : 'got absolutely roasted 💀';
-    const text = `I scored ${lastScore}/100 on RoomGlow — ${lastStyle} — ${label}\n\nWhat does your room score? →`;
-    const url = 'https://roomglow.space';
-    if (navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-      try { await navigator.share({ title:'My RoomGlow Score', text, url }); return; }
-      catch (err) { if (err?.name === 'AbortError') return; }
+    /* ── Image compression ───────────────────────────────── */
+    function compressAndEncode(file) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          let { width, height } = img;
+          if (width > MAX_IMG_PX || height > MAX_IMG_PX) {
+            if (width > height) { height = Math.round(height * MAX_IMG_PX / width); width = MAX_IMG_PX; }
+            else { width = Math.round(width * MAX_IMG_PX / height); height = MAX_IMG_PX; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width; canvas.height = height;
+          canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+          const mime = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+          const quality = mime === 'image/jpeg' ? 0.85 : undefined;
+          canvas.toBlob(blob => {
+            if (!blob) { reject(new Error('Canvas toBlob failed')); return; }
+            const reader = new FileReader();
+            reader.onload = () => {
+              const s = String(reader.result), i = s.indexOf(',');
+              resolve({ b64: i >= 0 ? s.slice(i + 1) : s, mime });
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+          }, mime, quality);
+        };
+        img.onerror = reject;
+        img.src = url;
+      });
     }
-    try { await navigator.clipboard.writeText(text + '\n' + url); showToast('Copied! Share it anywhere 🚀'); }
-    catch (_) {
+
+    /* ── File handling ───────────────────────────────────── */
+    function handleFile(file) {
+      clearError();
+      if (!file || !file.type.startsWith('image/')) { showError('Please upload a valid image file.'); return; }
+      if (file.size > MAX_BYTES) { showError('Image too large — max 20MB.'); return; }
+      currentBase64 = null;
+      analyzeBtn.disabled = true;
+      results.classList.remove('visible');
+      tipList.innerHTML = '';
+      resetPanels();
+      const reader = new FileReader();
+      reader.onload = e => { previewImg.src = e.target.result; placeholder.classList.add('hidden'); previewWrap.classList.add('visible'); };
+      reader.readAsDataURL(file);
+      compressAndEncode(file).then(({ b64, mime }) => {
+        currentBase64 = b64; currentMime = mime;
+        if (!isLimitHit()) analyzeBtn.disabled = false;
+      }).catch(() => showError('Could not process image. Please try another.'));
+    }
+
+    /* ── Helpers ─────────────────────────────────────────── */
+    function showError(msg) { errorEl.textContent = msg || 'Something went wrong.'; errorEl.classList.add('visible'); }
+    function clearError()   { errorEl.textContent = ''; errorEl.classList.remove('visible'); }
+    function showToast(msg) {
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+    function scrollTo(id) {
+      const el = document.getElementById(id); if (!el) return;
+      window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET), behavior: 'smooth' });
+    }
+    function scrollToEl(el) {
+      if (!el) return;
+      window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET), behavior: 'smooth' });
+    }
+    function escapeHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    function escapeAttr(s) { return escapeHtml(s).replace(/'/g,'&#39;'); }
+    function withAmazonTag(url) {
+      const raw = String(url || '').trim();
+      if (!raw) return 'https://www.amazon.com/s?k=room+decor&tag=' + AFFILIATE_TAG;
       try {
-        const ta = document.createElement('textarea'); ta.value = text + '\n' + url;
-        document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-        showToast('Copied! Share it anywhere 🚀');
-      } catch (__) { prompt('Copy your score:', text + '\n' + url); }
+        const u = new URL(raw, location.origin);
+        if (!/amazon\./i.test(u.hostname)) return raw;
+        u.searchParams.set('tag', AFFILIATE_TAG); return u.toString();
+      } catch (_) { return raw.includes('tag=') ? raw : raw + (raw.includes('?') ? '&' : '?') + 'tag=' + AFFILIATE_TAG; }
     }
-  });
+    function scoreColor(s) { return s <= 40 ? '#e53935' : s <= 70 ? '#fbc02d' : '#4caf50'; }
+    function resetPanels() {
+      ['rgScoreBreakdown','rgWhatsWorking','rgWhatsNotWorking','rgStyleReport'].forEach(id => { const el=$(id); if(el) el.style.display='none'; });
+      const sd=$('rgStyleDesc'); if(sd) sd.textContent='';
+      const ec=$('rgEmailCapture'); if(ec) ec.classList.remove('visible');
+      const cs=$('rgColdStart'); if(cs) cs.classList.remove('visible');
+    }
 
-  /* Email capture */
-  $('rgEmailSubmit')?.addEventListener('click', () => {
-    const input=$('rgEmailInput'), thanks=$('rgEmailThanks'), btn=$('rgEmailSubmit');
-    if (!input?.value.includes('@')) { if(input) input.style.borderColor='var(--danger)'; return; }
-    try { localStorage.setItem('rg_email', input.value.trim()); } catch(_){}
-    if (thanks) thanks.style.display = 'block';
-    if (btn) btn.style.display = 'none';
-    if (input) input.style.display = 'none';
-  });
+    /* ── Pro modal ───────────────────────────────────────── */
+    function openPro() {
+      if (!proModal) return;
+      proModal.classList.add('open'); proModal.setAttribute('aria-hidden','false');
+      const th=$('rgProThanks'), fm=$('rgProForm'), em=$('rgProEmail');
+      if(th) th.style.display='none'; if(fm) fm.style.display=''; if(em) em.value='';
+    }
+    function closePro() {
+      if (!proModal) return;
+      proModal.classList.remove('open'); proModal.setAttribute('aria-hidden','true');
+    }
 
-  /* All CTA buttons → scroll to analyzer */
-  ['rgNavCta','rgHeroAnalyze','rgFinalCta','rgPricingFree','rgReviewsCta','rgMenuCta'].forEach(id => {
-    $(id)?.addEventListener('click', () => { $('rgMenuOverlay')?.classList.remove('open'); scrollTo('analyze'); });
-  });
+    /* ── Score animation ─────────────────────────────────── */
+    function animateScore(target) {
+      const dur=1200, t0=performance.now();
+      function frame(now) {
+        const t=Math.min(1,(now-t0)/dur), ease=1-Math.pow(1-t,3), val=Math.round(target*ease);
+        scoreNum.textContent=val; scoreRing.style.setProperty('--pct',String(val));
+        if(t<1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
 
-  /* All Pro triggers */
-  document.querySelectorAll('.rg-pro-trigger').forEach(btn => btn.addEventListener('click', openPro));
+    /* ── Breakdown bars ──────────────────────────────────── */
+    function renderBreakdown(bd) {
+      if(!bd||typeof bd!=='object') return;
+      const el=$('rgScoreBreakdown'); if(el) el.style.display='';
+      [['rgBarLighting','rgValLighting','lighting'],['rgBarColor','rgValColor','color_harmony'],['rgBarFurniture','rgValFurniture','furniture_arrangement'],['rgBarDecor','rgValDecor','decor_personality'],['rgBarOrg','rgValOrg','cleanliness_organization']].forEach(([barId,valId,key]) => {
+        const v=Math.max(0,Math.min(20,parseInt(bd[key],10)||0));
+        const barEl=$(barId), valEl=$(valId);
+        if(barEl) setTimeout(()=>{barEl.style.width=(v/20*100)+'%';},300);
+        if(valEl) valEl.textContent=v;
+      });
+    }
 
-  /* Anchor links — smooth scroll */
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    const id = a.getAttribute('href')?.slice(1);
-    if (!id || !document.getElementById(id)) return;
-    a.addEventListener('click', e => { e.preventDefault(); scrollTo(id); $('rgMenuOverlay')?.classList.remove('open'); });
-  });
+    /* ── Tip cards ───────────────────────────────────────── */
+    function renderTips(tips) {
+      tipList.innerHTML='';
+      const list=Array.isArray(tips)?tips.slice(0,5):[];
+      while(list.length<5) list.push({title:'Refine Your Space',icon:'✨',category:'Decor',difficulty:'Easy',estimated_score_boost:5,tip:'Keep refining — small changes add up.',product_name:'room decor',product_description:'A simple accent that elevates your space.',product_price_range:'$20-40',product_search_url:'https://www.amazon.com/s?k=room+decor&tag=technova050-20'});
+      list.forEach((tip,i) => {
+        const isLocked=i>=3;
+        const card=document.createElement('div');
+        card.className='rg-tip-card rg-interactive'+(isLocked?' rg-pro-locked':'');
+        card.style.animationDelay=(i*160)+'ms';
+        const icon=escapeHtml(tip.icon||'✨'),cat=escapeHtml(tip.category||'Decor'),title=escapeHtml(tip.title||'Improve Your Space');
+        const txt=escapeHtml(tip.tip||''),diff=escapeHtml(tip.difficulty||'Medium');
+        const boost=parseInt(tip.estimated_score_boost,10)||5;
+        const prodName=escapeHtml(tip.product_name||'Room Decor'),prodDesc=escapeHtml(tip.product_description||'');
+        const prodPrice=escapeHtml(tip.product_price_range||'$20-40'),tagged=withAmazonTag(tip.product_search_url||'');
+        card.innerHTML=`
+          <div class="rg-cat"><span class="rg-cat-pill">${cat}</span><span class="rg-diff-pill ${diff.toLowerCase()}">${diff}</span><span class="rg-boost-pill">+${boost} pts</span></div>
+          <div class="rg-tip-icon">${icon}</div>
+          <div>
+            <p class="rg-tip-title">${title}</p>
+            <p class="rg-tip-text">${txt}</p>
+            <div class="rg-product-box">
+              <div class="rg-product-info"><div class="rg-product-name">🛍️ ${prodName}</div>${prodDesc?`<div class="rg-product-desc">${prodDesc}</div>`:''}</div>
+              <span class="rg-product-price">${prodPrice}</span>
+              <button type="button" class="rg-shop-btn" data-url="${escapeAttr(tagged)}">Shop →</button>
+            </div>
+          </div>
+          ${isLocked?`<div class="rg-pro-overlay"><span class="rg-pro-overlay-icon">🔒</span><span class="rg-pro-overlay-text">Pro Tip ${i+1}</span><span class="rg-pro-overlay-sub">Unlock with Pro plan</span><button type="button" class="rg-pro-overlay-btn">Upgrade to Pro →</button></div>`:''}
+        `;
+        tipList.appendChild(card);
+      });
+      tipList.querySelectorAll('.rg-shop-btn').forEach(btn=>btn.addEventListener('click',()=>window.open(withAmazonTag(btn.dataset.url),'_blank','noopener,noreferrer')));
+      tipList.querySelectorAll('.rg-pro-overlay-btn').forEach(btn=>btn.addEventListener('click',openPro));
+    }
 
-  /* Mobile menu */
-  const overlay = $('rgMenuOverlay');
-  $('rgMenuOpen')?.addEventListener('click', () => overlay?.classList.add('open'));
-  $('rgMenuClose')?.addEventListener('click', () => overlay?.classList.remove('open'));
-
-  /* Nav compact on scroll — only toggle when state changes to avoid repaints */
-  let navCompact = false;
-  window.addEventListener('scroll', () => {
-    const shouldCompact = window.scrollY > 40;
-    if (shouldCompact !== navCompact) { navCompact = shouldCompact; nav?.classList.toggle('compact', shouldCompact); }
-  }, { passive: true });
-
-  /* Live counter — pause when tab hidden */
-  const liveStart = 89 + Math.floor(Math.random() * 39);
-  if (liveNum) liveNum.textContent = String(liveStart);
-  const liveInterval = setInterval(() => {
-    if (document.hidden || !liveNum) return;
-    liveNum.textContent = String(parseInt(liveNum.textContent, 10) + 1);
-  }, 45000);
-
-  /* Pro modal */
-  $('rgUpgradePro')?.addEventListener('click', openPro);
-  $('rgProModalClose')?.addEventListener('click', closePro);
-  $('rgProModalBackdrop')?.addEventListener('click', closePro);
-  $('rgProForm')?.addEventListener('submit', e => {
-    e.preventDefault();
-    const th=$('rgProThanks'), fm=$('rgProForm');
-    if (th) th.style.display = 'block'; if (fm) fm.style.display = 'none';
-  });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && proModal?.classList.contains('open')) closePro(); });
-
-  /* Amazon affiliate tag on static links */
-  document.querySelectorAll('a.rg-amazon-link').forEach(a => {
-    try { a.href = withAmazonTag(a.getAttribute('href')); } catch(_){}
-  });
-
-  /* IntersectionObserver for reveal animations */
-  const revealIO = new IntersectionObserver(entries => {
-    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('visible'); revealIO.unobserve(en.target); } });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('[data-reveal]').forEach(el => revealIO.observe(el));
-
-  /* Stats counter — fires once */
-  let statsDone = false;
-  const statsIO = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (!en.isIntersecting || statsDone) return;
-      statsDone = true;
-      en.target.querySelectorAll('.rg-stat-num').forEach(el => {
-        const target=parseFloat(el.dataset.target), dec=parseInt(el.dataset.decimal||'0',10), prefix=el.dataset.prefix||'', suffix=el.dataset.suffix||'';
-        const dur=1500, t0=performance.now();
-        function tick(now) {
-          const t=Math.min(1,(now-t0)/dur), ease=1-Math.pow(1-t,2), v=target*ease;
-          el.textContent = dec===0 ? prefix+Math.round(v)+suffix : prefix+v.toFixed(dec)+suffix;
-          if (t<1) requestAnimationFrame(tick);
+    /* ── Analyze ─────────────────────────────────────────── */
+    async function analyze() {
+      if (!currentBase64) { showError('Please upload a photo first.'); return; }
+      if (isLimitHit()) { showLimitUI(); return; }
+      clearError(); hideLimitUI();
+      skeleton.classList.add('active');
+      analyzeBtn.disabled=true; analyzeBtn.classList.add('loading');
+      results.classList.remove('visible'); resetPanels();
+      const coldEl=$('rgColdStart');
+      const coldTimer=setTimeout(()=>coldEl&&coldEl.classList.add('visible'),5000);
+      try {
+        const res=await fetch(BACKEND_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image:currentBase64,mime:currentMime,room_type:selectedRoom})});
+        let data; try{data=await res.json();}catch(_){throw new Error('bad_json');}
+        if(!res.ok||typeof data.score!=='number'||!Array.isArray(data.tips)) throw new Error('api_fail');
+        bumpUsage();
+        lastScore=Math.min(100,Math.max(0,Math.round(Number(data.score)||0)));
+        lastStyle=String(data.style||'Your Style').trim()||'Your Style';
+        scoreRing.style.setProperty('--ring-color',scoreColor(lastScore));
+        stylePill.textContent='✨ '+lastStyle;
+        const sd=$('rgStyleDesc'); if(sd) sd.textContent=data.style_description||'';
+        function setFeedback(id,textId,val,cls) {
+          const box=$(id),txt=$(textId);
+          if(val&&box&&txt){txt.textContent=val;box.style.display='';}
         }
-        requestAnimationFrame(tick);
+        setFeedback('rgWhatsWorking','rgWhatsWorkingText',data.whats_working);
+        setFeedback('rgWhatsNotWorking','rgWhatsNotWorkingText',data.whats_not_working);
+        const sr=$('rgStyleReport'),srt=$('rgStyleReportText');
+        if(data.style_report&&sr&&srt){srt.textContent=data.style_report;sr.style.display='';}
+        if(shareSummary) shareSummary.textContent=`Score ${lastScore}/100 · ${lastStyle}`;
+        results.classList.add('visible');
+        animateScore(lastScore); renderBreakdown(data.score_breakdown); renderTips(data.tips); scrollToEl(results);
+        setTimeout(()=>{const ec=$('rgEmailCapture');if(ec)ec.classList.add('visible');},1400);
+        if(isLimitHit()) setTimeout(showLimitUI,600);
+      } catch(e) {
+        showError('Something went wrong. Please try again in a moment.');
+      } finally {
+        clearTimeout(coldTimer);
+        const cs=$('rgColdStart');if(cs)cs.classList.remove('visible');
+        skeleton.classList.remove('active'); analyzeBtn.classList.remove('loading');
+        analyzeBtn.disabled=isLimitHit()||!currentBase64;
+      }
+    }
+
+    /* ── Event wiring ────────────────────────────────────── */
+    analyzeBtn.addEventListener('click', analyze);
+
+    fileInput.addEventListener('change',()=>{const f=fileInput.files?.[0];if(f)handleFile(f);});
+    cameraInput?.addEventListener('change',()=>{const f=cameraInput.files?.[0];if(f)handleFile(f);});
+    libraryInput?.addEventListener('change',()=>{const f=libraryInput.files?.[0];if(f)handleFile(f);});
+
+    dropZone.addEventListener('click',e=>{
+      if(e.target.closest('#rgChangePhoto')||e.target.tagName==='IMG'||e.target.closest('button')) return;
+      fileInput.click();
+    });
+    $('rgChangePhoto')?.addEventListener('click',e=>{e.stopPropagation();fileInput.click();});
+    ['dragenter','dragover'].forEach(ev=>uploadCard.addEventListener(ev,e=>{e.preventDefault();uploadCard.classList.add('rg-drag');},{passive:false}));
+    ['dragleave','drop'].forEach(ev=>uploadCard.addEventListener(ev,e=>{e.preventDefault();uploadCard.classList.remove('rg-drag');},{passive:false}));
+    uploadCard.addEventListener('drop',e=>{const f=e.dataTransfer?.files?.[0];if(f)handleFile(f);});
+
+    $('rgCameraBtn')?.addEventListener('click',()=>cameraInput?.click());
+    $('rgLibraryBtn')?.addEventListener('click',()=>libraryInput?.click());
+
+    const roomRow=$('rgRoomPills');
+    if(roomRow){
+      roomRow.querySelectorAll('.rg-room-pill').forEach(b=>b.classList.toggle('is-active',b.dataset.room===selectedRoom));
+      roomRow.addEventListener('click',e=>{
+        const btn=e.target.closest('.rg-room-pill');if(!btn)return;
+        selectedRoom=btn.dataset.room||'Bedroom';
+        roomRow.querySelectorAll('.rg-room-pill').forEach(b=>b.classList.toggle('is-active',b.dataset.room===selectedRoom));
+      });
+    }
+
+    $('rgAnotherBtn')?.addEventListener('click',()=>{
+      results.classList.remove('visible'); tipList.innerHTML='';
+      fileInput.value=''; if(cameraInput)cameraInput.value=''; if(libraryInput)libraryInput.value='';
+      currentBase64=null; previewImg.removeAttribute('src');
+      placeholder.classList.remove('hidden'); previewWrap.classList.remove('visible');
+      analyzeBtn.disabled=isLimitHit(); resetPanels();
+      if(isLimitHit()) showLimitUI(); else hideLimitUI();
+      scrollTo('analyze');
+    });
+
+    $('rgShareBtn')?.addEventListener('click',async()=>{
+      const label=lastScore>=80?'pretty proud of this 🔥':lastScore>=60?'room to improve 😅':'got absolutely roasted 💀';
+      const text=`I scored ${lastScore}/100 on RoomGlow — ${lastStyle} — ${label}\n\nWhat does your room score? →`;
+      const url='https://roomglow.space';
+      if(navigator.share&&/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){
+        try{await navigator.share({title:'My RoomGlow Score',text,url});return;}
+        catch(err){if(err?.name==='AbortError')return;}
+      }
+      try{await navigator.clipboard.writeText(text+'\n'+url);showToast('Copied! Share it anywhere 🚀');}
+      catch(_){try{const ta=document.createElement('textarea');ta.value=text+'\n'+url;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('Copied! Share it anywhere 🚀');}catch(__){prompt('Copy your score:',text+'\n'+url);}}
+    });
+
+    $('rgEmailSubmit')?.addEventListener('click',()=>{
+      const input=$('rgEmailInput'),thanks=$('rgEmailThanks'),btn=$('rgEmailSubmit');
+      if(!input?.value.includes('@')){if(input)input.style.borderColor='var(--danger)';return;}
+      try{localStorage.setItem('rg_email',input.value.trim());}catch(_){}
+      if(thanks)thanks.style.display='block';if(btn)btn.style.display='none';if(input)input.style.display='none';
+    });
+
+    ['rgNavCta','rgHeroAnalyze','rgFinalCta','rgPricingFree','rgReviewsCta','rgMenuCta'].forEach(id=>{
+      $(id)?.addEventListener('click',()=>{$('rgMenuOverlay')?.classList.remove('open');scrollTo('analyze');});
+    });
+
+    document.querySelectorAll('.rg-pro-trigger').forEach(btn=>btn.addEventListener('click',openPro));
+
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      const id=a.getAttribute('href')?.slice(1);
+      if(!id||!document.getElementById(id))return;
+      a.addEventListener('click',e=>{e.preventDefault();scrollTo(id);$('rgMenuOverlay')?.classList.remove('open');});
+    });
+
+    const overlay=$('rgMenuOverlay');
+    $('rgMenuOpen')?.addEventListener('click',()=>overlay?.classList.add('open'));
+    $('rgMenuClose')?.addEventListener('click',()=>overlay?.classList.remove('open'));
+
+    let navIsCompact=false;
+    window.addEventListener('scroll',()=>{
+      const should=window.scrollY>40;
+      if(should!==navIsCompact){navIsCompact=should;nav?.classList.toggle('rg-nav--compact',should);}
+    },{passive:true});
+
+    const liveStart=89+Math.floor(Math.random()*39);
+    if(liveNumEl) liveNumEl.textContent=String(liveStart);
+    setInterval(()=>{if(document.hidden||!liveNumEl)return;liveNumEl.textContent=String(parseInt(liveNumEl.textContent,10)+1);},45000);
+
+    const urgencyEl=$('rgUrgencyNum');
+    if(urgencyEl){
+      const urgBase=38+Math.floor(Math.random()*24); urgencyEl.textContent=urgBase;
+      setInterval(()=>{if(document.hidden)return;const cur=parseInt(urgencyEl.textContent,10)||urgBase;const delta=Math.random()<0.6?1:(Math.random()<0.3?-1:0);urgencyEl.textContent=Math.max(12,cur+delta);},18000);
+    }
+
+    $('rgUpgradePro')?.addEventListener('click',openPro);
+    $('rgProModalClose')?.addEventListener('click',closePro);
+    $('rgProModalBackdrop')?.addEventListener('click',closePro);
+    $('rgProForm')?.addEventListener('submit',e=>{
+      e.preventDefault();
+      const th=$('rgProThanks'),fm=$('rgProForm');
+      if(th)th.style.display='block';if(fm)fm.style.display='none';
+    });
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&proModal?.classList.contains('open'))closePro();});
+
+    document.querySelectorAll('a.rg-amazon-link').forEach(a=>{try{a.href=withAmazonTag(a.getAttribute('href'));}catch(_){}});
+
+    const revealIO=new IntersectionObserver(entries=>{
+      entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('visible');revealIO.unobserve(en.target);}});
+    },{threshold:0.1});
+    document.querySelectorAll('[data-reveal]').forEach(el=>revealIO.observe(el));
+
+    let statsDone=false;
+    const statsIO=new IntersectionObserver(entries=>{
+      entries.forEach(en=>{
+        if(!en.isIntersecting||statsDone)return; statsDone=true;
+        en.target.querySelectorAll('.rg-stat-num').forEach(el=>{
+          const target=parseFloat(el.dataset.target),dec=parseInt(el.dataset.decimal||'0',10),prefix=el.dataset.prefix||'',suffix=el.dataset.suffix||'';
+          const dur=1500,t0=performance.now();
+          function tick(now){const t=Math.min(1,(now-t0)/dur),ease=1-Math.pow(1-t,2),v=target*ease;el.textContent=dec===0?prefix+Math.round(v)+suffix:prefix+v.toFixed(dec)+suffix;if(t<1)requestAnimationFrame(tick);}
+          requestAnimationFrame(tick);
+        });
+      });
+    },{threshold:0.2});
+    const statsSec=$('stats');if(statsSec)statsIO.observe(statsSec);
+
+    document.querySelectorAll('.rg-faq-q').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const item=btn.closest('.rg-faq-item'),wasOpen=item.classList.contains('open');
+        document.querySelectorAll('.rg-faq-item').forEach(i=>{i.classList.remove('open');const s=i.querySelector('.rg-faq-q span');if(s)s.textContent='+';});
+        if(!wasOpen){item.classList.add('open');const s=btn.querySelector('span');if(s)s.textContent='−';}
       });
     });
-  }, { threshold: 0.2 });
-  const statsSec = $('stats'); if (statsSec) statsIO.observe(statsSec);
 
-  /* FAQ accordion */
-  document.querySelectorAll('.rg-faq-q').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item=btn.closest('.rg-faq-item'), wasOpen=item.classList.contains('open');
-      document.querySelectorAll('.rg-faq-item').forEach(i => { i.classList.remove('open'); const s=i.querySelector('.rg-faq-q span'); if(s) s.textContent='+'; });
-      if (!wasOpen) { item.classList.add('open'); const s=btn.querySelector('span'); if(s) s.textContent='−'; }
+    const exFilters=$('rgExFilters'),exGrid=$('rgExGrid');
+    exFilters?.addEventListener('click',e=>{
+      const pill=e.target.closest('.rg-filter-pill');if(!pill)return;
+      exFilters.querySelectorAll('.rg-filter-pill').forEach(p=>p.classList.remove('is-active'));pill.classList.add('is-active');
+      const f=pill.dataset.filter,cards=document.querySelectorAll('.rg-ex-card');
+      cards.forEach(card=>{const show=f==='all'||card.dataset.room===f;if(show)card.classList.remove('rg-hidden','rg-ex-hiding');else card.classList.add('rg-ex-hiding');});
+      clearTimeout(exFilters._ft);
+      exFilters._ft=setTimeout(()=>{cards.forEach(card=>{const show=f==='all'||card.dataset.room===f;if(!show)card.classList.add('rg-hidden');else card.classList.remove('rg-ex-hiding');});if(exGrid)exGrid.style.minHeight='';},320);
     });
-  });
 
-  /* Example filters */
-  const exFilters=$('rgExFilters'), exGrid=$('rgExGrid');
-  exFilters?.addEventListener('click', e => {
-    const pill=e.target.closest('.rg-filter-pill'); if(!pill) return;
-    exFilters.querySelectorAll('.rg-filter-pill').forEach(p=>p.classList.remove('is-active')); pill.classList.add('is-active');
-    const f=pill.dataset.filter;
-    const cards=document.querySelectorAll('.rg-ex-card');
-    cards.forEach(card => {
-      const show=f==='all'||card.dataset.room===f;
-      if (show) card.classList.remove('rg-hidden','rg-ex-hiding'); else card.classList.add('rg-ex-hiding');
-    });
-    clearTimeout(exFilters._ft);
-    exFilters._ft = setTimeout(() => { cards.forEach(card => { const show=f==='all'||card.dataset.room===f; if(!show) card.classList.add('rg-hidden'); else card.classList.remove('rg-ex-hiding'); }); if(exGrid) exGrid.style.minHeight=''; }, 320);
-  });
-
-  /* Testimonials carousel */
-  const testimonials = [
-    { q:"I got a 43/100 on my bedroom and was honestly a little offended 😂 But I followed every tip and bought the lamp it suggested and now I'm at 78. My room looks incredible.", n:"Sarah K.", r:"College Student", g:"linear-gradient(135deg,#ff9a56,#ff6a88)" },
-    { q:"The AI told me my desk setup was 'missing warmth and personality' and recommended a plant and LED strip. Spent $40, now my setup looks like it belongs on Reddit.", n:"Marcus T.", r:"Software Developer", g:"linear-gradient(135deg,#f7971e,#ffd200)" },
-    { q:"I used this on my living room before a dinner party. Followed 3 of the 5 tips. My friend literally asked if I hired an interior designer.", n:"Priya M.", r:"Marketing Manager", g:"linear-gradient(135deg,#f093fb,#f5576c)" },
-    { q:"The aesthetic style detection is scary accurate. It called my room 'Dark Academia with Maximalist tendencies' which is literally my entire personality.", n:"Jake R.", r:"Photographer", g:"linear-gradient(135deg,#fa709a,#fee140)" },
-    { q:"As a college student on a budget this is gold. The product recommendations are affordable and actually match my room. I've bought 4 things it suggested.", n:"Emma L.", r:"University Student", g:"linear-gradient(135deg,#a8edea,#fed6e3)" },
-    { q:"I run an Airbnb and use RoomGlow on every room before listing. My bookings went up after I renovated based on the tips. Genuinely useful tool.", n:"David C.", r:"Airbnb Host", g:"linear-gradient(135deg,#d4a574,#8b4513)" },
-  ];
-  function initials(name) {
-    const parts=String(name||'').replace(/\./g,' ').trim().split(/\s+/).filter(Boolean);
-    if(!parts.length) return '?';
-    return ((parts[0][0]||'')+(parts.length>1?parts[parts.length-1][0]:parts[0][1]||'')).toUpperCase();
-  }
-  const track = $('rgCarouselTrack');
-  if (track) {
-    function buildCard(t) {
-      const div=document.createElement('div'); div.className='rg-testi-card rg-interactive rg-reveal'; div.setAttribute('data-reveal','');
-      div.innerHTML=`<div class="rg-stars">★★★★★</div><blockquote>${escapeHtml(t.q)}</blockquote><div class="rg-author"><div class="rg-testi-av" style="background:${t.g||'linear-gradient(135deg,#f0a500,#ff6b35)'}">${escapeHtml(initials(t.n))}</div><div><strong>${escapeHtml(t.n)}</strong><br/><span style="color:var(--muted);font-size:13px;">${escapeHtml(t.r)}</span></div></div>`;
-      return div;
+    const testimonials=[
+      {q:"I got a 43/100 on my bedroom and was honestly a little offended 😂 But I followed every tip and bought the lamp it suggested and now I'm at 78. My room looks incredible.",n:"Sarah K.",r:"College Student",g:"linear-gradient(135deg,#ff9a56,#ff6a88)"},
+      {q:"The AI told me my desk setup was 'missing warmth and personality' and recommended a plant and a LED strip. Spent $40, now my setup looks like it belongs on Reddit.",n:"Marcus T.",r:"Software Developer",g:"linear-gradient(135deg,#f7971e,#ffd200)"},
+      {q:"I used this on my living room before having people over for a dinner party. Followed 3 of the 5 tips. My friend literally asked if I hired an interior designer.",n:"Priya M.",r:"Marketing Manager",g:"linear-gradient(135deg,#f093fb,#f5576c)"},
+      {q:"The aesthetic style detection is scary accurate. It called my room 'Dark Academia with Maximalist tendencies' which is literally my entire personality.",n:"Jake R.",r:"Photographer",g:"linear-gradient(135deg,#fa709a,#fee140)"},
+      {q:"As a college student on a budget this is gold. The product recommendations are all affordable and actually match my room. I've bought 4 things it suggested.",n:"Emma L.",r:"University Student",g:"linear-gradient(135deg,#a8edea,#fed6e3)"},
+      {q:"I run an Airbnb and I use RoomGlow on every room before listing. My bookings went up after I renovated based on the tips. Genuinely useful tool.",n:"David C.",r:"Airbnb Host",g:"linear-gradient(135deg,#d4a574,#8b4513)"},
+    ];
+    function initials(name){const parts=String(name||'').replace(/\./g,' ').trim().split(/\s+/).filter(Boolean);if(!parts.length)return'?';return((parts[0][0]||'')+(parts.length>1?parts[parts.length-1][0]:parts[0][1]||'')).toUpperCase();}
+    const track=$('rgCarouselTrack');
+    if(track){
+      function buildCard(t){const div=document.createElement('div');div.className='rg-testi-card rg-interactive rg-reveal';div.setAttribute('data-reveal','');div.innerHTML=`<div class="rg-stars">★★★★★</div><blockquote>${escapeHtml(t.q)}</blockquote><div class="rg-author"><div class="rg-testi-av" style="background:${t.g||'linear-gradient(135deg,#f0a500,#ff6b35)'}">${escapeHtml(initials(t.n))}</div><div><strong>${escapeHtml(t.n)}</strong><br/><span style="color:var(--muted);font-size:13px;">${escapeHtml(t.r)}</span></div></div>`;return div;}
+      [...testimonials,...testimonials].forEach(t=>track.appendChild(buildCard(t)));
+      track.querySelectorAll('[data-reveal]').forEach(el=>revealIO.observe(el));
     }
-    [...testimonials,...testimonials].forEach(t => track.appendChild(buildCard(t)));
-    track.querySelectorAll('[data-reveal]').forEach(el => revealIO.observe(el));
-  }
 
-  /* Footer year */
-  $('rgYear').textContent = new Date().getFullYear();
-
-})();
-</script>
+    $('rgYear').textContent=new Date().getFullYear();
+  })();
+  </script>
 </body>
 </html>
