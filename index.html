@@ -150,56 +150,159 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      padding: 6rem 1.25rem 4rem;
+      padding: 7rem 1.25rem 5rem;
       overflow: hidden;
     }
     .rg-hero-bg { position: absolute; inset: 0; pointer-events: none; }
-    .rg-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.52; animation: floatOrb 18s ease-in-out infinite; }
-    .rg-orb1 { width: 420px; height: 420px; background: radial-gradient(circle, #f0a50088, transparent 70%); top: -10%; left: -5%; }
-    .rg-orb2 { width: 380px; height: 380px; background: radial-gradient(circle, #ff6b3588, transparent 70%); top: 30%; right: -8%; animation-delay: -6s; }
-    .rg-orb3 { width: 320px; height: 320px; background: radial-gradient(circle, #d8431588, transparent 70%); bottom: 5%; left: 25%; animation-delay: -12s; }
+    .rg-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.45; animation: floatOrb 18s ease-in-out infinite; }
+    .rg-orb1 { width: 500px; height: 500px; background: radial-gradient(circle, #f0a50066, transparent 70%); top: -15%; left: -10%; }
+    .rg-orb2 { width: 420px; height: 420px; background: radial-gradient(circle, #ff6b3566, transparent 70%); bottom: -10%; right: -8%; animation-delay: -6s; }
+    .rg-orb3 { width: 300px; height: 300px; background: radial-gradient(circle, #f0a50044, transparent 70%); top: 50%; left: 40%; animation-delay: -12s; }
     @keyframes floatOrb { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(20px, -25px) scale(1.05); } }
     .rg-grain {
-      position: absolute; inset: 0; opacity: 0.07; pointer-events: none;
+      position: absolute; inset: 0; opacity: 0.06; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
+
+    /* Centered hero layout */
     .rg-hero-inner {
       position: relative; z-index: 2;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: center;
-      max-width: 1100px;
-      width: 100%;
-      text-align: left;
-    }
-    .rg-hero-text { display: flex; flex-direction: column; align-items: flex-start; }
-    .rg-hero-visual { display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    @media (max-width: 860px) {
-      .rg-hero-inner { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
-      .rg-hero-text { align-items: center; }
-      .rg-hero-visual { display: none; }
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; max-width: 780px; width: 100%;
     }
     .rg-badge {
       display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.5rem 1rem; border-radius: var(--pill);
-      background: rgba(240, 165, 0, 0.12); border: 1px solid rgba(240, 165, 0, 0.35);
-      color: var(--gold); font-size: 13px; font-weight: 600; margin-bottom: 1.5rem;
-      animation: badgePulse 3s ease-in-out infinite;
+      padding: 0.45rem 1rem; border-radius: var(--pill);
+      background: rgba(240,165,0,0.1); border: 1px solid rgba(240,165,0,0.3);
+      color: var(--gold); font-size: 13px; font-weight: 600; margin-bottom: 1.75rem;
     }
-    @keyframes badgePulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(240,165,0,0.2); } 50% { box-shadow: 0 0 20px 2px rgba(240,165,0,0.15); } }
     .rg-hero h1 {
-      font-size: clamp(40px, 6vw, 72px);
+      font-size: clamp(38px, 5.5vw, 64px);
       font-weight: 800;
       letter-spacing: -0.03em;
       line-height: 1.08;
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
+      max-width: 700px;
     }
-    .rg-hero-sub { font-size: clamp(16px, 2vw, 18px); color: var(--muted); max-width: 480px; margin: 0 0 2rem; line-height: 1.7; }
-    .rg-hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
-    .rg-hero-micro { font-size: 12px; color: var(--muted); margin-bottom: 1.25rem; letter-spacing: 0.01em; }
-    .rg-live-counter { font-size: 13px; color: var(--muted); margin-bottom: 0; }
+    .rg-hero-sub {
+      font-size: clamp(16px, 1.8vw, 19px); color: var(--muted);
+      max-width: 520px; margin: 0 auto 2.25rem; line-height: 1.7;
+    }
+    .rg-hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-bottom: 0.6rem; }
+    .rg-hero-micro { font-size: 12px; color: var(--muted); margin-bottom: 2rem; letter-spacing: 0.01em; }
+    .rg-live-counter { font-size: 13px; color: var(--muted); margin-bottom: 2rem; }
     .rg-live-counter span { font-weight: 700; color: var(--gold); }
+
+    /* CTA pulse glow */
+    .rg-btn-primary {
+      background: var(--grad); color: #0a0a0a; font-weight: 800;
+      padding: 1rem 2rem; border-radius: var(--pill); border: none; cursor: pointer;
+      font-size: 17px; font-family: inherit;
+      box-shadow: 0 0 0 0 rgba(240,165,0,0.4);
+      animation: ctaPulse 3s ease-in-out infinite;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .rg-btn-primary:hover { transform: scale(1.03); box-shadow: 0 8px 30px rgba(240,165,0,0.35); animation: none; }
+    @keyframes ctaPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(240,165,0,0.3); }
+      50% { box-shadow: 0 0 0 10px rgba(240,165,0,0); }
+    }
+
+    /* Room photo carousel */
+    .rg-hero-carousel {
+      position: relative; width: 100%; max-width: 680px; margin: 0 auto;
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(240,165,0,0.15);
+    }
+    .rg-carousel-photos { position: relative; height: 380px; }
+    @media (max-width: 600px) { .rg-carousel-photos { height: 260px; } }
+    .rg-carousel-photo {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      opacity: 0; transition: opacity 1s ease;
+    }
+    .rg-carousel-photo.active { opacity: 1; }
+    .rg-carousel-photo::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+    }
+
+    /* Score overlay on carousel */
+    .rg-carousel-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+      padding: 1.25rem 1.5rem;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+    .rg-carousel-score-wrap { display: flex; align-items: center; gap: 0.75rem; }
+    .rg-carousel-ring {
+      width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0;
+      display: grid; place-items: center; position: relative;
+      background: conic-gradient(var(--gold) var(--ring-pct, 73%), rgba(255,255,255,0.15) 0);
+      padding: 4px;
+    }
+    .rg-carousel-ring::after { content:''; position:absolute; inset:4px; border-radius:50%; background:rgba(0,0,0,0.8); }
+    .rg-carousel-ring-num { position:relative; z-index:1; font-size:14px; font-weight:800; color:var(--gold); }
+    .rg-carousel-info {}
+    .rg-carousel-style { font-size:14px; font-weight:700; color:#fff; margin-bottom:0.15rem; }
+    .rg-carousel-room { font-size:12px; color:rgba(255,255,255,0.65); }
+    .rg-carousel-tip {
+      background: rgba(240,165,0,0.15); border: 1px solid rgba(240,165,0,0.3);
+      backdrop-filter: blur(8px); border-radius: 8px;
+      padding: 0.45rem 0.75rem; font-size: 12px; color: rgba(255,255,255,0.9);
+      max-width: 220px;
+    }
+    .rg-carousel-tip span { color: var(--gold); font-weight: 700; }
+
+    /* Carousel dots */
+    .rg-carousel-dots {
+      position: absolute; bottom: 0.85rem; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 6px; z-index: 3;
+    }
+    .rg-carousel-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,0.35); transition: all 0.3s ease; cursor: pointer;
+    }
+    .rg-carousel-dot.active { background: var(--gold); width: 20px; border-radius: 3px; }
+
+    /* Social proof */
+    .rg-social-proof { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; color: var(--muted); font-size: 13px; margin-top: 1.5rem; }
+    .rg-avatars { display: flex; }
+    .rg-avatar { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--bg); margin-left: -10px; display: grid; place-items: center; font-size: 11px; font-weight: 800; color: #fff; flex-shrink: 0; }
+    .rg-avatar:first-child { margin-left: 0; }
+    .rg-scroll-hint {
+      position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+      font-size: 1.1rem; color: var(--gold); opacity: 0.5; animation: bounce 2s ease infinite;
+    }
+    @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+    /* Feature strip (replaces trust bar) */
+    .rg-feature-strip {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 1.25rem;
+    }
+    .rg-feature-strip-inner {
+      display: flex; align-items: stretch; justify-content: center;
+      max-width: 900px; margin: 0 auto; gap: 0;
+    }
+    .rg-feature-item {
+      flex: 1; text-align: center; padding: 0.75rem 2rem;
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      position: relative;
+    }
+    .rg-feature-item + .rg-feature-item::before {
+      content: ''; position: absolute; left: 0; top: 15%; bottom: 15%;
+      width: 1px; background: var(--border);
+    }
+    .rg-feature-icon { font-size: 1.75rem; }
+    .rg-feature-title { font-size: 15px; font-weight: 700; color: var(--text); }
+    .rg-feature-desc { font-size: 12px; color: var(--muted); line-height: 1.4; max-width: 160px; }
+    @media (max-width: 600px) {
+      .rg-feature-strip-inner { flex-direction: column; gap: 1.25rem; }
+      .rg-feature-item + .rg-feature-item::before { display: none; }
+      .rg-feature-item { padding: 0; }
+    }
 
     /* Step connectors */
     .rg-steps-wrap { position: relative; }
@@ -889,78 +992,81 @@
         <div class="rg-grain"></div>
       </div>
       <div class="rg-hero-inner">
-        <!-- LEFT: Copy + CTAs -->
-        <div class="rg-hero-text">
-          <div class="rg-badge">✨ AI-Powered Room Analysis — Free to Try</div>
-          <h1>What Score Does Your Room Deserve?</h1>
-          <p class="rg-hero-sub">Upload a photo and get an honest AI aesthetic score, a full room review, and shoppable tips to transform your space — in 30 seconds.</p>
-          <div class="rg-hero-ctas">
-            <button type="button" class="rg-btn-primary" id="rgHeroAnalyze">Show Me My Room Score →</button>
-            <a href="#examples" class="rg-anchor" style="font-size:15px;font-weight:600;color:var(--muted);display:flex;align-items:center;padding:0.5rem 0;">See examples ↓</a>
+        <div class="rg-badge">✨ AI Room Analysis — Free, No Account Needed</div>
+        <h1>Does Your Room Score Above Average?</h1>
+        <p class="rg-hero-sub">Upload a photo. Get an honest AI score, a full room review, and shoppable tips to transform your space — in 30 seconds.</p>
+        <div class="rg-hero-ctas">
+          <button type="button" class="rg-btn-primary" id="rgHeroAnalyze">Score My Room Free →</button>
+        </div>
+        <p class="rg-hero-micro">No sign-up &nbsp;·&nbsp; No credit card &nbsp;·&nbsp; Instant results</p>
+
+        <!-- Room photo carousel -->
+        <div class="rg-hero-carousel" aria-hidden="true">
+          <div class="rg-carousel-photos" id="rgCarouselPhotos">
+            <div class="rg-carousel-photo active" style="background-image:url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80')" data-score="82" data-pct="82%" data-style="Warm Minimalist" data-room="Bedroom" data-tip="Swap overhead for a warm floor lamp · +8 pts"></div>
+            <div class="rg-carousel-photo" style="background-image:url('https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&q=80')" data-score="91" data-pct="91%" data-style="Dark Academia" data-room="Desk Setup" data-tip="Add monitor bias lighting · +5 pts"></div>
+            <div class="rg-carousel-photo" style="background-image:url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80')" data-score="71" data-pct="71%" data-style="Boho Chic" data-room="Living Room" data-tip="The empty wall needs a focal point · +7 pts"></div>
+            <div class="rg-carousel-photo" style="background-image:url('https://images.unsplash.com/photo-1588046130717-0eb0c9a3ba15?w=800&q=80')" data-score="88" data-pct="88%" data-style="Cottagecore" data-room="Bedroom" data-tip="Add candles to the dresser · +4 pts"></div>
           </div>
-          <p class="rg-hero-micro">No sign-up &nbsp;·&nbsp; No credit card &nbsp;·&nbsp; Results in 30 seconds</p>
-          <div class="rg-social-proof">
-            <div class="rg-avatars">
-              <span class="rg-avatar" style="background:linear-gradient(135deg,#ff9a56,#ff6a88)">SK</span>
-              <span class="rg-avatar" style="background:linear-gradient(135deg,#f7971e,#ffd200)">MT</span>
-              <span class="rg-avatar" style="background:linear-gradient(135deg,#f093fb,#f5576c)">PM</span>
-              <span class="rg-avatar" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">JR</span>
-              <span class="rg-avatar" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">EL</span>
+
+          <!-- Score overlay -->
+          <div class="rg-carousel-overlay">
+            <div class="rg-carousel-score-wrap">
+              <div class="rg-carousel-ring" id="rgCRing" style="--ring-pct:82%">
+                <span class="rg-carousel-ring-num" id="rgCScore">82</span>
+              </div>
+              <div class="rg-carousel-info">
+                <div class="rg-carousel-style" id="rgCStyle">Warm Minimalist</div>
+                <div class="rg-carousel-room" id="rgCRoom">Bedroom</div>
+              </div>
             </div>
-            <span>⭐⭐⭐⭐⭐ &nbsp;Loved by 10,000+ home enthusiasts</span>
+            <div class="rg-carousel-tip" id="rgCTip">
+              💡 <span id="rgCTipText">Swap overhead for a warm floor lamp · +8 pts</span>
+            </div>
           </div>
-          <p class="rg-live-counter" style="margin-top:0.75rem;">🔥 <span id="rgLiveNum">114</span> rooms analyzed today</p>
+
+          <!-- Dots -->
+          <div class="rg-carousel-dots" id="rgCarouselDots">
+            <span class="rg-carousel-dot active"></span>
+            <span class="rg-carousel-dot"></span>
+            <span class="rg-carousel-dot"></span>
+            <span class="rg-carousel-dot"></span>
+          </div>
         </div>
 
-        <!-- RIGHT: Product visual -->
-        <div class="rg-hero-visual">
-          <div class="rg-hero-mockup" aria-hidden="true">
-            <div class="rg-mockup-glow"></div>
-            <div class="rg-mockup-card">
-              <div class="rg-mockup-top">
-                <div class="rg-mockup-score">
-                  <span class="rg-mockup-num">73<span class="rg-mockup-den">/100</span></span>
-                </div>
-                <div class="rg-mockup-meta">
-                  <div class="rg-mockup-pill">✨ Warm Minimalist</div>
-                  <div class="rg-mockup-room">Bedroom · Analyzed just now</div>
-                </div>
-              </div>
-              <div class="rg-mockup-bars">
-                <div class="rg-mockup-bar-row"><span class="rg-mockup-bar-label">💡 Lighting</span><div class="rg-mockup-bar-track"><div class="rg-mockup-bar-fill" style="width:70%"></div></div><span class="rg-mockup-bar-val">14</span></div>
-                <div class="rg-mockup-bar-row"><span class="rg-mockup-bar-label">🎨 Color</span><div class="rg-mockup-bar-track"><div class="rg-mockup-bar-fill" style="width:80%"></div></div><span class="rg-mockup-bar-val">16</span></div>
-                <div class="rg-mockup-bar-row"><span class="rg-mockup-bar-label">🛋️ Furniture</span><div class="rg-mockup-bar-track"><div class="rg-mockup-bar-fill" style="width:65%"></div></div><span class="rg-mockup-bar-val">13</span></div>
-                <div class="rg-mockup-bar-row"><span class="rg-mockup-bar-label">✨ Decor</span><div class="rg-mockup-bar-track"><div class="rg-mockup-bar-fill" style="width:55%"></div></div><span class="rg-mockup-bar-val">11</span></div>
-              </div>
-              <!-- What's working preview -->
-              <div style="background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.25);border-radius:10px;padding:0.6rem 0.75rem;margin-bottom:0.6rem;">
-                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#4caf50;margin-bottom:0.2rem;">✅ What's Working</div>
-                <div style="font-size:11px;color:#b9f5bb;line-height:1.5;">The neutral wall tones and natural wood furniture create a calming, cohesive base.</div>
-              </div>
-              <div class="rg-mockup-tips">
-                <div class="rg-mockup-tip"><span>💡 Swap overhead light for a warm floor lamp</span><span class="rg-mockup-tip-badge">+8 pts</span></div>
-                <div class="rg-mockup-tip"><span>🪴 A plant softens the hard window edges</span><span class="rg-mockup-tip-badge">+5 pts</span></div>
-              </div>
-            </div>
+        <div class="rg-social-proof">
+          <div class="rg-avatars">
+            <span class="rg-avatar" style="background:linear-gradient(135deg,#ff9a56,#ff6a88)">SK</span>
+            <span class="rg-avatar" style="background:linear-gradient(135deg,#f7971e,#ffd200)">MT</span>
+            <span class="rg-avatar" style="background:linear-gradient(135deg,#f093fb,#f5576c)">PM</span>
+            <span class="rg-avatar" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">JR</span>
+            <span class="rg-avatar" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">EL</span>
           </div>
+          <span>⭐⭐⭐⭐⭐ &nbsp;Loved by 10,000+ home enthusiasts</span>
         </div>
+        <p class="rg-live-counter">🔥 <span id="rgLiveNum">114</span> rooms analyzed today</p>
       </div>
       <div class="rg-scroll-hint" aria-hidden="true">↓</div>
     </section>
 
-    <!-- TRUST -->
-    <div class="rg-trust">
-      <div class="rg-trust-shimmer"></div>
-      <div class="rg-trust-row container">
-        <div class="rg-trust-item">⚡ Results in 30 Seconds</div>
-        <span class="rg-trust-div"></span>
-        <div class="rg-trust-item">🔒 Photos Never Stored</div>
-        <span class="rg-trust-div"></span>
-        <div class="rg-trust-item">⭐ 4.9/5 Average Rating</div>
-        <span class="rg-trust-div"></span>
-        <div class="rg-trust-item">🏠 10,000+ Rooms Analyzed</div>
-        <span class="rg-trust-div"></span>
-        <div class="rg-trust-item">🛍️ Amazon Picks for Every Tip</div>
+    <!-- FEATURE STRIP (replaces trust bar) -->
+    <div class="rg-feature-strip">
+      <div class="rg-feature-strip-inner">
+        <div class="rg-feature-item">
+          <span class="rg-feature-icon">🎯</span>
+          <span class="rg-feature-title">Get Your Score</span>
+          <span class="rg-feature-desc">Aesthetic score out of 100 with a 5-category breakdown</span>
+        </div>
+        <div class="rg-feature-item">
+          <span class="rg-feature-icon">📋</span>
+          <span class="rg-feature-title">Read Your Review</span>
+          <span class="rg-feature-desc">What's working, what needs fixing, and your style identity</span>
+        </div>
+        <div class="rg-feature-item">
+          <span class="rg-feature-icon">🛍️</span>
+          <span class="rg-feature-title">Shop the Fix</span>
+          <span class="rg-feature-desc">Personalized Amazon picks for every tip — curated for your room</span>
+        </div>
       </div>
     </div>
 
@@ -1931,6 +2037,30 @@
       [...testimonials,...testimonials].forEach(t=>track.appendChild(buildCard(t)));
       track.querySelectorAll('[data-reveal]').forEach(el=>revealIO.observe(el));
     }
+
+    // Hero photo carousel
+    (function() {
+      const photos = document.querySelectorAll('.rg-carousel-photo');
+      const dots   = document.querySelectorAll('.rg-carousel-dot');
+      const scoreEl= $('rgCScore'), styleEl=$('rgCStyle'), roomEl=$('rgCRoom'), tipEl=$('rgCTipText'), ringEl=$('rgCRing');
+      let cur = 0, timer;
+      function showSlide(i) {
+        photos[cur].classList.remove('active'); dots[cur].classList.remove('active');
+        cur = i;
+        photos[cur].classList.add('active'); dots[cur].classList.add('active');
+        const d = photos[cur].dataset;
+        if (scoreEl) scoreEl.textContent = d.score;
+        if (styleEl) styleEl.textContent = d.style;
+        if (roomEl)  roomEl.textContent  = d.room;
+        if (tipEl)   tipEl.textContent   = d.tip;
+        if (ringEl)  ringEl.style.setProperty('--ring-pct', d.pct);
+      }
+      function next() { showSlide((cur + 1) % photos.length); }
+      if (photos.length > 1) {
+        timer = setInterval(()=>{ if(!document.hidden) next(); }, 3500);
+        dots.forEach((dot, i) => dot.addEventListener('click', () => { clearInterval(timer); showSlide(i); timer = setInterval(()=>{ if(!document.hidden) next(); }, 3500); }));
+      }
+    })();
 
     $('rgYear').textContent=new Date().getFullYear();
   })();
