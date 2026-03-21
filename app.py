@@ -224,6 +224,11 @@ def _coerce_response(data: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
+@app.get("/health")
+def health():
+    return jsonify({"status": "ok", "service": "RoomGlow API"})
+
+
 @app.post("/analyze")
 def analyze():
     if not request.is_json:
@@ -254,8 +259,7 @@ def analyze():
     try:
         completion = client.chat.completions.create(
             model="gpt-4o",
-            temperature=0.4,
-            max_tokens=1800,
+            temperature=0.2,
             messages=[
                 {
                     "role": "user",
