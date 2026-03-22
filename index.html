@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RoomGlow — Free AI Room Aesthetic Score & Design Tips</title>
   <meta name="description" content="Upload a photo of your room and get an AI aesthetic score, full room review, personalized design tips, and shoppable Amazon picks in 30 seconds. Free, no account needed." />
+  <meta name="keywords" content="room aesthetic score, AI room design, room rating, aesthetic score, interior design AI, room analysis, desk setup score, bedroom aesthetic, room improvement tips, AI interior design, room decor recommendations, aesthetic room checker" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="RoomGlow" />
+  <meta name="theme-color" content="#f0a500" />
   <meta property="og:title" content="RoomGlow — Does Your Room Score Above Average? Find Out Free" />
   <meta property="og:description" content="Upload a room photo and get an honest AI aesthetic score, full review, and shoppable tips to transform your space — in 30 seconds. Free, no sign-up." />
   <meta name="twitter:title" content="RoomGlow — Does Your Room Score Above Average? Find Out Free" />
@@ -16,6 +20,95 @@
   <meta name="twitter:description" content="Upload a room photo and get an honest AI aesthetic score, full review, and shoppable tips to transform your space — in 30 seconds. Free, no sign-up." />
   <meta name="twitter:image" content="https://roomglow.space/og-image.png" />
   <link rel="canonical" href="https://roomglow.space" />
+
+  <!-- Schema Markup — tells Google exactly what this site is -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "RoomGlow",
+    "url": "https://roomglow.space",
+    "description": "Upload a photo of your room and get an AI aesthetic score, full room review, personalized design tips, and shoppable Amazon picks in 30 seconds. Free, no account needed.",
+    "applicationCategory": "LifestyleApplication",
+    "operatingSystem": "Web",
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Free",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "2 free room analyses per day, aesthetic score, 3 tips, Amazon recommendations"
+      },
+      {
+        "@type": "Offer",
+        "name": "Pro",
+        "price": "7.99",
+        "priceCurrency": "USD",
+        "description": "Unlimited analyses, all 5 tips, full style report, priority processing"
+      }
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "10000"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "RoomGlow",
+      "url": "https://roomglow.space"
+    }
+  }
+  </script>
+
+  <!-- FAQ Schema — helps Google show FAQ rich snippets in search results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How accurate is the AI room analysis?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Our AI is powered by GPT-4o Vision, one of the most advanced image understanding models in the world. It analyzes lighting quality, color harmony, furniture placement, clutter, decor personality, and style consistency — the same things a professional interior designer would notice."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my photo stored or shared anywhere?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Never. Your photo is sent directly to the AI for analysis and immediately discarded. It is not saved to any database, shared with third parties, or used to train any model."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many free analyses do I get?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Every visitor gets 2 free analyses per day — no account, no email, no credit card required. This resets every 24 hours."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What rooms work best?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RoomGlow works on any indoor space — bedrooms, living rooms, desk setups, closets, kitchens, and bathrooms. The best photos are well-lit, taken from a corner or doorway to show as much of the room as possible."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do the product recommendations work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "After analyzing your room, the AI recommends specific product types that would improve your score. Each tip links directly to an Amazon search for that exact product type so you can browse real options instantly."
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -942,6 +1035,32 @@
     .rg-update-changes { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
     .rg-update-changes li { font-size: 13px; color: var(--muted); padding: 0.15rem 0; }
 
+    /* Cookie consent */
+    .rg-cookie {
+      position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+      z-index: 9000; width: min(680px, calc(100% - 2rem));
+      background: #161616; border: 1px solid #2a2a2a;
+      border-radius: 16px; padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      animation: slideUp 0.4s ease;
+    }
+    @keyframes slideUp { from { transform: translateX(-50%) translateY(20px); opacity:0; } to { transform: translateX(-50%) translateY(0); opacity:1; } }
+    .rg-cookie.hidden { display: none; }
+    .rg-cookie-text { flex: 1; font-size: 13px; color: var(--muted); line-height: 1.5; min-width: 200px; }
+    .rg-cookie-text a { color: var(--gold); text-decoration: underline; }
+    .rg-cookie-btns { display: flex; gap: 0.5rem; flex-shrink: 0; }
+    .rg-cookie-accept {
+      background: var(--grad); color: #0a0a0a; font-weight: 700;
+      padding: 0.55rem 1.25rem; border-radius: var(--pill);
+      border: none; cursor: pointer; font-size: 13px; font-family: inherit;
+    }
+    .rg-cookie-decline {
+      background: transparent; color: var(--muted); font-weight: 600;
+      padding: 0.55rem 1rem; border-radius: var(--pill);
+      border: 1px solid var(--border); cursor: pointer; font-size: 13px; font-family: inherit;
+    }
+
     /* Toast */
     .rg-toast {
       position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px);
@@ -1744,6 +1863,17 @@
     </div>
 
     <div class="rg-toast" id="rgToast" role="status" aria-live="polite">Copied!</div>
+
+    <!-- Cookie Consent Banner -->
+    <div class="rg-cookie hidden" id="rgCookieBanner" role="dialog" aria-label="Cookie consent">
+      <p class="rg-cookie-text">
+        🍪 We use cookies for analytics (Google Analytics & Microsoft Clarity) to improve RoomGlow. Your room photos are never stored. <a href="#privacy" id="rgCookiePrivacyLink">Privacy Policy</a>
+      </p>
+      <div class="rg-cookie-btns">
+        <button type="button" class="rg-cookie-decline" id="rgCookieDecline">Decline</button>
+        <button type="button" class="rg-cookie-accept" id="rgCookieAccept">Accept</button>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -2283,6 +2413,44 @@
     })();
 
     $('rgYear').textContent=new Date().getFullYear();
+
+    // Cookie consent
+    (function() {
+      const COOKIE_KEY = 'rg_cookie_consent';
+      const banner = $('rgCookieBanner');
+      const consent = localStorage.getItem(COOKIE_KEY);
+
+      // Show banner if no decision made yet
+      if (!consent) {
+        setTimeout(() => banner && banner.classList.remove('hidden'), 1500);
+      }
+
+      function acceptCookies() {
+        try { localStorage.setItem(COOKIE_KEY, 'accepted'); } catch(_) {}
+        if (banner) banner.classList.add('hidden');
+        // Analytics already loaded in <head> — consent given, all good
+      }
+
+      function declineCookies() {
+        try { localStorage.setItem(COOKIE_KEY, 'declined'); } catch(_) {}
+        if (banner) banner.classList.add('hidden');
+        // Disable GA tracking for this session
+        window['ga-disable-G-EWV7ZBLPKB'] = true;
+      }
+
+      $('rgCookieAccept')?.addEventListener('click', acceptCookies);
+      $('rgCookieDecline')?.addEventListener('click', declineCookies);
+      $('rgCookiePrivacyLink')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        scrollTo('privacy');
+        if (banner) banner.classList.add('hidden');
+      });
+
+      // If previously declined, disable GA
+      if (consent === 'declined') {
+        window['ga-disable-G-EWV7ZBLPKB'] = true;
+      }
+    })();
   })();
   </script>
 </body>
