@@ -1096,6 +1096,72 @@
       border: 1px solid var(--border); cursor: pointer; font-size: 13px; font-family: inherit;
     }
 
+    /* AI Redesign section */
+    .rg-redesign {
+      display: none; margin-top: 1.5rem;
+      background: linear-gradient(135deg, rgba(240,165,0,0.06), rgba(255,107,53,0.04));
+      border: 1px solid rgba(240,165,0,0.2);
+      border-radius: var(--radius); padding: 1.5rem;
+    }
+    .rg-redesign.visible { display: block; }
+    .rg-redesign-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem; }
+    .rg-redesign-title { font-size: 16px; font-weight: 800; }
+    .rg-redesign-title span { color: var(--gold); }
+    .rg-redesign-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); background: rgba(240,165,0,0.12); border: 1px solid rgba(240,165,0,0.25); padding: 0.25rem 0.65rem; border-radius: var(--pill); }
+    .rg-style-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.25rem; }
+    @media (max-width: 480px) { .rg-style-grid { grid-template-columns: repeat(2, 1fr); } }
+    .rg-style-btn {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 0.6rem 0.5rem;
+      font-size: 12px; font-weight: 600; color: var(--muted);
+      cursor: pointer; font-family: inherit; text-align: center;
+      transition: all 0.15s ease;
+    }
+    .rg-style-btn:hover { border-color: rgba(240,165,0,0.4); color: var(--text); }
+    .rg-style-btn.active { border-color: var(--gold); background: rgba(240,165,0,0.1); color: var(--gold); }
+    .rg-redesign-generate {
+      width: 100%; padding: 0.9rem; font-size: 15px; font-weight: 800;
+      background: linear-gradient(135deg, #f0a500, #ff6b35);
+      color: #0a0a0a; border: none; border-radius: var(--pill);
+      cursor: pointer; font-family: inherit;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .rg-redesign-generate:disabled { opacity: 0.6; cursor: not-allowed; }
+    .rg-redesign-output { margin-top: 1.25rem; display: none; }
+    .rg-redesign-output.visible { display: block; }
+    .rg-redesign-img-wrap { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 1; }
+    .rg-redesign-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 12px; }
+    .rg-redesign-blur { filter: blur(18px); transform: scale(1.05); }
+    .rg-redesign-overlay {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.75rem;
+      background: rgba(10,10,10,0.55); border-radius: 12px; text-align: center; padding: 1.5rem;
+    }
+    .rg-redesign-overlay-icon { font-size: 2rem; }
+    .rg-redesign-overlay-title { font-size: 16px; font-weight: 800; color: #fff; }
+    .rg-redesign-overlay-sub { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .rg-redesign-overlay-btn {
+      background: linear-gradient(135deg, #f0a500, #ff6b35);
+      color: #0a0a0a; font-weight: 800; font-size: 14px;
+      padding: 0.65rem 1.5rem; border-radius: var(--pill);
+      border: none; cursor: pointer; font-family: inherit; margin-top: 0.25rem;
+    }
+    .rg-redesign-download {
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      margin-top: 0.75rem; padding: 0.65rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--pill); font-size: 13px; font-weight: 600;
+      color: var(--muted); cursor: pointer; font-family: inherit;
+      text-decoration: none; width: 100%;
+    }
+    .rg-redesign-download:hover { border-color: rgba(240,165,0,0.4); color: var(--text); }
+    .rg-redesign-loading { text-align: center; padding: 2rem 1rem; color: var(--muted); font-size: 14px; }
+    .rg-redesign-spinner {
+      width: 32px; height: 32px; border: 3px solid var(--border);
+      border-top-color: var(--gold); border-radius: 50%;
+      animation: spin 0.8s linear infinite; margin: 0 auto 0.75rem;
+    }
+
     /* Toast */
     .rg-toast {
       position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px);
@@ -1398,7 +1464,49 @@
           </div>
           <div class="rg-tip-list" id="rgTipList"></div>
 
-          <div class="rg-share-card">
+          <!-- AI Room Redesign -->
+          <div class="rg-redesign" id="rgRedesign">
+            <div class="rg-redesign-header">
+              <p class="rg-redesign-title">✨ See Your Room <span>Redesigned by AI</span></p>
+              <span class="rg-redesign-badge">Pro Feature</span>
+            </div>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Pick a style and our AI will reimagine your exact room. Pro users get the full image — free users get a preview.</p>
+            <div class="rg-style-grid" id="rgStyleGrid">
+              <button type="button" class="rg-style-btn active" data-style="scandinavian">🪵 Scandinavian</button>
+              <button type="button" class="rg-style-btn" data-style="modern">🖤 Modern Luxury</button>
+              <button type="button" class="rg-style-btn" data-style="cozy">🕯️ Cozy Cottage</button>
+              <button type="button" class="rg-style-btn" data-style="dark_academia">📚 Dark Academia</button>
+              <button type="button" class="rg-style-btn" data-style="industrial">🏗️ Industrial</button>
+              <button type="button" class="rg-style-btn" data-style="japandi">🌿 Japandi</button>
+            </div>
+            <button type="button" class="rg-redesign-generate" id="rgRedesignBtn">
+              <span id="rgRedesignBtnText">Generate Redesign ✨</span>
+            </button>
+            <div class="rg-redesign-output" id="rgRedesignOutput">
+              <!-- Loading state -->
+              <div class="rg-redesign-loading" id="rgRedesignLoading" style="display:none;">
+                <div class="rg-redesign-spinner"></div>
+                <p>Reimagining your room...</p>
+                <p style="font-size:12px;margin-top:0.25rem;color:#555;">This takes about 15 seconds</p>
+              </div>
+              <!-- Image result -->
+              <div id="rgRedesignResult" style="display:none;">
+                <div class="rg-redesign-img-wrap">
+                  <img id="rgRedesignImg" src="" alt="AI redesigned room" />
+                  <!-- Pro overlay (shown for free users) -->
+                  <div class="rg-redesign-overlay" id="rgRedesignProOverlay" style="display:none;">
+                    <div class="rg-redesign-overlay-icon">🔮</div>
+                    <p class="rg-redesign-overlay-title">Your Room, Redesigned</p>
+                    <p class="rg-redesign-overlay-sub">Unlock the full AI redesign with Pro — see exactly what your room could look like.</p>
+                    <button type="button" class="rg-redesign-overlay-btn rg-pro-trigger">Unlock with Pro →</button>
+                  </div>
+                </div>
+                <a href="#" id="rgRedesignDownload" class="rg-redesign-download" download="roomglow-redesign.jpg" style="display:none;">
+                  ⬇️ Download Redesign
+                </a>
+              </div>
+            </div>
+          </div>
             <div class="rg-logo-small">🔥 RoomGlow</div>
             <p style="color:var(--muted);font-size:14px;">Analyzed by RoomGlow AI</p>
             <p id="rgShareSummary" style="margin-top:0.75rem;font-weight:600;"></p>
@@ -1680,6 +1788,7 @@
               <li>✅ 5 detailed tips per analysis</li>
               <li>✅ Full Style Report unlocked</li>
               <li>✅ GPT-4o — smarter, more specific analysis</li>
+              <li>✅ AI Room Redesign (6 styles)</li>
               <li>✅ Priority AI processing</li>
               <li>✅ Early access to new features</li>
             </ul>
@@ -1765,17 +1874,38 @@
             </ul>
           </div>
 
-          <!-- UPCOMING -->
-          <div class="rg-update-card rg-update-card--upcoming rg-reveal" data-reveal>
+          <!-- v1.3.0 — NOW SHIPPED -->
+          <div class="rg-update-card rg-reveal" data-reveal>
             <div class="rg-update-header">
               <div class="rg-update-meta">
                 <span class="rg-update-version">v1.3.0</span>
+                <span class="rg-update-date">March 22, 2026</span>
+              </div>
+              <span class="rg-update-badge rg-update-badge--major">Major</span>
+            </div>
+            <h3 class="rg-update-title">AI Room Redesign — Pro Feature</h3>
+            <p class="rg-update-desc">Pro users can now see their actual room reimagined by DALL-E 3 in 6 different aesthetic styles. Pick a style, click generate, and see your space transformed in about 15 seconds. Free users get a blurred preview as a taste of what's possible.</p>
+            <ul class="rg-update-changes">
+              <li>✅ AI Room Redesign for Pro users (DALL-E 3)</li>
+              <li>✅ 6 styles: Scandinavian, Modern Luxury, Cozy Cottage, Dark Academia, Industrial, Japandi</li>
+              <li>✅ Blurred preview for free users</li>
+              <li>✅ Download your redesigned room image</li>
+              <li>✅ 3 redesigns per day for Pro users</li>
+              <li>✅ Free users get GPT-4o-mini, Pro users get full GPT-4o</li>
+            </ul>
+          </div>
+
+          <!-- UPCOMING v1.4.0 -->
+          <div class="rg-update-card rg-update-card--upcoming rg-reveal" data-reveal>
+            <div class="rg-update-header">
+              <div class="rg-update-meta">
+                <span class="rg-update-version">v1.4.0</span>
                 <span class="rg-update-date">Coming soon</span>
               </div>
               <span class="rg-update-badge rg-update-badge--upcoming">Upcoming</span>
             </div>
             <h3 class="rg-update-title">Style Quiz + Progress Tracking</h3>
-            <p class="rg-update-desc">A short style questionnaire (lighting preference, aesthetic vibe, budget) that personalizes product recommendations to your taste. Plus progress tracking so Pro users can watch their room score improve over time.</p>
+            <p class="rg-update-desc">A short style questionnaire that personalizes product recommendations to your taste and budget. Plus progress tracking so Pro users can watch their room score improve over time.</p>
             <ul class="rg-update-changes">
               <li>🔜 Style & budget questionnaire for Pro users</li>
               <li>🔜 Personalized Amazon recommendations based on quiz</li>
@@ -1903,6 +2033,7 @@
           <li style="font-size:14px;">✅ Full Style Report unlocked</li>
           <li style="font-size:14px;">✅ 5 detailed tips per analysis</li>
           <li style="font-size:14px;">✅ GPT-4o (smarter, more specific AI)</li>
+          <li style="font-size:14px;">✅ AI Room Redesign — 6 styles</li>
           <li style="font-size:14px;">✅ Priority AI processing</li>
         </ul>
         <!-- Email input — used to verify Pro after payment -->
@@ -2144,6 +2275,8 @@
       ['rgScoreBreakdown','rgWhatsWorking','rgWhatsNotWorking','rgStyleReport'].forEach(id => { const el=$(id); if(el) el.style.display='none'; });
       const sd=$('rgStyleDesc'); if(sd) sd.textContent='';
       const vd=$('rgVerdict'); if(vd){vd.textContent='';vd.style.display='none';}
+      resetRedesign();
+    }
       const ec=$('rgEmailCapture'); if(ec) ec.classList.remove('visible');
       const cs=$('rgColdStart'); if(cs) cs.classList.remove('visible');
     }
@@ -2260,6 +2393,8 @@
         results.classList.add('visible');
         animateScore(lastScore); renderBreakdown(data.score_breakdown); renderTips(data.tips); scrollToEl(results);
         setTimeout(()=>{const ec=$('rgEmailCapture');if(ec)ec.classList.add('visible');},1400);
+        // Show redesign section
+        setTimeout(()=>{const rd=$('rgRedesign');if(rd)rd.classList.add('visible');},800);
         if(isLimitHit()) setTimeout(showLimitUI,600);
       } catch(e) {
         showError('Something went wrong. Please try again in a moment.');
@@ -2299,6 +2434,140 @@
         roomRow.querySelectorAll('.rg-room-pill').forEach(b=>b.classList.toggle('is-active',b.dataset.room===selectedRoom));
       });
     }
+
+    // ── AI Redesign ───────────────────────────────────────
+    const REDESIGN_LIMIT = 3; // per day for Pro users
+    const REDESIGN_KEY   = 'rg_redesign_usage';
+
+    function getRedesignUsage() {
+      try {
+        const d = JSON.parse(localStorage.getItem(REDESIGN_KEY) || '{}');
+        const today = new Date().toDateString();
+        if (d.date !== today) return 0;
+        return d.count || 0;
+      } catch(_) { return 0; }
+    }
+    function incrementRedesignUsage() {
+      try {
+        const today = new Date().toDateString();
+        localStorage.setItem(REDESIGN_KEY, JSON.stringify({ date: today, count: getRedesignUsage() + 1 }));
+      } catch(_) {}
+    }
+
+    let selectedStyle = 'scandinavian';
+
+    // Style button selection
+    $('rgStyleGrid')?.querySelectorAll('.rg-style-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        $('rgStyleGrid').querySelectorAll('.rg-style-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedStyle = btn.dataset.style;
+      });
+    });
+
+    // Reset redesign section when analyzing a new room
+    function resetRedesign() {
+      const rd = $('rgRedesign');
+      if (rd) rd.classList.remove('visible');
+      const ro = $('rgRedesignOutput');
+      if (ro) ro.classList.remove('visible');
+      const rr = $('rgRedesignResult');
+      if (rr) rr.style.display = 'none';
+      const rl = $('rgRedesignLoading');
+      if (rl) rl.style.display = 'none';
+      const img = $('rgRedesignImg');
+      if (img) img.src = '';
+      const dl = $('rgRedesignDownload');
+      if (dl) dl.style.display = 'none';
+    }
+
+    $('rgRedesignBtn')?.addEventListener('click', async () => {
+      if (!currentBase64) return;
+
+      const output   = $('rgRedesignOutput');
+      const loading  = $('rgRedesignLoading');
+      const result   = $('rgRedesignResult');
+      const img      = $('rgRedesignImg');
+      const overlay  = $('rgRedesignProOverlay');
+      const download = $('rgRedesignDownload');
+      const btn      = $('rgRedesignBtn');
+      const btnText  = $('rgRedesignBtnText');
+
+      // Free user — show blurred placeholder immediately, no API call
+      if (!isPro()) {
+        output.classList.add('visible');
+        loading.style.display = 'none';
+        result.style.display = 'block';
+        // Use a placeholder room image as the blurred teaser
+        img.src = 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80';
+        img.classList.add('rg-redesign-blur');
+        if (overlay) overlay.style.display = 'flex';
+        if (download) download.style.display = 'none';
+        return;
+      }
+
+      // Pro user — check daily limit
+      if (getRedesignUsage() >= REDESIGN_LIMIT) {
+        showToast(`You've used your ${REDESIGN_LIMIT} redesigns for today. Resets at midnight.`);
+        return;
+      }
+
+      // Pro user — generate real redesign
+      btn.disabled = true;
+      btnText.textContent = 'Generating...';
+      output.classList.add('visible');
+      loading.style.display = 'block';
+      result.style.display = 'none';
+
+      try {
+        const res = await fetch('https://roomglow-backend.onrender.com/redesign', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            image: currentBase64,
+            mime: currentMime,
+            room_type: selectedRoom,
+            style: selectedStyle,
+            is_pro: true,
+          })
+        });
+
+        const data = await res.json();
+
+        if (data.error) {
+          showToast('Redesign failed — please try again.');
+          loading.style.display = 'none';
+          return;
+        }
+
+        incrementRedesignUsage();
+
+        // Show the real image
+        const dataUrl = `data:image/png;base64,${data.image}`;
+        img.src = dataUrl;
+        img.classList.remove('rg-redesign-blur');
+        if (overlay) overlay.style.display = 'none';
+
+        // Enable download
+        if (download) {
+          download.href = dataUrl;
+          download.style.display = 'flex';
+        }
+
+        loading.style.display = 'none';
+        result.style.display = 'block';
+
+        const remaining = REDESIGN_LIMIT - getRedesignUsage();
+        showToast(`✨ Redesign generated! ${remaining} remaining today.`);
+
+      } catch(e) {
+        showToast('Redesign failed — please try again.');
+        loading.style.display = 'none';
+      } finally {
+        btn.disabled = false;
+        btnText.textContent = 'Generate Redesign ✨';
+      }
+    });
 
     $('rgAnotherBtn')?.addEventListener('click',()=>{
       results.classList.remove('visible'); tipList.innerHTML='';

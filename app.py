@@ -365,5 +365,80 @@ def analyze():
     return jsonify(result)
 
 
+REDESIGN_STYLES = {
+    "scandinavian": "Scandinavian minimal style — clean white walls, light oak wood floors, simple furniture, lots of natural light, neutral tones with small green plants",
+    "modern":       "Modern luxury style — sleek dark surfaces, statement lighting, high-end furniture, rich textures, moody atmosphere",
+    "cozy":         "Cozy cottage style — warm earthy tones, soft textiles, candles, wooden furniture, layered rugs, warm amber lighting",
+    "dark_academia": "Dark academia style — deep greens and browns, bookshelves, vintage furniture, atmospheric moody lighting, rich wood tones",
+    "industrial":   "Modern industrial style — exposed brick, concrete, metal accents, Edison bulb lighting, raw materials with warm touches",
+    "japandi":      "Japandi style — minimalist Japanese-Scandinavian fusion, neutral palette, natural materials, zen atmosphere, no clutter",
+}
+
+@app.post("/redesign")
+def redesign():
+    """Generate an AI room redesign for Pro users only."""
+    if not request.is_json:
+        return jsonify({"error": "Expected JSON payload."}), 400
+
+    payload   = request.get_json(silent=True) or {}
+    image_b64 = payload.get("image")
+    mime      = payload.get("mime", "image/jpeg")
+    room_type = payload.get("room_type", "room")
+    style_key = payload.get("style", "scandinavian")
+    is_pro    = payload.get("is_pro", False)
+
+    if not is_pro:
+        return jsonify({"error": "Pro required"}), 403
+
+    if not isinstance(image_b64, str) or not image_b64.strip():
+        return jsonify({"error": "Missing image."}), 400
+
+    if not isinstance(mime, str) or not mime.startswith("image/"):
+        mime = "image/jpeg"
+
+    style_desc = REDESIGN_STYLES.get(style_key, REDESIGN_STYLES["scandinavian"])
+
+    # Use GPT-4o-mini vision to describe the room first, then generate redesign
+    # This gives DALL-E much better context about the actual room layout
+    try:
+        vision = client.chat.completions.create(
+            model="gpt-4o-mini",
+            max_tokens=200,
+            messages=[{
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": f"Describe the layout of this {room_type} in 2-3 sentences: room dimensions, window placement, main furniture positions. Be specific and brief."},
+                    {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{image_b64}"}},
+                ]
+            }]
+        )
+        room_desc = vision.choices[0].message.content.strip()
+    except Exception:
+        room_desc = f"a {room_type}"
+
+    # Generate the redesigned room with DALL-E 3
+    dalle_prompt = (
+        f"Interior design photo of {room_desc}. "
+        f"Redesigned in {style_desc}. "
+        f"Professional interior photography, beautiful lighting, magazine quality, "
+        f"photorealistic, high resolution. No people."
+    )
+
+    try:
+        response = client.images.generate(
+            model="dall-e-3",
+            prompt=dalle_prompt,
+            size="1024x1024",
+            quality="standard",
+            n=1,
+            response_format="b64_json",
+        )
+        image_data = response.data[0].b64_json
+        return jsonify({"image": image_data, "style": style_key})
+    except Exception as e:
+        return jsonify({"error": f"Image generation failed: {e}"}), 502
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+
