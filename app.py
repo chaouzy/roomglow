@@ -38,14 +38,25 @@ def _supa_headers():
     }
 
 def save_pro_user(email: str, stripe_customer_id: str = ""):
-    url = f"{SUPABASE_URL}/rest/v1/pro_users"
-    headers = {**_supa_headers(), "Prefer": "resolution=merge-duplicates"}
+    url = f"{SUPABASE_URL}/rest/v1/pro_users?on_conflict=email"
+    headers = {**_supa_headers(), "Prefer": "resolution=merge-duplicates,return=minimal"}
     payload = {"email": email.lower().strip(), "active": True}
     if stripe_customer_id:
         payload["stripe_customer_id"] = stripe_customer_id
     try:
         r = http.post(url, json=payload, headers=headers, timeout=10)
         return r.status_code in (200, 201)
+    except Exception:
+        return False
+
+def deactivate_pro_user(stripe_customer_id: str):
+    """Mark user inactive when subscription is cancelled."""
+    if not stripe_customer_id:
+        return False
+    url = f"{SUPABASE_URL}/rest/v1/pro_users?stripe_customer_id=eq.{stripe_customer_id}"
+    try:
+        r = http.patch(url, json={"active": False}, headers=_supa_headers(), timeout=10)
+        return r.status_code in (200, 204)
     except Exception:
         return False
 
@@ -109,6 +120,14 @@ def stripe_webhook():
         stripe_customer = session.get("customer", "")
         if email:
             save_pro_user(email, stripe_customer)
+
+    elif event.get("type") in ("customer.subscription.deleted", "customer.subscription.updated"):
+        sub = event.get("data", {}).get("object", {})
+        status = sub.get("status", "")
+        if status in ("canceled", "unpaid", "past_due"):
+            stripe_customer = sub.get("customer", "")
+            if stripe_customer:
+                deactivate_pro_user(stripe_customer)
 
     return jsonify({"status": "ok"})
 
