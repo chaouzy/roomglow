@@ -161,8 +161,9 @@
     .rg-orb3 { width: 300px; height: 300px; background: radial-gradient(circle, #f0a50044, transparent 70%); top: 50%; left: 40%; animation-delay: -12s; }
     @keyframes floatOrb { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(20px, -25px) scale(1.05); } }
     .rg-grain {
-      position: absolute; inset: 0; opacity: 0.06; pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      position: absolute; inset: 0; opacity: 0.025; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.35' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
     }
 
     /* Centered hero layout */
@@ -917,6 +918,30 @@
     }
     .rg-modal-msg { display: none; color: var(--success); font-weight: 700; font-size: 14px; margin-top: 0.75rem; }
 
+    /* Updates section */
+    .rg-updates-list { display: flex; flex-direction: column; gap: 1.25rem; max-width: 780px; }
+    .rg-update-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+    .rg-update-card--upcoming {
+      border-style: dashed; border-color: rgba(240,165,0,0.3);
+      background: rgba(240,165,0,0.03);
+    }
+    .rg-update-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
+    .rg-update-meta { display: flex; align-items: center; gap: 0.75rem; }
+    .rg-update-version { font-size: 13px; font-weight: 800; color: var(--gold); font-family: monospace; }
+    .rg-update-date { font-size: 12px; color: var(--muted); }
+    .rg-update-badge { font-size: 11px; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: var(--pill); text-transform: uppercase; letter-spacing: 0.04em; }
+    .rg-update-badge--major { background: rgba(240,165,0,0.15); color: var(--gold); border: 1px solid rgba(240,165,0,0.3); }
+    .rg-update-badge--launch { background: rgba(76,175,80,0.15); color: #4caf50; border: 1px solid rgba(76,175,80,0.3); }
+    .rg-update-badge--upcoming { background: rgba(100,100,255,0.12); color: #8888ff; border: 1px solid rgba(100,100,255,0.25); }
+    .rg-update-title { font-size: 17px; font-weight: 800; margin-bottom: 0.5rem; }
+    .rg-update-desc { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; max-width: 65ch; }
+    .rg-update-changes { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+    .rg-update-changes li { font-size: 13px; color: var(--muted); padding: 0.15rem 0; }
+
     /* Toast */
     .rg-toast {
       position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px);
@@ -956,6 +981,7 @@
           <a class="rg-navlink rg-anchor" href="#examples">Examples</a>
           <a class="rg-navlink rg-anchor" href="#pricing">Pricing</a>
           <a class="rg-navlink rg-anchor" href="#reviews">Reviews</a>
+          <a class="rg-navlink rg-anchor" href="#updates">Updates</a>
         </nav>
         <button type="button" class="rg-nav-cta" id="rgNavCta">Start Free →</button>
         <button type="button" class="rg-hamburger" id="rgMenuOpen" aria-label="Menu">☰</button>
@@ -969,6 +995,7 @@
       <a href="#examples" class="rg-anchor">Examples</a>
       <a href="#pricing" class="rg-anchor">Pricing</a>
       <a href="#reviews" class="rg-anchor">Reviews</a>
+      <a href="#updates" class="rg-anchor">Updates</a>
       <button type="button" class="rg-nav-cta" id="rgMenuCta" style="margin-top:1rem;">Start Free →</button>
     </div>
 
@@ -1497,13 +1524,111 @@
               <li>✅ Advanced aesthetic score</li>
               <li>✅ 5 detailed tips per analysis</li>
               <li>✅ Full Style Report unlocked</li>
-              <li>✅ Progress tracking over time</li>
+              <li>✅ What's working + what needs work</li>
               <li>✅ Priority AI processing</li>
               <li>✅ Early access to new features</li>
             </ul>
             <button type="button" class="rg-nav-cta rg-pro-trigger" style="width:100%;border:none;">Upgrade to Pro →</button>
             <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:0.75rem;">🔒 Secure payment via Stripe</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UPDATES -->
+    <section class="rg-section section-muted" id="updates">
+      <div class="container">
+        <span class="rg-pill-label">Changelog</span>
+        <h2 class="rg-sec-title">What's New</h2>
+        <p class="rg-sec-sub">Every update to RoomGlow, documented. We ship fast and tell you everything.</p>
+        <div class="rg-updates-list">
+
+          <!-- v1.2.0 -->
+          <div class="rg-update-card rg-reveal" data-reveal>
+            <div class="rg-update-header">
+              <div class="rg-update-meta">
+                <span class="rg-update-version">v1.2.0</span>
+                <span class="rg-update-date">March 22, 2026</span>
+              </div>
+              <span class="rg-update-badge rg-update-badge--major">Major</span>
+            </div>
+            <h3 class="rg-update-title">Pro Plan Launch — Full Monetization</h3>
+            <p class="rg-update-desc">Launched RoomGlow Pro at $7.99/month. Integrated Stripe for secure payments, Supabase for user management, and a full webhook system so Pro access is permanently tied to your account — not your browser. Pro users now get all 5 tips unlocked, the full style report, and unlimited daily analyses.</p>
+            <ul class="rg-update-changes">
+              <li>✅ Stripe payment integration (live mode)</li>
+              <li>✅ Supabase Pro user database</li>
+              <li>✅ Webhook system — Pro tied to email, not browser</li>
+              <li>✅ Success page with payment verification</li>
+              <li>✅ Restore Pro Access button for returning users</li>
+              <li>✅ Auto-deactivation on subscription cancellation</li>
+            </ul>
+          </div>
+
+          <!-- v1.1.0 -->
+          <div class="rg-update-card rg-reveal" data-reveal>
+            <div class="rg-update-header">
+              <div class="rg-update-meta">
+                <span class="rg-update-version">v1.1.0</span>
+                <span class="rg-update-date">March 21, 2026</span>
+              </div>
+              <span class="rg-update-badge rg-update-badge--major">Major</span>
+            </div>
+            <h3 class="rg-update-title">Full Site Redesign + AI Upgrade</h3>
+            <p class="rg-update-desc">Complete redesign of the hero section, new photo carousel showing real room analyses, richer AI output, and a full analytics stack. The AI now returns a deeper breakdown including what's working, what needs work, and a personalized style report.</p>
+            <ul class="rg-update-changes">
+              <li>✅ New hero — rotating room photo carousel with live scores</li>
+              <li>✅ Feature strip replacing old trust bar</li>
+              <li>✅ AI now returns What's Working + What Needs Work panels</li>
+              <li>✅ Full Style Report (Pro locked)</li>
+              <li>✅ Score breakdown with 5 animated category bars</li>
+              <li>✅ Real Unsplash room photos in examples section</li>
+              <li>✅ Google Analytics + Microsoft Clarity activated</li>
+              <li>✅ UptimeRobot — backend stays warm, no cold starts</li>
+              <li>✅ Image compression — 60% faster uploads</li>
+              <li>✅ Mobile camera buttons for iOS/Android</li>
+            </ul>
+          </div>
+
+          <!-- v1.0.0 -->
+          <div class="rg-update-card rg-reveal" data-reveal>
+            <div class="rg-update-header">
+              <div class="rg-update-meta">
+                <span class="rg-update-version">v1.0.0</span>
+                <span class="rg-update-date">March 20, 2026</span>
+              </div>
+              <span class="rg-update-badge rg-update-badge--launch">Launch</span>
+            </div>
+            <h3 class="rg-update-title">RoomGlow Goes Live</h3>
+            <p class="rg-update-desc">First public release of RoomGlow. Upload a room photo, get an AI aesthetic score out of 100, personalized tips, and Amazon product recommendations. Free, no account required.</p>
+            <ul class="rg-update-changes">
+              <li>✅ AI room analysis powered by GPT-4o Vision</li>
+              <li>✅ Aesthetic score 0-100 with tip cards</li>
+              <li>✅ Amazon affiliate product recommendations</li>
+              <li>✅ Shareable score card</li>
+              <li>✅ 2 free analyses per day</li>
+              <li>✅ Custom domain roomglow.space</li>
+            </ul>
+          </div>
+
+          <!-- UPCOMING -->
+          <div class="rg-update-card rg-update-card--upcoming rg-reveal" data-reveal>
+            <div class="rg-update-header">
+              <div class="rg-update-meta">
+                <span class="rg-update-version">v1.3.0</span>
+                <span class="rg-update-date">Coming soon</span>
+              </div>
+              <span class="rg-update-badge rg-update-badge--upcoming">Upcoming</span>
+            </div>
+            <h3 class="rg-update-title">Style Quiz + Progress Tracking</h3>
+            <p class="rg-update-desc">A short style questionnaire (lighting preference, aesthetic vibe, budget) that personalizes product recommendations to your taste. Plus progress tracking so Pro users can watch their room score improve over time.</p>
+            <ul class="rg-update-changes">
+              <li>🔜 Style & budget questionnaire for Pro users</li>
+              <li>🔜 Personalized Amazon recommendations based on quiz</li>
+              <li>🔜 Room score history — track improvement over time</li>
+              <li>🔜 Before/after comparison tool</li>
+            </ul>
+          </div>
+
         </div>
       </div>
     </section>
@@ -1536,7 +1661,7 @@
           </div>
           <div class="rg-faq-item">
             <button type="button" class="rg-faq-q">Can I track my room's improvement over time? <span>+</span></button>
-            <div class="rg-faq-a"><div class="rg-faq-a-inner">Progress tracking is a Pro feature — it lets you re-analyze the same room after making changes and see your score climb over time. It's genuinely satisfying to watch your room go from a 58 to an 81 after following the tips. Pro users also get a full personalized style report, deeper tips, and unlimited daily analyses — all for $7.99/month, cancel anytime.</div></div>
+            <div class="rg-faq-a"><div class="rg-faq-a-inner">Progress tracking is coming in our next update (v1.3.0) — it will let you re-analyze the same room after making changes and watch your score improve over time. Pro users currently get unlimited analyses, all 5 tips unlocked, the full style report, and the what's working / what needs work breakdown — all for $7.99/month, cancel anytime.</div></div>
           </div>
         </div>
       </div>
@@ -1560,6 +1685,7 @@
           <a href="#examples" class="rg-anchor">Examples</a>
           <a href="#pricing" class="rg-anchor">Pricing</a>
           <a href="#reviews" class="rg-anchor">Reviews</a>
+          <a href="#updates" class="rg-anchor">Updates</a>
         </nav>
         <p class="rg-tagline">Built to make your space feel like you.</p>
       </div>
@@ -1594,7 +1720,7 @@
           <li style="font-size:14px;">✅ Unlimited daily analyses</li>
           <li style="font-size:14px;">✅ Full Style Report unlocked</li>
           <li style="font-size:14px;">✅ 5 detailed tips per analysis</li>
-          <li style="font-size:14px;">✅ Progress tracking over time</li>
+          <li style="font-size:14px;">✅ What's working + what needs work</li>
           <li style="font-size:14px;">✅ Priority AI processing</li>
         </ul>
         <!-- Email input — used to verify Pro after payment -->
