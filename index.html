@@ -934,6 +934,24 @@
     .rg-footer-top nav a:hover { color: var(--text); }
     .rg-tagline { color: var(--muted); font-size: 14px; max-width: 220px; text-align: right; }
     .rg-footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; padding-top: 1.5rem; font-size: 13px; color: var(--muted); }
+    .rg-footer-contact {
+      display: flex; align-items: center; justify-content: center; gap: 1.25rem;
+      flex-wrap: wrap; padding: 1.25rem 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin: 1.5rem 0 0;
+    }
+    .rg-footer-contact-text { font-size: 14px; color: var(--muted); }
+    .rg-footer-contact-link {
+      font-size: 14px; font-weight: 600; color: var(--gold);
+      text-decoration: none; padding: 0.5rem 1.25rem;
+      border: 1px solid rgba(240,165,0,0.3);
+      border-radius: var(--pill);
+      background: rgba(240,165,0,0.06);
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .rg-footer-contact-link:hover { background: rgba(240,165,0,0.12); border-color: rgba(240,165,0,0.5); }
+    @media (max-width: 768px) { .rg-footer-contact { flex-direction: column; text-align: center; gap: 0.75rem; } }
     @media (max-width: 768px) { .rg-footer-top { flex-direction: column; text-align: center; } .rg-tagline { text-align: center; } .rg-footer-bottom { flex-direction: column; text-align: center; } }
 
     .rg-error { color: #ff8a80; margin-top: 1rem; font-size: 14px; display: none; }
@@ -1820,6 +1838,17 @@
         </nav>
         <p class="rg-tagline">Built to make your space feel like you.</p>
       </div>
+
+      <!-- Contact bar -->
+      <div class="rg-footer-contact container">
+        <span class="rg-footer-contact-text">
+          💬 Have feedback, a question, or need help?
+        </span>
+        <a href="mailto:roomglow.contact@gmail.com" class="rg-footer-contact-link">
+          roomglow.contact@gmail.com
+        </a>
+      </div>
+
       <div class="rg-footer-bottom container">
         <span>© <span id="rgYear"></span> RoomGlow. All rights reserved.</span>
         <span>Powered by GPT-4o Vision 🧠</span>
@@ -1855,20 +1884,24 @@
           <li style="font-size:14px;">✅ Priority AI processing</li>
         </ul>
         <!-- Email input — used to verify Pro after payment -->
-        <p style="color:var(--muted);font-size:13px;margin-bottom:0.5rem;">Enter your email — we'll use it to activate your Pro access after payment:</p>
-        <input type="email" id="rgProEmailInput" placeholder="you@email.com" autocomplete="email"
-          style="width:100%;padding:0.85rem 1rem;border-radius:12px;border:1px solid #333;background:#0a0a0a;color:#f5f5f5;font-size:15px;margin-bottom:0.75rem;font-family:inherit;" />
-        <p id="rgProEmailError" style="color:#ff6b6b;font-size:12px;margin-bottom:0.5rem;display:none;">Please enter a valid email address.</p>
-        <button type="button" id="rgProCheckoutBtn" class="rg-nav-cta" style="width:100%;border:none;padding:1rem;font-size:16px;font-weight:800;border-radius:var(--pill);background:linear-gradient(135deg,#f0a500,#ff6b35);color:#0a0a0a;cursor:pointer;font-family:inherit;">
-          Continue to Payment →
-        </button>
+        <a href="https://buy.stripe.com/4gMaEZeaw3tR8dHfq738400" target="_blank" rel="noopener noreferrer"
+          onclick="closePro()"
+          style="display:block;width:100%;text-align:center;padding:1rem;font-size:16px;font-weight:800;border-radius:var(--pill);background:linear-gradient(135deg,#f0a500,#ff6b35);color:#0a0a0a;text-decoration:none;font-family:inherit;">
+          Upgrade to Pro — $7.99/month →
+        </a>
         <p style="font-size:12px;color:var(--muted);margin-top:0.75rem;">🔒 Secure payment via Stripe · Cancel anytime</p>
         <!-- Already paid? Verify access -->
         <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid #222;">
-          <p style="font-size:12px;color:var(--muted);margin-bottom:0.5rem;">Already paid? Verify your access:</p>
-          <button type="button" id="rgProVerifyBtn" style="background:none;border:1px solid #333;color:var(--muted);font-size:12px;padding:0.5rem 1rem;border-radius:var(--pill);cursor:pointer;font-family:inherit;">
-            Restore Pro Access
+          <button type="button" id="rgProVerifyBtn" style="background:none;border:none;color:var(--muted);font-size:12px;padding:0;cursor:pointer;font-family:inherit;text-decoration:underline;">
+            Already paid? Restore Pro access →
           </button>
+          <div id="rgProVerifyForm" style="display:none;margin-top:0.75rem;">
+            <input type="email" id="rgProEmailInput" placeholder="Enter your payment email" autocomplete="email"
+              style="width:100%;padding:0.75rem 1rem;border-radius:12px;border:1px solid #333;background:#0a0a0a;color:#f5f5f5;font-size:14px;margin-bottom:0.5rem;font-family:inherit;" />
+            <button type="button" id="rgProVerifySubmit" style="width:100%;background:#1a1a1a;border:1px solid #333;color:var(--muted);font-size:14px;padding:0.65rem;border-radius:var(--pill);cursor:pointer;font-family:inherit;">
+              Verify My Access
+            </button>
+          </div>
           <p id="rgProVerifyMsg" style="font-size:12px;margin-top:0.4rem;display:none;"></p>
         </div>
       </div>
@@ -2310,29 +2343,18 @@
     $('rgProModalBackdrop')?.addEventListener('click',closePro);
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&proModal?.classList.contains('open'))closePro();});
 
-    // Pro checkout — collect email then redirect to Stripe
-    $('rgProCheckoutBtn')?.addEventListener('click', () => {
-      const emailInput = $('rgProEmailInput');
-      const errorEl    = $('rgProEmailError');
-      const email      = emailInput ? emailInput.value.trim() : '';
-      if (!email || !email.includes('@')) {
-        if (errorEl) errorEl.style.display = 'block';
-        return;
-      }
-      if (errorEl) errorEl.style.display = 'none';
-      // Save email so success page can verify
-      try { localStorage.setItem('rg_pending_email', email.toLowerCase().trim()); } catch(_){}
-      // Redirect to Stripe with pre-filled email
-      window.location.href = STRIPE_URL + '?prefilled_email=' + encodeURIComponent(email);
+    // Pro checkout — direct Stripe link (email collected by Stripe during payment)
+    // Restore Pro — show email input then verify
+    $('rgProVerifyBtn')?.addEventListener('click', () => {
+      const form = $('rgProVerifyForm');
+      if (form) { form.style.display = 'block'; $('rgProEmailInput')?.focus(); }
     });
-
-    // Restore Pro — for users who already paid on another device
-    $('rgProVerifyBtn')?.addEventListener('click', async () => {
+    $('rgProVerifySubmit')?.addEventListener('click', async () => {
       const emailInput = $('rgProEmailInput');
       const verifyMsg  = $('rgProVerifyMsg');
       const email      = emailInput ? emailInput.value.trim() : '';
       if (!email || !email.includes('@')) {
-        if ($('rgProEmailError')) $('rgProEmailError').style.display = 'block';
+        if (emailInput) emailInput.style.borderColor = 'var(--danger)';
         return;
       }
       if (verifyMsg) { verifyMsg.style.display='block'; verifyMsg.style.color='#9a9a9a'; verifyMsg.textContent='Checking...'; }
@@ -2343,7 +2365,7 @@
         closePro();
         showToast('🎉 Pro access restored! All features unlocked.');
       } else {
-        if (verifyMsg) { verifyMsg.style.display='block'; verifyMsg.style.color='#ff6b6b'; verifyMsg.textContent='No Pro account found for this email. If you just paid, please wait a moment and try again.'; }
+        if (verifyMsg) { verifyMsg.style.display='block'; verifyMsg.style.color='#ff6b6b'; verifyMsg.textContent='No Pro account found for this email. Please wait a moment after payment and try again.'; }
       }
     });
 
