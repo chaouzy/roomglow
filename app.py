@@ -341,9 +341,14 @@ def analyze():
         room_type = "Bedroom"
     try: base64.b64decode(image_b64, validate=True)
     except Exception: return jsonify({"error": "Invalid base64."}), 400
+    # Pro users get GPT-4o, free users get GPT-4o-mini
+    # This creates a real quality difference worth upgrading for
+    is_pro = payload.get("is_pro", False)
+    model  = "gpt-4o" if is_pro else "gpt-4o-mini"
+
     try:
         completion = client.chat.completions.create(
-            model="gpt-4o", temperature=0.4, max_tokens=1800,
+            model=model, temperature=0.4, max_tokens=1800,
             messages=[{"role": "user", "content": [
                 {"type": "text", "text": build_prompt(room_type)},
                 {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{image_b64}"}},

@@ -3,12 +3,24 @@
   "builds": [
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "success.html", "use": "@vercel/static" },
-    { "src": "og-image.png", "use": "@vercel/static" }
+    { "src": "og-image.png", "use": "@vercel/static" },
+    { "src": "favicon.ico", "use": "@vercel/static" },
+    { "src": "favicon-16.png", "use": "@vercel/static" },
+    { "src": "favicon-32.png", "use": "@vercel/static" },
+    { "src": "favicon-192.png", "use": "@vercel/static" },
+    { "src": "favicon-512.png", "use": "@vercel/static" },
+    { "src": "apple-touch-icon.png", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/success", "dest": "/success.html" },
     { "src": "/success.html", "dest": "/success.html" },
     { "src": "/og-image.png", "dest": "/og-image.png" },
+    { "src": "/favicon.ico", "dest": "/favicon.ico" },
+    { "src": "/favicon-16.png", "dest": "/favicon-16.png" },
+    { "src": "/favicon-32.png", "dest": "/favicon-32.png" },
+    { "src": "/favicon-192.png", "dest": "/favicon-192.png" },
+    { "src": "/favicon-512.png", "dest": "/favicon-512.png" },
+    { "src": "/apple-touch-icon.png", "dest": "/apple-touch-icon.png" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }

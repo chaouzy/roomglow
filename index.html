@@ -109,7 +109,12 @@
     ]
   }
   </script>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap&font-display=swap" rel="stylesheet" />
@@ -1674,7 +1679,7 @@
               <li>✅ Advanced aesthetic score</li>
               <li>✅ 5 detailed tips per analysis</li>
               <li>✅ Full Style Report unlocked</li>
-              <li>✅ What's working + what needs work</li>
+              <li>✅ GPT-4o — smarter, more specific analysis</li>
               <li>✅ Priority AI processing</li>
               <li>✅ Early access to new features</li>
             </ul>
@@ -1834,8 +1839,8 @@
           <div class="rg-footer-brand">
             <div class="rg-logo">🔥 RoomGlow</div>
             <p class="rg-footer-brand-desc">AI-powered room analysis. Upload a photo, get an honest score, tips, and Amazon picks to transform your space.</p>
-            <a href="mailto:roomglow.contact@gmail.com" class="rg-footer-contact-pill">
-              💬 roomglow.contact@gmail.com
+            <a href="/cdn-cgi/l/email-protection#7c0e1313111b10130b521f1312081d1f083c1b111d1510521f1311" class="rg-footer-contact-pill">
+              💬 <span class="__cf_email__" data-cfemail="d8aab7b7b5bfb4b7aff6bbb7b6acb9bbac98bfb5b9b1b4f6bbb7b5">[email&#160;protected]</span>
             </a>
           </div>
 
@@ -1852,7 +1857,7 @@
           <div class="rg-footer-col">
             <p class="rg-footer-col-title">Support</p>
             <a href="#faq" class="rg-anchor">FAQ</a>
-            <a href="mailto:roomglow.contact@gmail.com">Contact Us</a>
+            <a href="/cdn-cgi/l/email-protection#71031e1e1c161d1e065f121e1f0510120531161c10181d5f121e1c">Contact Us</a>
             <a href="#privacy" class="rg-anchor">Privacy Policy</a>
             <a href="#terms" class="rg-anchor">Terms of Use</a>
           </div>
@@ -1897,7 +1902,7 @@
           <li style="font-size:14px;">✅ Unlimited daily analyses</li>
           <li style="font-size:14px;">✅ Full Style Report unlocked</li>
           <li style="font-size:14px;">✅ 5 detailed tips per analysis</li>
-          <li style="font-size:14px;">✅ What's working + what needs work</li>
+          <li style="font-size:14px;">✅ GPT-4o (smarter, more specific AI)</li>
           <li style="font-size:14px;">✅ Priority AI processing</li>
         </ul>
         <!-- Email input — used to verify Pro after payment -->
@@ -1938,7 +1943,7 @@
     </div>
   </div>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   (function () {
     'use strict';
 
@@ -2223,7 +2228,7 @@
       const coldEl=$('rgColdStart');
       const coldTimer=setTimeout(()=>coldEl&&coldEl.classList.add('visible'),5000);
       try {
-        const res=await fetch(BACKEND_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image:currentBase64,mime:currentMime,room_type:selectedRoom})});
+        const res=await fetch(BACKEND_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image:currentBase64,mime:currentMime,room_type:selectedRoom,is_pro:isPro()})});
         let data; try{data=await res.json();}catch(_){throw new Error('bad_json');}
         if(!res.ok||typeof data.score!=='number'||!Array.isArray(data.tips)) throw new Error('api_fail');
         bumpUsage();
@@ -2493,18 +2498,4 @@
 
       $('rgCookieAccept')?.addEventListener('click', acceptCookies);
       $('rgCookieDecline')?.addEventListener('click', declineCookies);
-      $('rgCookiePrivacyLink')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        scrollTo('privacy');
-        if (banner) banner.classList.add('hidden');
-      });
-
-      // If previously declined, disable GA
-      if (consent === 'declined') {
-        window['ga-disable-G-EWV7ZBLPKB'] = true;
-      }
-    })();
-  })();
-  </script>
-</body>
-</html>
+      $('rgCookiePrivacyLink')?.addEventListener('click', (e) => 
