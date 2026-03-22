@@ -2,6 +2,13 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "builds": [
     { "src": "index.html", "use": "@vercel/static" },
+    { "src": "success.html", "use": "@vercel/static" },
     { "src": "og-image.png", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/success", "dest": "/success.html" },
+    { "src": "/success.html", "dest": "/success.html" },
+    { "src": "/og-image.png", "dest": "/og-image.png" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }

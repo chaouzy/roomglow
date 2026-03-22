@@ -1597,10 +1597,23 @@
           <li style="font-size:14px;">✅ Progress tracking over time</li>
           <li style="font-size:14px;">✅ Priority AI processing</li>
         </ul>
-        <a href="https://buy.stripe.com/4gMaEZeaw3tR8dHfq738400" target="_blank" rel="noopener noreferrer" class="rg-nav-cta" style="display:block;width:100%;border:none;text-align:center;padding:1rem;font-size:16px;font-weight:800;border-radius:var(--pill);background:var(--grad);color:#0a0a0a;text-decoration:none;">
-          Upgrade to Pro — $7.99/month →
-        </a>
+        <!-- Email input — used to verify Pro after payment -->
+        <p style="color:var(--muted);font-size:13px;margin-bottom:0.5rem;">Enter your email — we'll use it to activate your Pro access after payment:</p>
+        <input type="email" id="rgProEmailInput" placeholder="you@email.com" autocomplete="email"
+          style="width:100%;padding:0.85rem 1rem;border-radius:12px;border:1px solid #333;background:#0a0a0a;color:#f5f5f5;font-size:15px;margin-bottom:0.75rem;font-family:inherit;" />
+        <p id="rgProEmailError" style="color:#ff6b6b;font-size:12px;margin-bottom:0.5rem;display:none;">Please enter a valid email address.</p>
+        <button type="button" id="rgProCheckoutBtn" class="rg-nav-cta" style="width:100%;border:none;padding:1rem;font-size:16px;font-weight:800;border-radius:var(--pill);background:linear-gradient(135deg,#f0a500,#ff6b35);color:#0a0a0a;cursor:pointer;font-family:inherit;">
+          Continue to Payment →
+        </button>
         <p style="font-size:12px;color:var(--muted);margin-top:0.75rem;">🔒 Secure payment via Stripe · Cancel anytime</p>
+        <!-- Already paid? Verify access -->
+        <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid #222;">
+          <p style="font-size:12px;color:var(--muted);margin-bottom:0.5rem;">Already paid? Verify your access:</p>
+          <button type="button" id="rgProVerifyBtn" style="background:none;border:1px solid #333;color:var(--muted);font-size:12px;padding:0.5rem 1rem;border-radius:var(--pill);cursor:pointer;font-family:inherit;">
+            Restore Pro Access
+          </button>
+          <p id="rgProVerifyMsg" style="font-size:12px;margin-top:0.4rem;display:none;"></p>
+        </div>
       </div>
     </div>
 
@@ -1613,6 +1626,8 @@
 
     /* ── Constants ───────────────────────────────────────── */
     const BACKEND_URL   = 'https://roomglow-backend.onrender.com/analyze';
+    const BACKEND_BASE  = 'https://roomglow-backend.onrender.com';
+    const STRIPE_URL    = 'https://buy.stripe.com/4gMaEZeaw3tR8dHfq738400';
     const AFFILIATE_TAG = 'technova050-20';
     const MAX_BYTES     = 20 * 1024 * 1024;
     const MAX_IMG_PX    = 1200;
@@ -1652,6 +1667,25 @@
 
     /* ── Usage limit ─────────────────────────────────────── */
     function today() { return new Date().toISOString().slice(0, 10); }
+
+    // Pro status — verified against backend
+    function getProEmail() {
+      try { const d=JSON.parse(localStorage.getItem('rg_pro')||'{}'); return d.active&&d.email?d.email:''; } catch(_){return'';}
+    }
+    function isPro() {
+      try { const d=JSON.parse(localStorage.getItem('rg_pro')||'{}'); return d.active===true&&!!d.email; } catch(_){return false;}
+    }
+    function activateProLocally(email) {
+      try { localStorage.setItem('rg_pro', JSON.stringify({active:true,email:email.toLowerCase().trim(),verified:true,since:Date.now()})); } catch(_){}
+    }
+    async function verifyProWithBackend(email) {
+      try {
+        const res = await fetch(BACKEND_BASE+'/check-pro?email='+encodeURIComponent(email));
+        const data = await res.json();
+        return data.pro === true;
+      } catch(_) { return false; }
+    }
+
     function getUsage() {
       try { const d = JSON.parse(localStorage.getItem('rg_usage') || '{}'); return d.date === today() ? (d.count || 0) : 0; }
       catch (_) { return 0; }
@@ -1659,7 +1693,7 @@
     function bumpUsage() {
       try { localStorage.setItem('rg_usage', JSON.stringify({ count: getUsage() + 1, date: today() })); } catch (_) {}
     }
-    function isLimitHit() { return getUsage() >= FREE_LIMIT; }
+    function isLimitHit() { return !isPro() && getUsage() >= FREE_LIMIT; }
     function showLimitUI() {
       const banner = $('rgLimitBanner'), resets = $('rgLimitResets');
       if (!banner) return;
@@ -1674,6 +1708,31 @@
       }
     }
     function hideLimitUI() { $('rgLimitBanner')?.classList.remove('visible'); }
+    // Check Pro status on load — verify with backend if stored email exists
+    (async function initProStatus() {
+      const storedEmail = getProEmail();
+      if (storedEmail) {
+        // Silently re-verify with backend every time
+        const verified = await verifyProWithBackend(storedEmail);
+        if (!verified) {
+          // Backend says not Pro — clear local status
+          try { localStorage.removeItem('rg_pro'); } catch(_){}
+        } else {
+          applyProUI();
+        }
+      }
+    })();
+
+    function applyProUI() {
+      const navCta = $('rgNavCta');
+      if (navCta) {
+        navCta.textContent = '✨ Pro Active';
+        navCta.style.background = 'linear-gradient(135deg,#4caf50,#2e7d32)';
+        navCta.style.color = '#fff';
+        navCta.onclick = null;
+      }
+    }
+
     if (isLimitHit()) showLimitUI();
 
     /* ── Image compression ───────────────────────────────── */
@@ -1803,8 +1862,9 @@
       tipList.innerHTML='';
       const list=Array.isArray(tips)?tips.slice(0,5):[];
       while(list.length<5) list.push({title:'Refine Your Space',icon:'✨',category:'Decor',difficulty:'Easy',estimated_score_boost:5,tip:'Keep refining — small changes add up.',product_name:'room decor',product_description:'A simple accent that elevates your space.',product_price_range:'$20-40',product_search_url:'https://www.amazon.com/s?k=room+decor&tag=technova050-20'});
+      const userIsPro = isPro();
       list.forEach((tip,i) => {
-        const isLocked=i>=3;
+        const isLocked = !userIsPro && i>=3;
         const card=document.createElement('div');
         card.className='rg-tip-card rg-interactive'+(isLocked?' rg-pro-locked':'');
         card.style.animationDelay=(i*160)+'ms';
@@ -1860,7 +1920,17 @@
         setFeedback('rgWhatsWorking','rgWhatsWorkingText',data.whats_working);
         setFeedback('rgWhatsNotWorking','rgWhatsNotWorkingText',data.whats_not_working);
         const sr=$('rgStyleReport'),srt=$('rgStyleReportText');
-        if(data.style_report&&sr&&srt){srt.textContent=data.style_report;sr.style.display='';}
+        if(data.style_report&&sr&&srt){
+          srt.textContent=data.style_report;
+          sr.style.display='';
+          // Hide blur overlay for Pro users
+          if(isPro()) {
+            const overlay=sr.querySelector('.rg-style-report-overlay');
+            const txt=sr.querySelector('.rg-style-report-text');
+            if(overlay) overlay.style.display='none';
+            if(txt) txt.style.filter='none';
+          }
+        }
         if(shareSummary) shareSummary.textContent=`Score ${lastScore}/100 · ${lastStyle}`;
         results.classList.add('visible');
         animateScore(lastScore); renderBreakdown(data.score_breakdown); renderTips(data.tips); scrollToEl(results);
@@ -1969,6 +2039,43 @@
     $('rgProModalClose')?.addEventListener('click',closePro);
     $('rgProModalBackdrop')?.addEventListener('click',closePro);
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&proModal?.classList.contains('open'))closePro();});
+
+    // Pro checkout — collect email then redirect to Stripe
+    $('rgProCheckoutBtn')?.addEventListener('click', () => {
+      const emailInput = $('rgProEmailInput');
+      const errorEl    = $('rgProEmailError');
+      const email      = emailInput ? emailInput.value.trim() : '';
+      if (!email || !email.includes('@')) {
+        if (errorEl) errorEl.style.display = 'block';
+        return;
+      }
+      if (errorEl) errorEl.style.display = 'none';
+      // Save email so success page can verify
+      try { localStorage.setItem('rg_pending_email', email.toLowerCase().trim()); } catch(_){}
+      // Redirect to Stripe with pre-filled email
+      window.location.href = STRIPE_URL + '?prefilled_email=' + encodeURIComponent(email);
+    });
+
+    // Restore Pro — for users who already paid on another device
+    $('rgProVerifyBtn')?.addEventListener('click', async () => {
+      const emailInput = $('rgProEmailInput');
+      const verifyMsg  = $('rgProVerifyMsg');
+      const email      = emailInput ? emailInput.value.trim() : '';
+      if (!email || !email.includes('@')) {
+        if ($('rgProEmailError')) $('rgProEmailError').style.display = 'block';
+        return;
+      }
+      if (verifyMsg) { verifyMsg.style.display='block'; verifyMsg.style.color='#9a9a9a'; verifyMsg.textContent='Checking...'; }
+      const isPaid = await verifyProWithBackend(email);
+      if (isPaid) {
+        activateProLocally(email);
+        applyProUI();
+        closePro();
+        showToast('🎉 Pro access restored! All features unlocked.');
+      } else {
+        if (verifyMsg) { verifyMsg.style.display='block'; verifyMsg.style.color='#ff6b6b'; verifyMsg.textContent='No Pro account found for this email. If you just paid, please wait a moment and try again.'; }
+      }
+    });
 
     document.querySelectorAll('a.rg-amazon-link').forEach(a=>{try{a.href=withAmazonTag(a.getAttribute('href'));}catch(_){}});
 

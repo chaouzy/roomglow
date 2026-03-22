@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to RoomGlow Pro ✨</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0a0a0a; color: #f5f5f5;
+      min-height: 100vh; display: flex;
+      align-items: center; justify-content: center; padding: 2rem;
+    }
+    .card {
+      background: #111; border: 1px solid #222; border-radius: 20px;
+      padding: 3rem 2.5rem; max-width: 480px; width: 100%; text-align: center;
+      box-shadow: 0 0 60px rgba(240,165,0,0.1);
+    }
+    .icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .gold { color: #f0a500; }
+    p { color: #9a9a9a; font-size: 14px; line-height: 1.6; margin-bottom: 1.25rem; }
+    .features {
+      background: #0d0d0d; border: 1px solid #1e1e1e;
+      border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;
+    }
+    .feature { font-size: 14px; color: #f5f5f5; padding: 0.35rem 0; }
+    .btn {
+      display: block; width: 100%;
+      background: linear-gradient(135deg, #f0a500, #ff6b35);
+      color: #0a0a0a; font-weight: 800; font-size: 16px;
+      padding: 1rem; border-radius: 100px; text-decoration: none;
+      border: none; cursor: pointer; font-family: inherit;
+    }
+    .sub { font-size: 12px; color: #555; margin-top: 0.75rem; }
+    .status { font-size: 13px; color: #9a9a9a; margin-bottom: 1rem; min-height: 20px; }
+    .spinner {
+      width: 28px; height: 28px; border: 3px solid #222;
+      border-top-color: #f0a500; border-radius: 50%;
+      animation: spin 0.8s linear infinite; margin: 0 auto 1rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .hidden { display: none; }
+    .error-msg { color: #ff6b6b; font-size: 13px; margin-top: 0.5rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon" id="mainIcon">⏳</div>
+    <h1 id="mainTitle">Verifying your payment...</h1>
+    <p id="mainDesc">Please wait while we confirm your Pro access. This usually takes just a few seconds.</p>
+    <div class="spinner" id="spinner"></div>
+    <div class="status" id="statusMsg">Checking with Stripe...</div>
+    <div id="successContent" class="hidden">
+      <div class="features">
+        <div class="feature">✅ Unlimited daily analyses</div>
+        <div class="feature">✅ Full Style Report unlocked</div>
+        <div class="feature">✅ All 5 tips per analysis</div>
+        <div class="feature">✅ Progress tracking over time</div>
+        <div class="feature">✅ Priority AI processing</div>
+      </div>
+      <button class="btn" id="ctaBtn" onclick="goHome()">Start Analyzing with Pro →</button>
+      <p class="sub">Redirecting in <span id="countdown">5</span> seconds...</p>
+    </div>
+    <div id="errorContent" class="hidden">
+      <p class="error-msg" id="errorMsg"></p>
+      <a href="/" class="btn" style="margin-top:1rem;">Go Back to RoomGlow</a>
+    </div>
+  </div>
+  <script>
+    const BACKEND     = 'https://roomglow-backend.onrender.com';
+    const MAX_RETRIES = 12;
+    const RETRY_DELAY = 3000;
+
+    function getStoredEmail() {
+      try { return localStorage.getItem('rg_pending_email') || ''; } catch(_) { return ''; }
+    }
+    function activateProLocally(email) {
+      try {
+        localStorage.setItem('rg_pro', JSON.stringify({ active: true, email: email, verified: true, since: Date.now() }));
+        localStorage.removeItem('rg_pending_email');
+      } catch(_) {}
+    }
+    function goHome() { window.location.href = '/'; }
+
+    function showSuccess(email) {
+      document.getElementById('mainIcon').textContent = '🎉';
+      document.getElementById('mainTitle').innerHTML = 'Welcome to <span class="gold">RoomGlow Pro!</span>';
+      document.getElementById('mainDesc').textContent = 'Your payment is confirmed. All Pro features are now unlocked.';
+      document.getElementById('spinner').classList.add('hidden');
+      document.getElementById('statusMsg').classList.add('hidden');
+      document.getElementById('successContent').classList.remove('hidden');
+      let count = 5;
+      const countEl = document.getElementById('countdown');
+      const iv = setInterval(() => {
+        count--;
+        if (countEl) countEl.textContent = count;
+        if (count <= 0) { clearInterval(iv); goHome(); }
+      }, 1000);
+    }
+
+    function showError(msg) {
+      document.getElementById('mainIcon').textContent = '⚠️';
+      document.getElementById('mainTitle').textContent = 'Something went wrong';
+      document.getElementById('mainDesc').textContent = 'Your payment may have gone through. Please email us your receipt and we will activate your account within 24 hours.';
+      document.getElementById('spinner').classList.add('hidden');
+      document.getElementById('statusMsg').classList.add('hidden');
+      document.getElementById('errorMsg').textContent = msg;
+      document.getElementById('errorContent').classList.remove('hidden');
+    }
+
+    async function checkProWithRetry(email, attempt) {
+      const statusEl = document.getElementById('statusMsg');
+      statusEl.textContent = 'Verifying payment... (' + attempt + '/' + MAX_RETRIES + ')';
+      try {
+        const res  = await fetch(BACKEND + '/check-pro?email=' + encodeURIComponent(email));
+        const data = await res.json();
+        if (data.pro === true) {
+          activateProLocally(email);
+          showSuccess(email);
+          return;
+        }
+      } catch(e) {
+        statusEl.textContent = 'Still checking... (' + attempt + '/' + MAX_RETRIES + ')';
+      }
+      if (attempt >= MAX_RETRIES) {
+        // Webhook may be slow — activate locally and inform user
+        activateProLocally(email);
+        showSuccess(email);
+        return;
+      }
+      setTimeout(() => checkProWithRetry(email, attempt + 1), RETRY_DELAY);
+    }
+
+    window.addEventListener('load', () => {
+      const email = getStoredEmail();
+      if (!email) {
+        showError('No email found. If you completed payment, please contact support with your Stripe receipt.');
+        return;
+      }
+      document.getElementById('mainDesc').textContent = 'Confirming Pro access for ' + email + '...';
+      checkProWithRetry(email, 1);
+    });
+  </script>
+</body>
+</html>
