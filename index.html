@@ -455,18 +455,6 @@
       padding: 1rem 0;
       background: #0a0a0a;
     }
-    .rg-trust-shimmer {
-      position: absolute; inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(240,165,0,0.06), transparent);
-      background-size: 200% 100%;
-      animation: shimmer 4s linear infinite;
-      pointer-events: none;
-    }
-    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-    .rg-trust-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0; position: relative; z-index: 1; }
-    .rg-trust-item { padding: 0.5rem 1.5rem; font-size: 14px; font-weight: 600; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; }
-    .rg-trust-div { width: 1px; height: 24px; background: var(--border); }
-    @media (max-width: 768px) { .rg-trust-div { display: none; } .rg-trust-row { flex-direction: column; gap: 0.75rem; } }
 
     /* Section titles */
     .rg-section { padding: 5rem 1.25rem; }
@@ -1978,10 +1966,8 @@
       setInterval(()=>{if(document.hidden)return;const cur=parseInt(urgencyEl.textContent,10)||urgBase;const delta=Math.random()<0.6?1:(Math.random()<0.3?-1:0);urgencyEl.textContent=Math.max(12,cur+delta);},18000);
     }
 
-    $('rgUpgradePro')?.addEventListener('click',openPro);
     $('rgProModalClose')?.addEventListener('click',closePro);
     $('rgProModalBackdrop')?.addEventListener('click',closePro);
-    // Pro modal wiring
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&proModal?.classList.contains('open'))closePro();});
 
     document.querySelectorAll('a.rg-amazon-link').forEach(a=>{try{a.href=withAmazonTag(a.getAttribute('href'));}catch(_){}});

@@ -259,7 +259,7 @@ def analyze():
     try:
         completion = client.chat.completions.create(
             model="gpt-4o",
-            temperature=0.2,
+            temperature=0.4,
             messages=[
                 {
                     "role": "user",
