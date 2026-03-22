@@ -696,6 +696,17 @@
     .rg-whats-working-text { font-size: 14px; line-height: 1.6; color: #b9f5bb; }
     .rg-whats-working-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--success); margin-bottom: 0.3rem; }
 
+    /* Verdict */
+    .rg-verdict {
+      margin: 0.75rem 0 1rem;
+      background: linear-gradient(135deg, rgba(240,165,0,0.08), rgba(255,107,53,0.06));
+      border: 1px solid rgba(240,165,0,0.25);
+      border-radius: 10px; padding: 0.85rem 1rem;
+      font-size: 15px; font-weight: 600; color: var(--text);
+      font-style: italic; line-height: 1.5;
+      display: none;
+    }
+
     /* Style description */
     .rg-style-desc {
       font-size: 14px; color: var(--muted); text-align: center;
@@ -1291,7 +1302,7 @@
         <p class="rg-cold-start" id="rgColdStart">⏳ Our AI is warming up — this first request may take 20-30 seconds. Hang tight!</p>
 
         <div class="rg-limit-banner" id="rgLimitBanner">
-          <h3>🔥 You've used your 2 free analyses today</h3>
+          <h3>🔥 You've used your 3 free analyses today</h3>
           <p>Upgrade to Pro for unlimited daily analyses, deeper tips, and your full style report.</p>
           <button type="button" class="rg-nav-cta rg-pro-trigger" style="border:none;">Upgrade to Pro — $7.99/mo →</button>
           <p class="rg-limit-resets" id="rgLimitResets"></p>
@@ -1306,6 +1317,7 @@
             </div>
             <div class="rg-style-pill" id="rgStylePill">✨ Style</div>
             <p class="rg-style-desc" id="rgStyleDesc"></p>
+            <p class="rg-verdict" id="rgVerdict"></p>
             <div class="rg-score-breakdown" id="rgScoreBreakdown" style="display:none;">
               <div class="rg-breakdown-title">Score Breakdown</div>
               <div class="rg-breakdown-row">
@@ -1624,7 +1636,7 @@
             <div class="rg-price">$0</div>
             <p style="color:var(--muted);font-size:14px;">Everything you need to get started</p>
             <ul class="rg-features">
-              <li>✅ 2 room analyses per day</li>
+              <li>✅ 3 room analyses per day</li>
               <li>✅ Aesthetic score + breakdown</li>
               <li>✅ Full room review</li>
               <li>✅ 3 detailed AI tips</li>
@@ -1768,7 +1780,7 @@
           </div>
           <div class="rg-faq-item">
             <button type="button" class="rg-faq-q">How many free analyses do I get? <span>+</span></button>
-            <div class="rg-faq-a"><div class="rg-faq-a-inner">Every visitor gets 2 free analyses per day — no account, no email, no credit card required. This resets every 24 hours. If you want to analyze multiple rooms, track your progress over time, or unlock the full style report, upgrade to Pro for unlimited daily analyses and the complete feature set.</div></div>
+            <div class="rg-faq-a"><div class="rg-faq-a-inner">Every visitor gets 3 free analyses per day — no account, no email, no credit card required. This resets every 24 hours. If you want to analyze multiple rooms, track your progress over time, or unlock the full style report, upgrade to Pro for unlimited daily analyses and the complete feature set.</div></div>
           </div>
           <div class="rg-faq-item">
             <button type="button" class="rg-faq-q">What rooms work best? <span>+</span></button>
@@ -1888,7 +1900,7 @@
     const MAX_BYTES     = 20 * 1024 * 1024;
     const MAX_IMG_PX    = 1200;
     const NAV_OFFSET    = 76;
-    const FREE_LIMIT    = 2;
+    const FREE_LIMIT    = 3;
 
     /* ── DOM refs ────────────────────────────────────────── */
     const $ = id => document.getElementById(id);
@@ -2076,6 +2088,7 @@
     function resetPanels() {
       ['rgScoreBreakdown','rgWhatsWorking','rgWhatsNotWorking','rgStyleReport'].forEach(id => { const el=$(id); if(el) el.style.display='none'; });
       const sd=$('rgStyleDesc'); if(sd) sd.textContent='';
+      const vd=$('rgVerdict'); if(vd){vd.textContent='';vd.style.display='none';}
       const ec=$('rgEmailCapture'); if(ec) ec.classList.remove('visible');
       const cs=$('rgColdStart'); if(cs) cs.classList.remove('visible');
     }
@@ -2169,6 +2182,7 @@
         scoreRing.style.setProperty('--ring-color',scoreColor(lastScore));
         stylePill.textContent='✨ '+lastStyle;
         const sd=$('rgStyleDesc'); if(sd) sd.textContent=data.style_description||'';
+        const vd=$('rgVerdict'); if(vd&&data.verdict){vd.textContent='"'+data.verdict+'"';vd.style.display='block';}
         function setFeedback(id,textId,val,cls) {
           const box=$(id),txt=$(textId);
           if(val&&box&&txt){txt.textContent=val;box.style.display='';}
