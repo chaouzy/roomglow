@@ -1,11 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "builds": [
-    { "src": "index.html", "use": "@vercel/static" },
-    { "src": "og-image.png", "use": "@vercel/static" }
+    { "src": "index.html", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/og-image.png", "dest": "/og-image.png" },
+    { "src": "/(.*\\.png)", "dest": "/$1" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
