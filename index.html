@@ -1597,16 +1597,22 @@
 
     <div class="rg-modal" id="rgProModal" role="dialog" aria-modal="true" aria-labelledby="rgProModalTitle" aria-hidden="true">
       <div class="rg-modal-backdrop" id="rgProModalBackdrop"></div>
-      <div class="rg-modal-card">
+      <div class="rg-modal-card" style="text-align:center;">
         <button type="button" class="rg-modal-close" id="rgProModalClose" aria-label="Close">&times;</button>
-        <h3 id="rgProModalTitle">Pro Plan Coming Soon 🚀</h3>
-        <p>Coming Soon — Pro plan launching soon! Enter your email to be notified.</p>
-        <p style="margin-top:0.5rem;">Be the first to know when Pro launches and get 50% off your first month</p>
-        <form id="rgProForm" action="javascript:void(0)">
-          <input type="email" id="rgProEmail" name="email" placeholder="you@email.com" autocomplete="email" required />
-          <button type="submit" class="rg-nav-cta" style="width:100%;border:none;" id="rgProNotify">Notify Me →</button>
-        </form>
-        <p class="rg-modal-msg" id="rgProThanks">Thanks! We'll notify you 🎉</p>
+        <div style="font-size:2.5rem;margin-bottom:0.75rem;">✨</div>
+        <h3 id="rgProModalTitle" style="font-size:1.4rem;margin-bottom:0.5rem;">Upgrade to RoomGlow Pro</h3>
+        <p style="color:var(--muted);font-size:14px;margin-bottom:1.25rem;">Unlock everything for $7.99/month — cancel anytime.</p>
+        <ul style="text-align:left;list-style:none;padding:0;margin-bottom:1.5rem;display:flex;flex-direction:column;gap:0.5rem;">
+          <li style="font-size:14px;">✅ Unlimited daily analyses</li>
+          <li style="font-size:14px;">✅ Full Style Report unlocked</li>
+          <li style="font-size:14px;">✅ 5 detailed tips per analysis</li>
+          <li style="font-size:14px;">✅ Progress tracking over time</li>
+          <li style="font-size:14px;">✅ Priority AI processing</li>
+        </ul>
+        <a href="https://buy.stripe.com/4gMaEZeaw3tR8dHfq738400" target="_blank" rel="noopener noreferrer" class="rg-nav-cta" style="display:block;width:100%;border:none;text-align:center;padding:1rem;font-size:16px;font-weight:800;border-radius:var(--pill);background:var(--grad);color:#0a0a0a;text-decoration:none;">
+          Upgrade to Pro — $7.99/month →
+        </a>
+        <p style="font-size:12px;color:var(--muted);margin-top:0.75rem;">🔒 Secure payment via Stripe · Cancel anytime</p>
       </div>
     </div>
 
@@ -1775,8 +1781,6 @@
     function openPro() {
       if (!proModal) return;
       proModal.classList.add('open'); proModal.setAttribute('aria-hidden','false');
-      const th=$('rgProThanks'), fm=$('rgProForm'), em=$('rgProEmail');
-      if(th) th.style.display='none'; if(fm) fm.style.display=''; if(em) em.value='';
     }
     function closePro() {
       if (!proModal) return;
@@ -1977,11 +1981,7 @@
     $('rgUpgradePro')?.addEventListener('click',openPro);
     $('rgProModalClose')?.addEventListener('click',closePro);
     $('rgProModalBackdrop')?.addEventListener('click',closePro);
-    $('rgProForm')?.addEventListener('submit',e=>{
-      e.preventDefault();
-      const th=$('rgProThanks'),fm=$('rgProForm');
-      if(th)th.style.display='block';if(fm)fm.style.display='none';
-    });
+    // Pro modal wiring
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&proModal?.classList.contains('open'))closePro();});
 
     document.querySelectorAll('a.rg-amazon-link').forEach(a=>{try{a.href=withAmazonTag(a.getAttribute('href'));}catch(_){}});
