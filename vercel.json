@@ -3,5 +3,9 @@
   "builds": [
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "og-image.png", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/og-image.png", "dest": "/og-image.png" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
