@@ -2275,10 +2275,9 @@
       ['rgScoreBreakdown','rgWhatsWorking','rgWhatsNotWorking','rgStyleReport'].forEach(id => { const el=$(id); if(el) el.style.display='none'; });
       const sd=$('rgStyleDesc'); if(sd) sd.textContent='';
       const vd=$('rgVerdict'); if(vd){vd.textContent='';vd.style.display='none';}
-      resetRedesign();
-    }
       const ec=$('rgEmailCapture'); if(ec) ec.classList.remove('visible');
       const cs=$('rgColdStart'); if(cs) cs.classList.remove('visible');
+      resetRedesign();
     }
 
     /* ── Pro modal ───────────────────────────────────────── */
@@ -2767,4 +2766,19 @@
 
       $('rgCookieAccept')?.addEventListener('click', acceptCookies);
       $('rgCookieDecline')?.addEventListener('click', declineCookies);
-      $('rgCookiePrivacyLink')?.addEventListener('click', (e) => 
+      $('rgCookiePrivacyLink')?.addEventListener('click', (e) =>  {
+        e.preventDefault();
+        scrollTo('privacy');
+        if (banner) banner.classList.add('hidden');
+      });
+
+      // If previously declined, disable GA
+      if (consent === 'declined') {
+        window['ga-disable-G-EWV7ZBLPKB'] = true;
+      }
+    })();
+
+  })();
+  </script>
+</body>
+</html>
